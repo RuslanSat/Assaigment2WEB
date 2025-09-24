@@ -14,4 +14,9 @@
     text-decoration: none;
     color: #0066cc;
     font-weight: bold;
+    :hover {
+        color: #ff6600; /* orange on hover */
+        text-decoration: underline;
+    }
+
 }
