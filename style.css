@@ -1,4 +1,17 @@
 .welcome_sign{
-    background-color: darkblue;
+    color: gold;
+    font-weight: bold;
+}
+.description{
+    font-weight: normal;
+    font-family: "Comic Sans MS", serif;
+}
+.list{
+    font-family: "Times New Roman", cursive;
+    font-weight: bolder;
+}
+.list_element{
+    text-decoration: none;
+    color: #0066cc;
     font-weight: bold;
 }
