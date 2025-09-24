@@ -1,6 +1,11 @@
+body {
+    background: linear-gradient(to right, gold,darkgoldenrod);
+    color: #fff;
+}
 .welcome_sign{
-    color: gold;
+    color: black;
     font-weight: bold;
+    text-align: center;
 }
 .description{
     font-weight: normal;
@@ -14,9 +19,8 @@
     text-decoration: none;
     color: #0066cc;
     font-weight: bold;
-    :hover {
-        color: #ff6600;
-        text-decoration: underline;
-    }
-
+}
+.list_element:hover {
+    color: #ff6600;
+    text-decoration: underline;
 }
