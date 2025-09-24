@@ -15,7 +15,7 @@
     color: #0066cc;
     font-weight: bold;
     :hover {
-        color: #ff6600; /* orange on hover */
+        color: #ff6600;
         text-decoration: underline;
     }
 
