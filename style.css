@@ -58,3 +58,16 @@ nav a:hover {
     margin: 30px auto;
     border: 1px dashed #999;
 }
+.resized-image {
+    width: 100px;
+    height: auto;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+}
+.circular-image {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid gold;
+}
