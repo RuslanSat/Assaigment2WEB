@@ -1,6 +1,11 @@
+body {
+    background: linear-gradient(to right, gold,darkgoldenrod);
+    color: #fff;
+}
 .welcome_sign{
-    color: gold;
+    color: black;
     font-weight: bold;
+    text-align: center;
 }
 .description{
     font-weight: normal;
@@ -14,26 +19,8 @@
     text-decoration: none;
     color: #0066cc;
     font-weight: bold;
-    :hover {
-        color: #ff6600;
-        text-decoration: underline;
-    }
-
 }
-.welcome_section {
-    background-color: black;
-    width: 80%;
-    padding: 20px;
-    margin: 20px auto;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-}
-
-.description_section {
-    background-color: grey;
-    width: 500px;
-    height: 150px;
-    padding: 15px;
-    margin: 30px auto;
-    border: 1px dashed #999;
+.list_element:hover {
+    color: #ff6600;
+    text-decoration: underline;
 }
