@@ -71,3 +71,55 @@ nav a:hover {
     object-fit: cover;
     border: 3px solid gold;
 }
+.form_section {
+    background-color: black;
+    width: 400px;
+    padding: 20px;
+    margin: 30px auto;
+    border: 2px solid gold;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    text-align: center;
+}
+
+.form_title {
+    color: gold;
+    margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #262626;
+    color: #fff;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    border-color: gold;
+    outline: none;
+}
+
+button {
+    background: linear-gradient(to right, gold, darkgoldenrod);
+    color: #000;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(to right, #ffcc00, #ff6600);
+    color: #fff;
+}
