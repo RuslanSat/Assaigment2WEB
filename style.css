@@ -1,125 +1,352 @@
 body {
-    background: linear-gradient(to right, gold,darkgoldenrod);
-    color: #fff;
+    margin: 0;
+    background-color: #0b0b0d;
+    color: var(#c0c0c0);
+    font-family: "Inter", Arial, sans-serif;
+    line-height: 1.5;
 }
-.welcome_sign{
-    font-weight: bold;
-    text-align: center;
+h2 {
+    text-align:center;
+    color:#d4af37;
 }
-.description{
-    font-weight: normal;
-    font-family: "Comic Sans MS", serif;
-}
-.list{
-    font-family: "Times New Roman", cursive;
-    font-weight: bolder;
-}
-.list_element{
-    text-decoration: none;
-    color: #0066cc;
-    font-weight: bold;
-}
-.list_element:hover {
-    color: #ff6600;
-    text-decoration: underline;}
 
-nav {
-    padding: 15px;
-    text-align: end;}
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 16px;
+    background-color: #000000;
+    border-bottom: 1px solid rgba(192,192,192,0.2);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.logo img {
+    width: 120px;
+    height: auto;
+}
+
 nav a {
-    color: #f5f5f5;
+    color: #c0c0c0;
     text-decoration: none;
-    margin: 0 15px;
-    padding: 8px 12px;
-    font-weight: bold;
-    border-radius: 5px;
+    margin: 0 12px;
+    padding: 8px 14px;
+    font-weight: 600;
+    border-radius: 8px;
     transition: 0.3s;
 }
-
 nav a:hover {
-    background-color: #000000;
-    color: #fff;
+    background: rgba(255,255,255,0.05);
+    color: #d4af37;
+}
+.description_section {
+    background: rgba(255,255,255,0.02);
+    width: 600px;
+    padding: 20px;
+    margin: 40px auto;
+    border-radius: 12px;
+    border: 1px solid rgba(192,192,192,0.3);
+    text-align: center;
+    box-shadow: 0 0 20px rgba(212,175,55,0.1);
+}
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    padding: 10px;
+    max-width: 1000px;
+    margin: 30px auto;
+}
+
+.game-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(192,192,192,0.3);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: 0.3s;
+    box-shadow: 0 0 12px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+}
+
+.game-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 20px rgba(212,175,55,0.3);
+    border-color: #d4af37;
+}
+.game-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(192,192,192,0.2);
+}
+.game-info {
+    padding: 12px;
+    flex: 1;
+}
+
+.game-info h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #d4af37;
+}
+
+.game-info p {
+    font-size: 14px;
+    color: #c0c0c0;
+    margin: 6px 0;
+}
+
+.game-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 8px;
+}
+
+
+.description_section h2 {
+    color: #d4af37;
+    margin-bottom: 10px;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #c0c0c0;
+}
+.list li {
+    margin: 12px 0;
+}
+.list_element {
+    text-decoration: none;
+    color: #c0c0c0;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.list_element:hover {
+    color: #d4af37;
     text-decoration: underline;
 }
-.welcome_section {
-    background-color: black;
-    width: 80%;
-    padding: 20px;
-    margin: 20px auto;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-}
 
-.description_section {
-    background-color: grey;
-    width: 500px;
-    height: 250px;
-    padding: 15px;
-    margin: 30px auto;
-    border: 1px dashed #999;
-}
-.resized-image {
-    width: 100px;
-    height: auto;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-}
 .circular-image {
     width: 64px;
     height: 64px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid gold;
+    border: 3px solid #d4af37;
+    margin-left: 10px;
 }
+
+
 .form_section {
-    background-color: black;
+    background-color: rgba(255,255,255,0.02);
     width: 400px;
     padding: 20px;
-    margin: 30px auto;
-    border: 2px solid gold;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    margin: 40px auto;
+    border: 2px solid #d4af37;
+    border-radius: 12px;
     text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
-
 .form_title {
-    color: gold;
+    color: #d4af37;
     margin-bottom: 15px;
 }
+.news-section {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+}
 
-input[type="text"],
-input[type="email"],
-textarea {
-    width: 90%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    background-color: #262626;
-    color: #fff;
+.news-section h2 {
+    text-align: center;
+    color: #d4af37;
+    margin-bottom: 20px;
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.news-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(192,192,192,0.3);
+    border-radius: 12px;
+    padding: 16px;
+    transition: 0.3s;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+.news-card:hover {
+    border-color: #d4af37;
+    box-shadow: 0 0 18px rgba(212,175,55,0.3);
+}
+
+.news-card h3 {
+    margin: 0 0 10px 0;
+    color: #d4af37;
+    font-size: 18px;
+}
+
+.news-card p {
     font-size: 14px;
-    transition: border-color 0.3s;
+    color: #c0c0c0;
+    margin-bottom: 10px;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-textarea:focus {
-    border-color: gold;
-    outline: none;
+.news-date {
+    font-size: 12px;
+    color: #999;
 }
-
-button {
-    background: linear-gradient(to right, gold, darkgoldenrod);
+.news-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 14px;
+    background: linear-gradient(to right, #d4af37, #b8860b);
     color: #000;
     font-weight: bold;
-    padding: 10px 20px;
-    border: none;
+    text-decoration: none;
     border-radius: 8px;
-    cursor: pointer;
     transition: 0.3s;
 }
 
-button:hover {
+.news-btn:hover {
     background: linear-gradient(to right, #ffcc00, #ff6600);
     color: #fff;
 }
+.news-hero {
+    background: linear-gradient(to right, rgba(212,175,55,0.2), rgba(192,192,192,0.1));=
+    color: #fff;
+    text-align: center;
+    padding: 80px 20px;
+    border-bottom: 2px solid #d4af37;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+
+.news-hero h1 {
+    font-size: 32px;
+    margin: 0;
+    color: #d4af37;
+    text-shadow: 0 0 10px rgba(212,175,55,0.6);
+}
+
+.news-hero p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #c0c0c0;
+}
+
+.news-article {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 24px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(192,192,192,0.3);
+    border-radius: 14px;
+    box-shadow: 0 0 18px rgba(212,175,55,0.15);
+    line-height: 1.7;
+}
+
+.news-article h2 {
+    color: #d4af37;
+    margin-top: 0;
+}
+
+.news-article p {
+    color: #c0c0c0;
+    margin: 14px 0;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 16px;
+    background: linear-gradient(to right, #d4af37, #b8860b);
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: linear-gradient(to right, #ffcc00, #ff6600);
+    color: #fff;
+}
+.sidebar {
+    float: left;
+    width: 150px;
+    margin-right:10px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(192,192,192,0.2);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+main {
+    margin-left: 240px;
+}
+
+
+.sidebar h3 {
+    color: #d4af37;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(192,192,192,0.3);
+    padding-bottom: 4px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 20px 0;
+}
+
+.sidebar ul li {
+    margin: 8px 0;
+}
+
+.sidebar ul a {
+    color: #c0c0c0;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.sidebar ul a:hover {
+    color: #d4af37;
+    text-decoration: underline;
+}
+
+footer {
+    grid-area: footer;
+    background: rgba(255,255,255,0.02);
+    border-top: 1px solid rgba(192,192,192,0.2);
+    text-align: center;
+    padding: 16px;
+    color: #c0c0c0;
+}
+
+footer a {
+    color: #c0c0c0;
+    text-decoration: none;
+    margin: 0 8px;
+    transition: 0.3s;
+}
+
+footer a:hover {
+    color: #d4af37;
+}
+
+
+
+
+

@@ -6,25 +6,123 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav>
-    <a href="index.html">Home</a>
-    <a href="page2.html">Games</a>
-    <a href="contact.html">contact us</a>
-</nav>
+<header>
+    <div class="brand">
+        <div class="logo"><img src = "images/Minegoldlogo.png" width="150" height="150"></div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="Gamelist.html">Games</a>
+            <a href="contact.html">contact us</a>
+        </nav>
+    </div>
+</header>
 
-<div class="welcome_section">
-    <h1 class="welcome_sign">WELCOME</h1>
-    <img src="images/nugget.png" alt="Sample" class="resized-image">
-</div>
-<div class="description_section">
-    <h2 class="description">This is game library, where you can find any game</h2>
-    <p class="description">This site contains description of games</p>
-    <ol class="list">Game List
-        <li><a class="list_element" href="page2.html">Minecraft </a>
-            <img src="images/minecraft.png" alt="Profile" class="circular-image"></li>
-        <li></li>
-    </ol>
-</div>
+<aside class="sidebar">
+    <h3>Popular Games</h3>
+    <ul>
+        <li><a href="#">Minecraft</a></li>
+        <li><a href="#">Cyberpunk 2077</a></li>
+        <li><a href="#">Hollow Knight</a></li>
+    </ul>
+
+    <h3>Categories</h3>
+    <ul>
+        <li><a href="#">Action</a></li>
+        <li><a href="#">RPG</a></li>
+        <li><a href="#">Strategy</a></li>
+    </ul>
+</aside>
+<main>
+<section>
+    <h2>Popular</h2>
+    <div class="game-grid">
+
+        <div class="game-card">
+            <img src="images/Minecraft.jpg" alt="Minecraft">
+            <div class="game-info">
+                <h3>Minecraft</h3>
+                <p>Sandbox survival and creativity.</p>
+                <div class="game-meta">
+                    <span>Genre: Sandbox</span>
+                    <span>⭐ 4.8</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <img src="images/Hoi4.jpg" alt="Hearts of Iron 4">
+            <div class="game-info">
+                <h3>Hearts of Iron 4</h3>
+                <p>Political strategy</p>
+                <div class="game-meta">
+                    <span>Genre: Strategy</span>
+                    <span>⭐ 4.8</span>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="game-card">
+            <img src="images/HollowKnight.jpeg" alt="HollowKnight">
+            <div class="game-info">
+                <h3>Hollow Knight</h3>
+                <p>save the kingdom as a hollow knight</p>
+                <div class="game-meta">
+                    <span>Genre: Metroidvania</span>
+                    <span>⭐ 4.5</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <img src="images/DarkSouls.jpg" alt="DarkSouls">
+            <div class="game-info">
+                <h3>Dark Souls 3</h3>
+                <p>Hardcore game in dead world</p>
+                <div class="game-meta">
+                    <span>Genre: Action</span>
+                    <span>⭐ 4.6</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="news-section">
+    <h2>Gaming Industry News</h2>
+    <div class="news-grid">
+
+        <article class="news-card">
+            <h3>New Update for Minecraft</h3>
+            <p>The 1.21 update adds new biomes, mobs and adventures for players worldwide.</p>
+            <div class="news-date">📅 01 Oct 2025</div>
+            <a href="news1.html" class="news-btn">Read More</a>
+        </article>
+
+        <article class="news-card">
+            <h3>Cyberpunk 2077 DLC Released</h3>
+            <p>The long-awaited expansion brings new quests, areas, and improved gameplay mechanics.</p>
+            <div class="news-date">📅 28 Sep 2025</div>
+            <a href="news2.html" class="news-btn">Read More</a>
+        </article>
+
+        <article class="news-card">
+            <h3>Esports Tournament Announced</h3>
+            <p>International teams will compete for the biggest prize pool in gaming history.</p>
+            <div class="news-date">📅 25 Sep 2025</div>
+            <a href="news3.html" class="news-btn">Read More</a>
+        </article>
+
+    </div>
+</section>
+</main>
+<footer>
+    <p>© 2025 GoldMine Game Library | All Rights Reserved</p>
+    <p><a href="#">About</a> | <a href="#">Privacy Policy</a> | <a href="#">Support</a></p>
+</footer>
+
 
 
 </body>
