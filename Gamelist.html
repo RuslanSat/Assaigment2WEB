@@ -2,10 +2,135 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>page 2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games - GoldMine</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="images/Minegoldlogo.png" width="50" height="50" class="me-2" alt="GoldMine Logo">
+            GoldMine
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="Gamelist.html">Games</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#categories">Categories</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
+            <div class="sidebar p-3">
+                <h3>Game Categories</h3>
+                <ul>
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">RPG</a></li>
+                    <li><a href="#">Strategy</a></li>
+                    <li><a href="#">Adventure</a></li>
+                    <li><a href="#">Simulation</a></li>
+                </ul>
+                <h3>Popular</h3>
+                <ul>
+                    <li><a href="#">Minecraft</a></li>
+                    <li><a href="#">Cyberpunk 2077</a></li>
+                    <li><a href="#">Hollow Knight</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-9 col-md-8 col-sm-12">
+            <h1 class="text-center mb-5">All Games</h1>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="game-card">
+                        <img src="images/Minecraft.jpg" alt="Minecraft">
+                        <div class="game-info">
+                            <h3>Minecraft</h3>
+                            <p>Sandbox survival and creativity game.</p>
+                            <div class="game-meta">
+                                <span>Genre: Sandbox</span>
+                                <span>⭐ 4.8</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="game-card">
+                        <img src="images/Hoi4.jpg" alt="Hearts of Iron 4">
+                        <div class="game-info">
+                            <h3>Hearts of Iron 4</h3>
+                            <p>Political strategy game.</p>
+                            <div class="game-meta">
+                                <span>Genre: Strategy</span>
+                                <span>⭐ 4.8</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="game-card">
+                        <img src="images/HollowKnight.jpeg" alt="Hollow Knight">
+                        <div class="game-info">
+                            <h3>Hollow Knight</h3>
+                            <p>Save the kingdom as a hollow knight.</p>
+                            <div class="game-meta">
+                                <span>Genre: Metroidvania</span>
+                                <span>⭐ 4.5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="game-card">
+                        <img src="images/DarkSouls.jpg" alt="Dark Souls 3">
+                        <div class="game-info">
+                            <h3>Dark Souls 3</h3>
+                            <p>Hardcore game in dead world.</p>
+                            <div class="game-meta">
+                                <span>Genre: Action</span>
+                                <span>⭐ 4.6</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="mt-5 py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <p class="mb-2">© 2025 GoldMine Game Library | All Rights Reserved</p>
+                <p class="mb-0">
+                    <a href="#" class="me-3">About</a> | 
+                    <a href="#" class="mx-3">Privacy Policy</a> | 
+                    <a href="#" class="ms-3">Support</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

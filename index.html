@@ -2,169 +2,226 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>goldmine</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-    <div class="brand">
-        <div class="logo"><img src = "images/Minegoldlogo.png" width="150" height="150"></div>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="Gamelist.html">Games</a>
-            <a href="contact.html">contact us</a>
-        </nav>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="images/Minegoldlogo.png" width="50" height="50" class="me-2" alt="GoldMine Logo">
+            GoldMine
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Gamelist.html">Games</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#categories">Categories</a>
+                </li>
+            </ul>
+        </div>
     </div>
-</header>
+</nav>
 
-<aside class="sidebar">
-    <h3>Popular Games</h3>
-    <ul>
-        <li><a href="#">Minecraft</a></li>
-        <li><a href="#">Cyberpunk 2077</a></li>
-        <li><a href="#">Hollow Knight</a></li>
-    </ul>
+<div class="container-fluid">
+    <div class="row">
+        <aside class="col-lg-3 col-md-4 col-sm-12 mb-4">
+            <div class="sidebar p-3">
+                <h3>Popular Games</h3>
+                <ul>
+                    <li><a href="#">Minecraft</a></li>
+                    <li><a href="#">Cyberpunk 2077</a></li>
+                    <li><a href="#">Hollow Knight</a></li>
+                </ul>
 
-    <h3>Categories</h3>
-    <ul>
-        <li><a href="#">Action</a></li>
-        <li><a href="#">RPG</a></li>
-        <li><a href="#">Strategy</a></li>
-    </ul>
-</aside>
-<main>
-<section>
-    <h2>Popular</h2>
-    <div class="game-grid">
-
-        <div class="game-card">
-            <img src="images/Minecraft.jpg" alt="Minecraft">
-            <div class="game-info">
-                <h3>Minecraft</h3>
-                <p>Sandbox survival and creativity.</p>
-                <div class="game-meta">
-                    <span>Genre: Sandbox</span>
-                    <span>⭐ 4.8</span>
-                </div>
+                <h3>Categories</h3>
+                <ul>
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">RPG</a></li>
+                    <li><a href="#">Strategy</a></li>
+                </ul>
             </div>
-        </div>
-
-        <div class="game-card">
-            <img src="images/Hoi4.jpg" alt="Hearts of Iron 4">
-            <div class="game-info">
-                <h3>Hearts of Iron 4</h3>
-                <p>Political strategy</p>
-                <div class="game-meta">
-                    <span>Genre: Strategy</span>
-                    <span>⭐ 4.8</span>
+        </aside>
+        <main class="col-lg-9 col-md-8 col-sm-12">
+            <section class="mb-5">
+                <h2 class="text-center mb-4">Popular Games</h2>
+                <div class="row g-4">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="game-card">
+                            <img src="images/Minecraft.jpg" alt="Minecraft">
+                            <div class="game-info">
+                                <h3>Minecraft</h3>
+                                <p>Sandbox survival and creativity.</p>
+                                <div class="game-meta">
+                                    <span>Genre: Sandbox</span>
+                                    <span>⭐ 4.8</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="game-card">
+                            <img src="images/Hoi4.jpg" alt="Hearts of Iron 4">
+                            <div class="game-info">
+                                <h3>Hearts of Iron 4</h3>
+                                <p>Political strategy</p>
+                                <div class="game-meta">
+                                    <span>Genre: Strategy</span>
+                                    <span>⭐ 4.8</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="game-card">
+                            <img src="images/HollowKnight.jpeg" alt="HollowKnight">
+                            <div class="game-info">
+                                <h3>Hollow Knight</h3>
+                                <p>save the kingdom as a hollow knight</p>
+                                <div class="game-meta">
+                                    <span>Genre: Metroidvania</span>
+                                    <span>⭐ 4.5</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="game-card">
+                            <img src="images/DarkSouls.jpg" alt="DarkSouls">
+                            <div class="game-info">
+                                <h3>Dark Souls 3</h3>
+                                <p>Hardcore game in dead world</p>
+                                <div class="game-meta">
+                                    <span>Genre: Action</span>
+                                    <span>⭐ 4.6</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </section>
 
-
-
-        <div class="game-card">
-            <img src="images/HollowKnight.jpeg" alt="HollowKnight">
-            <div class="game-info">
-                <h3>Hollow Knight</h3>
-                <p>save the kingdom as a hollow knight</p>
-                <div class="game-meta">
-                    <span>Genre: Metroidvania</span>
-                    <span>⭐ 4.5</span>
+            <section class="news-section mb-5">
+                <h2 class="text-center mb-4">Gaming Industry News</h2>
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <article class="news-card h-100">
+                            <h3>New Update for Minecraft</h3>
+                            <p>The 1.21 update adds new biomes, mobs and adventures for players worldwide.</p>
+                            <div class="news-date">📅 01 Oct 2025</div>
+                            <a href="news1.html" class="news-btn">Read More</a>
+                        </article>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <article class="news-card h-100">
+                            <h3>Cyberpunk 2077 DLC Released</h3>
+                            <p>The long-awaited expansion brings new quests, areas, and improved gameplay mechanics.</p>
+                            <div class="news-date">📅 28 Sep 2025</div>
+                            <a href="news2.html" class="news-btn">Read More</a>
+                        </article>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <article class="news-card h-100">
+                            <h3>Esports Tournament Announced</h3>
+                            <p>International teams will compete for the biggest prize pool in gaming history.</p>
+                            <div class="news-date">📅 25 Sep 2025</div>
+                            <a href="news3.html" class="news-btn">Read More</a>
+                        </article>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="game-card">
-            <img src="images/DarkSouls.jpg" alt="DarkSouls">
-            <div class="game-info">
-                <h3>Dark Souls 3</h3>
-                <p>Hardcore game in dead world</p>
-                <div class="game-meta">
-                    <span>Genre: Action</span>
-                    <span>⭐ 4.6</span>
+            </section>
+            <section class="gallery mb-5">
+                <h2 class="text-center mb-4">Image Gallery</h2>
+                <div class="row g-3">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <figure class="gallery-item">
+                            <img src="images/Minecraft.jpg" alt="Minecraft">
+                            <figcaption>Minecraft</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <figure class="gallery-item">
+                            <img src="images/HollowKnight.jpeg" alt="Hollow Knight">
+                            <figcaption>Hollow Knight</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <figure class="gallery-item">
+                            <img src="images/DarkSouls.jpg" alt="Dark Souls 3">
+                            <figcaption>Dark Souls 3</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <figure class="gallery-item">
+                            <img src="images/Hoi4.jpg" alt="Hearts of Iron 4">
+                            <figcaption>Hearts of Iron 4</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <figure class="gallery-item">
+                            <img src="images/Minecraft.jpg" alt="Minecraft Biome">
+                            <figcaption>Minecraft Biome</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <figure class="gallery-item">
+                            <img src="images/HollowKnight.jpeg" alt="Hollow Knight Art">
+                            <figcaption>Hollow Knight Art</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <figure class="gallery-item">
+                            <img src="images/DarkSouls.jpg" alt="Dark Souls Boss">
+                            <figcaption>Dark Souls Boss</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <figure class="gallery-item">
+                            <img src="images/Hoi4.jpg" alt="HOI4 Strategy">
+                            <figcaption>HOI4 Strategy</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <figure class="gallery-item">
+                            <img src="images/Minecraft.jpg" alt="Minecraft Build">
+                            <figcaption>Minecraft Build</figcaption>
+                        </figure>
+                    </div>
                 </div>
-            </div>
-        </div>
-
+            </section>
+        </main>
     </div>
-</section>
-
-<section class="news-section">
-    <h2>Gaming Industry News</h2>
-    <div class="news-grid">
-
-        <article class="news-card">
-            <h3>New Update for Minecraft</h3>
-            <p>The 1.21 update adds new biomes, mobs and adventures for players worldwide.</p>
-            <div class="news-date">📅 01 Oct 2025</div>
-            <a href="news1.html" class="news-btn">Read More</a>
-        </article>
-
-        <article class="news-card">
-            <h3>Cyberpunk 2077 DLC Released</h3>
-            <p>The long-awaited expansion brings new quests, areas, and improved gameplay mechanics.</p>
-            <div class="news-date">📅 28 Sep 2025</div>
-            <a href="news2.html" class="news-btn">Read More</a>
-        </article>
-
-        <article class="news-card">
-            <h3>Esports Tournament Announced</h3>
-            <p>International teams will compete for the biggest prize pool in gaming history.</p>
-            <div class="news-date">📅 25 Sep 2025</div>
-            <a href="news3.html" class="news-btn">Read More</a>
-        </article>
-
-    </div>
-    </section>
-    <section class="gallery">
-        <h2>Image Gallery</h2>
-        <div class="gallery-grid">
-            <figure class="gallery-item">
-                <img src="images/Minecraft.jpg" alt="Minecraft">
-                <figcaption>Minecraft</figcaption>
-            </figure>
-            <figure class="gallery-item">
-                <img src="images/HollowKnight.jpeg" alt="Hollow Knight">
-                <figcaption>Hollow Knight</figcaption>
-            </figure>
-            <figure class="gallery-item">
-                <img src="images/DarkSouls.jpg" alt="Dark Souls 3">
-                <figcaption>Dark Souls 3</figcaption>
-            </figure>
-            <figure class="gallery-item">
-                <img src="images/Hoi4.jpg" alt="Hearts of Iron 4">
-                <figcaption>Hearts of Iron 4</figcaption>
-            </figure>
-            <figure class="gallery-item">
-                <img src="images/Minecraft.jpg" alt="Minecraft Biome">
-                <figcaption>Minecraft Biome</figcaption>
-            </figure>
-            <figure class="gallery-item">
-                <img src="images/HollowKnight.jpeg" alt="Hollow Knight Art">
-                <figcaption>Hollow Knight Art</figcaption>
-            </figure>
-            <figure class="gallery-item">
-                <img src="images/DarkSouls.jpg" alt="Dark Souls Boss">
-                <figcaption>Dark Souls Boss</figcaption>
-            </figure>
-            <figure class="gallery-item">
-                <img src="images/Hoi4.jpg" alt="HOI4 Strategy">
-                <figcaption>HOI4 Strategy</figcaption>
-            </figure>
-            <figure class="gallery-item">
-                <img src="images/Minecraft.jpg" alt="Minecraft Build">
-                <figcaption>Minecraft Build</figcaption>
-            </figure>
+</div>
+<footer class="mt-5 py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <p class="mb-2">© 2025 GoldMine Game Library | All Rights Reserved</p>
+                <p class="mb-0">
+                    <a href="#" class="me-3">About</a> | 
+                    <a href="#" class="mx-3">Privacy Policy</a> | 
+                    <a href="#" class="ms-3">Support</a>
+                </p>
+            </div>
         </div>
-    </section>
-</main>
-<footer>
-    <p>© 2025 GoldMine Game Library | All Rights Reserved</p>
-    <p><a href="#">About</a> | <a href="#">Privacy Policy</a> | <a href="#">Support</a></p>
+    </div>
 </footer>
 
 
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

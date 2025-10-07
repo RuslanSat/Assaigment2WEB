@@ -10,38 +10,22 @@ h2 {
     color:#d4af37;
 }
 
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0px 16px;
-    background-color: #000000;
-    border-bottom: 1px solid rgba(192,192,192,0.2);
+/* Bootstrap navbar customization */
+.navbar-brand {
+    color: #d4af37 !important;
+    font-weight: bold;
 }
 
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.logo img {
-    width: 120px;
-    height: auto;
-}
-
-nav a {
-    color: #c0c0c0;
-    text-decoration: none;
-    margin: 0 12px;
-    padding: 8px 14px;
+.navbar-nav .nav-link {
+    color: #c0c0c0 !important;
     font-weight: 600;
-    border-radius: 8px;
     transition: 0.3s;
 }
-nav a:hover {
+
+.navbar-nav .nav-link:hover {
+    color: #d4af37 !important;
     background: rgba(255,255,255,0.05);
-    color: #d4af37;
+    border-radius: 8px;
 }
 .description_section {
     background: rgba(255,255,255,0.02);
@@ -147,19 +131,50 @@ nav a:hover {
 }
 
 
+/* Bootstrap form customization */
 .form_section {
     background-color: rgba(255,255,255,0.02);
-    width: 400px;
-    padding: 20px;
-    margin: 40px auto;
     border: 2px solid #d4af37;
     border-radius: 12px;
-    text-align: center;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
+
 .form_title {
     color: #d4af37;
-    margin-bottom: 15px;
+}
+
+.form-control {
+    background-color: rgba(255,255,255,0.05);
+    border: 1px solid rgba(192,192,192,0.3);
+    color: #c0c0c0;
+}
+
+.form-control:focus {
+    background-color: rgba(255,255,255,0.08);
+    border-color: #d4af37;
+    box-shadow: 0 0 0 0.2rem rgba(212,175,55,0.25);
+    color: #c0c0c0;
+}
+
+.form-control::placeholder {
+    color: #999;
+}
+
+.form-label {
+    color: #c0c0c0;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: linear-gradient(to right, #d4af37, #b8860b);
+    border: none;
+    color: #000;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(to right, #ffcc00, #ff6600);
+    color: #fff;
 }
 .news-section {
     max-width: 1000px;
@@ -226,7 +241,7 @@ nav a:hover {
     color: #fff;
 }
 .news-hero {
-    background: linear-gradient(to right, rgba(212,175,55,0.2), rgba(192,192,192,0.1));=
+    background: linear-gradient(to right, rgba(212,175,55,0.2), rgba(192,192,192,0.1));
     color: #fff;
     text-align: center;
     padding: 80px 20px;
@@ -284,18 +299,12 @@ nav a:hover {
     background: linear-gradient(to right, #ffcc00, #ff6600);
     color: #fff;
 }
+/* Sidebar styles for Bootstrap */
 .sidebar {
-    float: left;
-    width: 150px;
-    margin-right:10px;
     background: rgba(255,255,255,0.02);
     border: 1px solid rgba(192,192,192,0.2);
-    padding: 20px;
     border-radius: 8px;
-}
-
-main {
-    margin-left: 240px;
+    height: fit-content;
 }
 
 
@@ -359,12 +368,7 @@ footer a:hover {
     margin-bottom: 16px;
 }
 
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 200px;
-    gap: 12px;
-}
+/* Gallery grid now uses Bootstrap classes */
 
 .gallery-item {
     position: relative;
@@ -372,6 +376,7 @@ footer a:hover {
     border-radius: 12px;
     border: 1px solid rgba(192,192,192,0.3);
     background: rgba(255,255,255,0.02);
+    height: 200px;
 }
 
 .gallery-item img {
