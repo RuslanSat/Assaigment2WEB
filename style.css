@@ -11,21 +11,79 @@ h2 {
 }
 
 /* Bootstrap navbar customization */
+.navbar {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
+    border-bottom: 2px solid #d4af37;
+    box-shadow: 0 2px 15px rgba(212,175,55,0.3);
+}
+
 .navbar-brand {
     color: #d4af37 !important;
     font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.navbar-brand .brand-text {
+    background: linear-gradient(45deg, #d4af37, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 10px rgba(212,175,55,0.5);
 }
 
 .navbar-nav .nav-link {
     color: #c0c0c0 !important;
     font-weight: 600;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    padding: 0.75rem 1rem !important;
+    margin: 0 0.25rem;
+    border-radius: 8px;
+    position: relative;
+}
+
+.navbar-nav .nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(212,175,55,0.1), rgba(255,215,0,0.1));
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
 }
 
 .navbar-nav .nav-link:hover {
     color: #d4af37 !important;
-    background: rgba(255,255,255,0.05);
+    background: rgba(212,175,55,0.1);
     border-radius: 8px;
+    transform: translateY(-2px);
+}
+
+.navbar-nav .nav-link:hover::before {
+    opacity: 1;
+}
+
+.navbar-nav .nav-link.active {
+    color: #d4af37 !important;
+    background: linear-gradient(45deg, rgba(212,175,55,0.2), rgba(255,215,0,0.1));
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 8px;
+}
+
+.navbar-toggler {
+    border: 1px solid #d4af37;
+    background: rgba(212,175,55,0.1);
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(212,175,55,0.25);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28212, 175, 55, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 .description_section {
     background: rgba(255,255,255,0.02);
@@ -443,4 +501,54 @@ c
     .game-card {
         flex: 30%;
     }
+}
+
+/* About Us page styles */
+.about-section {
+    background: rgba(255,255,255,0.02);
+    border: 2px solid #d4af37;
+    border-radius: 16px;
+    box-shadow: 0 4px 25px rgba(212,175,55,0.2);
+}
+
+.about-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 12px;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.about-card:hover {
+    transform: translateY(-5px);
+    border-color: #d4af37;
+    box-shadow: 0 5px 20px rgba(212,175,55,0.3);
+}
+
+.text-gold {
+    color: #d4af37 !important;
+}
+
+.team-member {
+    padding: 1rem;
+}
+
+.stat-item {
+    padding: 1rem;
+}
+
+.stat-item h3 {
+    margin-bottom: 0.5rem;
+}
+
+.about-content p {
+    color: #c0c0c0;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.about-content .lead {
+    color: #d4af37;
+    font-size: 1.3rem;
+    font-weight: 500;
 }
