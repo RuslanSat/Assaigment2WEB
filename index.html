@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>goldmine</title>
+    <title>GoldMine - Premium Gaming Platform</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!-- Skip to main content link for screen readers -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation" aria-label="Main navigation">
     <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center fw-bold" href="index.html">
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="index.html" aria-label="GoldMine - Premium Gaming Platform">
             <img src="images/Minegoldlogo.png" width="50" height="50" class="me-2" alt="GoldMine Logo">
             <span class="brand-text">GoldMine</span>
         </a>
@@ -31,6 +33,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#categories">Categories</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="register.html">Register</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -38,30 +43,30 @@
 
 <div class="container-fluid">
     <div class="row">
-        <aside class="col-lg-3 col-md-4 col-sm-12 mb-4">
-            <div class="sidebar p-3">
-                <h3>Popular Games</h3>
-                <ul>
-                    <li><a href="#">Minecraft</a></li>
-                    <li><a href="#">Cyberpunk 2077</a></li>
-                    <li><a href="#">Hollow Knight</a></li>
+        <aside class="col-lg-3 col-md-4 col-sm-12 mb-4" role="complementary" aria-label="Navigation sidebar">
+            <nav class="sidebar p-3" role="navigation" aria-label="Quick navigation">
+                <h3 id="popular-games">Popular Games</h3>
+                <ul role="list" aria-labelledby="popular-games">
+                    <li><a href="#minecraft" aria-label="View Minecraft game details">Minecraft</a></li>
+                    <li><a href="#cyberpunk" aria-label="View Cyberpunk 2077 game details">Cyberpunk 2077</a></li>
+                    <li><a href="#hollow-knight" aria-label="View Hollow Knight game details">Hollow Knight</a></li>
                 </ul>
 
-                <h3>Categories</h3>
-                <ul>
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">RPG</a></li>
-                    <li><a href="#">Strategy</a></li>
+                <h3 id="game-categories">Categories</h3>
+                <ul role="list" aria-labelledby="game-categories">
+                    <li><a href="#action-games" aria-label="Browse Action games">Action</a></li>
+                    <li><a href="#rpg-games" aria-label="Browse RPG games">RPG</a></li>
+                    <li><a href="#strategy-games" aria-label="Browse Strategy games">Strategy</a></li>
                 </ul>
-            </div>
+            </nav>
         </aside>
-        <main class="col-lg-9 col-md-8 col-sm-12">
+        <main id="main-content" class="col-lg-9 col-md-8 col-sm-12" role="main">
             <!-- Bootstrap Carousel Section -->
-            <section class="mb-5">
-                <h2 class="text-center mb-4">Featured Games Gallery</h2>
+            <section class="mb-5" aria-labelledby="featured-games-heading">
+                <h2 id="featured-games-heading" class="text-center mb-4">Featured Games Gallery</h2>
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
-                        <div id="gameCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div id="gameCarousel" class="carousel slide" data-bs-ride="carousel" role="region" aria-label="Featured games carousel">
                             <!-- Carousel Indicators -->
                             <div class="carousel-indicators">
                                 <button type="button" data-bs-target="#gameCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -158,16 +163,15 @@
 
             <section class="mb-5">
                 <h2 class="text-center mb-4">Popular Games</h2>
-                <div class="row g-4">
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="game-card">
-                            <img src="images/Minecraft.jpg" alt="Minecraft">
-                            <div class="game-info">
-                                <h3>Minecraft</h3>
-                                <p>Sandbox survival and creativity.</p>
-                                <div class="game-meta">
-                                    <span>Genre: Sandbox</span>
-                                    <span>⭐ 4.8</span>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
+                    <div class="col">
+                        <div class="card h-100 game-bootstrap-card">
+                            <img src="images/Minecraft.jpg" class="card-img-top" alt="Minecraft">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Minecraft</h5>
+                                <p class="card-text">Sandbox survival and creativity game where you can build, explore, and survive in an infinite world of blocks.</p>
+                                <div class="game-meta mt-auto">
+                                    <small class="text-muted">Genre: Sandbox | ⭐ 4.8</small>
                                 </div>
                                 <div class="btn-group mt-3" role="group">
                                     <button type="button" class="btn btn-primary btn-sm">Play Now</button>
@@ -176,15 +180,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="game-card">
-                            <img src="images/Hoi4.jpg" alt="Hearts of Iron 4">
-                            <div class="game-info">
-                                <h3>Hearts of Iron 4</h3>
-                                <p>Political strategy</p>
-                                <div class="game-meta">
-                                    <span>Genre: Strategy</span>
-                                    <span>⭐ 4.8</span>
+                    <div class="col">
+                        <div class="card h-100 game-bootstrap-card">
+                            <img src="images/Hoi4.jpg" class="card-img-top" alt="Hearts of Iron 4">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Hearts of Iron 4</h5>
+                                <p class="card-text">Political strategy game where you command nations during World War II with detailed military and diplomatic mechanics.</p>
+                                <div class="game-meta mt-auto">
+                                    <small class="text-muted">Genre: Strategy | ⭐ 4.8</small>
                                 </div>
                                 <div class="btn-group mt-3" role="group">
                                     <button type="button" class="btn btn-primary btn-sm">Play Now</button>
@@ -193,15 +196,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="game-card">
-                            <img src="images/HollowKnight.jpeg" alt="HollowKnight">
-                            <div class="game-info">
-                                <h3>Hollow Knight</h3>
-                                <p>save the kingdom as a hollow knight</p>
-                                <div class="game-meta">
-                                    <span>Genre: Metroidvania</span>
-                                    <span>⭐ 4.5</span>
+                    <div class="col">
+                        <div class="card h-100 game-bootstrap-card">
+                            <img src="images/HollowKnight.jpeg" class="card-img-top" alt="Hollow Knight">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Hollow Knight</h5>
+                                <p class="card-text">Save the kingdom as a hollow knight in this beautiful metroidvania adventure with challenging combat and exploration.</p>
+                                <div class="game-meta mt-auto">
+                                    <small class="text-muted">Genre: Metroidvania | ⭐ 4.5</small>
                                 </div>
                                 <div class="btn-group mt-3" role="group">
                                     <button type="button" class="btn btn-primary btn-sm">Play Now</button>
@@ -210,15 +212,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="game-card">
-                            <img src="images/DarkSouls.jpg" alt="DarkSouls">
-                            <div class="game-info">
-                                <h3>Dark Souls 3</h3>
-                                <p>Hardcore game in dead world</p>
-                                <div class="game-meta">
-                                    <span>Genre: Action</span>
-                                    <span>⭐ 4.6</span>
+                    <div class="col">
+                        <div class="card h-100 game-bootstrap-card">
+                            <img src="images/DarkSouls.jpg" class="card-img-top" alt="Dark Souls 3">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Dark Souls 3</h5>
+                                <p class="card-text">Face the ultimate challenge in this hardcore action RPG set in a dying world filled with dangerous enemies and epic boss battles.</p>
+                                <div class="game-meta mt-auto">
+                                    <small class="text-muted">Genre: Action RPG | ⭐ 4.6</small>
                                 </div>
                                 <div class="btn-group mt-3" role="group">
                                     <button type="button" class="btn btn-primary btn-sm">Play Now</button>
@@ -232,33 +233,82 @@
 
             <section class="news-section mb-5">
                 <h2 class="text-center mb-4">Gaming Industry News</h2>
-                <div class="row g-4">
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <article class="news-card h-100">
-                            <h3>New Update for Minecraft</h3>
-                            <p>The 1.21 update adds new biomes, mobs and adventures for players worldwide.</p>
-                            <div class="news-date">📅 01 Oct 2025</div>
-                            <a href="news1.html" class="btn btn-outline-primary btn-sm">Read More</a>
-                        </article>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    <div class="col">
+                        <div class="card h-100 news-bootstrap-card">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">New Update for Minecraft</h5>
+                                <p class="card-text">The 1.21 update adds new biomes, mobs and adventures for players worldwide. Explore new dimensions and discover exciting gameplay features.</p>
+                                <div class="news-date mt-auto mb-3">
+                                    <small class="text-muted">📅 01 Oct 2025</small>
+                                </div>
+                                <a href="news1.html" class="btn btn-outline-primary btn-sm">Read More</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <article class="news-card h-100">
-                            <h3>Cyberpunk 2077 DLC Released</h3>
-                            <p>The long-awaited expansion brings new quests, areas, and improved gameplay mechanics.</p>
-                            <div class="news-date">📅 28 Sep 2025</div>
-                            <a href="news2.html" class="btn btn-outline-primary btn-sm">Read More</a>
-                        </article>
+                    <div class="col">
+                        <div class="card h-100 news-bootstrap-card">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Cyberpunk 2077 DLC Released</h5>
+                                <p class="card-text">The long-awaited expansion brings new quests, areas, and improved gameplay mechanics to Night City.</p>
+                                <div class="news-date mt-auto mb-3">
+                                    <small class="text-muted">📅 28 Sep 2025</small>
+                                </div>
+                                <a href="news2.html" class="btn btn-outline-primary btn-sm">Read More</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <article class="news-card h-100">
-                            <h3>Esports Tournament Announced</h3>
-                            <p>International teams will compete for the biggest prize pool in gaming history.</p>
-                            <div class="news-date">📅 25 Sep 2025</div>
-                            <a href="news3.html" class="btn btn-outline-primary btn-sm">Read More</a>
-                        </article>
+                    <div class="col">
+                        <div class="card h-100 news-bootstrap-card">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Esports Tournament Announced</h5>
+                                <p class="card-text">International teams will compete for the biggest prize pool in gaming history with over $50 million at stake.</p>
+                                <div class="news-date mt-auto mb-3">
+                                    <small class="text-muted">📅 25 Sep 2025</small>
+                                </div>
+                                <a href="news3.html" class="btn btn-outline-primary btn-sm">Read More</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
+            <!-- Feature Cards Section -->
+            <section class="mb-5">
+                <h2 class="text-center mb-4">Platform Features</h2>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    <div class="col">
+                        <div class="card h-100 feature-bootstrap-card">
+                            <div class="card-body text-center">
+                                <div class="feature-icon mb-3">🎮</div>
+                                <h5 class="card-title">Game Discovery</h5>
+                                <p class="card-text">Find your next favorite game with our advanced recommendation system and curated collections.</p>
+                                <a href="#" class="btn btn-outline-primary btn-sm">Explore Games</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 feature-bootstrap-card">
+                            <div class="card-body text-center">
+                                <div class="feature-icon mb-3">⭐</div>
+                                <h5 class="card-title">Expert Reviews</h5>
+                                <p class="card-text">Read detailed reviews from gaming experts and community members to make informed decisions.</p>
+                                <a href="#" class="btn btn-outline-primary btn-sm">Read Reviews</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 feature-bootstrap-card">
+                            <div class="card-body text-center">
+                                <div class="feature-icon mb-3">👥</div>
+                                <h5 class="card-title">Community Hub</h5>
+                                <p class="card-text">Connect with fellow gamers, share experiences, and join discussions about your favorite games.</p>
+                                <a href="#" class="btn btn-outline-primary btn-sm">Join Community</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section class="gallery mb-5">
                 <h2 class="text-center mb-4">Image Gallery</h2>
                 <div class="row g-3">

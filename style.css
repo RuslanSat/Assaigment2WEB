@@ -1,13 +1,38 @@
 body {
     margin: 0;
     background-color: #0b0b0d;
-    color: var(#c0c0c0);
+    color: #e0e0e0; /* Improved contrast ratio */
     font-family: "Inter", Arial, sans-serif;
-    line-height: 1.5;
+    line-height: 1.6; /* Better readability */
 }
 h2 {
     text-align:center;
     color:#d4af37;
+}
+
+/* Accessibility improvements */
+h1, h2, h3, h4, h5, h6 {
+    color: #f0f0f0; /* Better contrast for headings */
+    font-weight: 600;
+}
+
+h1 {
+    color: #d4af37;
+    font-size: 2.5rem;
+}
+
+h2 {
+    color: #d4af37;
+    font-size: 2rem;
+}
+
+h3 {
+    color: #e8e8e8;
+    font-size: 1.5rem;
+}
+
+h4, h5, h6 {
+    color: #e0e0e0;
 }
 
 /* Bootstrap navbar customization */
@@ -32,7 +57,7 @@ h2 {
 }
 
 .navbar-nav .nav-link {
-    color: #c0c0c0 !important;
+    color: #e0e0e0 !important; /* Better contrast ratio */
     font-weight: 600;
     transition: all 0.3s ease;
     padding: 0.75rem 1rem !important;
@@ -191,36 +216,182 @@ h2 {
 
 /* Bootstrap form customization */
 .form_section {
-    background-color: rgba(255,255,255,0.02);
-    border: 2px solid #d4af37;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255,255,255,0.02) !important;
+    border: 2px solid #d4af37 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 32px rgba(212,175,55,0.2) !important;
 }
 
 .form_title {
-    color: #d4af37;
+    color: #d4af37 !important;
+    font-weight: bold !important;
 }
 
+/* Form Controls */
 .form-control {
-    background-color: rgba(255,255,255,0.05);
-    border: 1px solid rgba(192,192,192,0.3);
-    color: #c0c0c0;
+    background-color: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(192,192,192,0.3) !important;
+    color: #c0c0c0 !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
 }
 
 .form-control:focus {
-    background-color: rgba(255,255,255,0.08);
-    border-color: #d4af37;
-    box-shadow: 0 0 0 0.2rem rgba(212,175,55,0.25);
-    color: #c0c0c0;
+    background-color: rgba(255,255,255,0.08) !important;
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 0.2rem rgba(212,175,55,0.25) !important;
+    color: #c0c0c0 !important;
 }
 
 .form-control::placeholder {
-    color: #999;
+    color: #999 !important;
 }
 
+.form-control:valid {
+    border-color: rgba(40,167,69,0.5) !important;
+}
+
+.form-control:invalid {
+    border-color: rgba(220,53,69,0.5) !important;
+}
+
+/* Form Labels */
 .form-label {
-    color: #c0c0c0;
-    font-weight: 600;
+    color: #c0c0c0 !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* Form Select */
+.form-select {
+    background-color: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(192,192,192,0.3) !important;
+    color: #c0c0c0 !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-select:focus {
+    background-color: rgba(255,255,255,0.08) !important;
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 0.2rem rgba(212,175,55,0.25) !important;
+    color: #c0c0c0 !important;
+}
+
+.form-select option {
+    background-color: #2d2d2d !important;
+    color: #c0c0c0 !important;
+}
+
+/* Input Groups */
+.input-group-text {
+    background-color: rgba(212,175,55,0.1) !important;
+    border: 1px solid rgba(212,175,55,0.3) !important;
+    color: #d4af37 !important;
+    font-weight: bold !important;
+}
+
+.input-group .form-control {
+    border-left: none !important;
+}
+
+.input-group .form-control:focus {
+    border-left: none !important;
+    box-shadow: 0 0 0 0.2rem rgba(212,175,55,0.25) !important;
+}
+
+/* Form Checks */
+.form-check-input {
+    background-color: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(192,192,192,0.3) !important;
+    border-radius: 4px !important;
+}
+
+.form-check-input:checked {
+    background-color: #d4af37 !important;
+    border-color: #d4af37 !important;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(212,175,55,0.25) !important;
+}
+
+.form-check-label {
+    color: #c0c0c0 !important;
+    margin-left: 0.5rem !important;
+}
+
+/* Radio Buttons */
+.form-check-input[type="radio"] {
+    border-radius: 50% !important;
+}
+
+.form-check-input[type="radio"]:checked {
+    background-color: #d4af37 !important;
+    border-color: #d4af37 !important;
+}
+
+/* Form Text */
+.form-text {
+    color: #999 !important;
+    font-size: 0.875rem !important;
+}
+
+/* Validation */
+.was-validated .form-control:valid,
+.form-control.is-valid {
+    border-color: rgba(40,167,69,0.5) !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='m2.3 6.73.94-.94 1.81-1.81L6.54 4.2l.94.94L5.05 7.67z'/%3e%3c/svg%3e") !important;
+}
+
+.was-validated .form-control:invalid,
+.form-control.is-invalid {
+    border-color: rgba(220,53,69,0.5) !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3e%3cpath fill='%23dc3545' d='M6 0a6 6 0 100 12A6 6 0 006 0zM4.5 8.5L6 7l1.5 1.5L9 7.5 7.5 6 9 4.5 7.5 3 6 4.5 4.5 3 3 4.5 4.5 6 3 7.5l1.5 1z'/%3e%3c/svg%3e") !important;
+}
+
+.invalid-feedback {
+    color: #dc3545 !important;
+    font-size: 0.875rem !important;
+    margin-top: 0.25rem !important;
+}
+
+.valid-feedback {
+    color: #28a745 !important;
+    font-size: 0.875rem !important;
+    margin-top: 0.25rem !important;
+}
+
+/* Responsive form adjustments */
+@media (max-width: 768px) {
+    .form_section {
+        padding: 1.5rem !important;
+    }
+    
+    .form_title {
+        font-size: 1.5rem !important;
+    }
+    
+    .input-group-text {
+        font-size: 0.875rem !important;
+        padding: 0.5rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .form_section {
+        padding: 1rem !important;
+        margin: 0.5rem !important;
+    }
+    
+    .form_title {
+        font-size: 1.3rem !important;
+    }
+    
+    .btn-lg {
+        padding: 0.75rem 1.5rem !important;
+        font-size: 1rem !important;
+    }
 }
 
 /* Bootstrap button customizations */
@@ -773,4 +944,291 @@ c
     .carousel-caption p {
         font-size: 0.9rem;
     }
+}
+
+/* Bootstrap Cards Customization */
+.card {
+    background: rgba(255,255,255,0.02) !important;
+    border: 1px solid rgba(192,192,192,0.3) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+    transition: all 0.3s ease !important;
+}
+
+.card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 8px 32px rgba(212,175,55,0.3) !important;
+    border-color: #d4af37 !important;
+}
+
+.card-img-top {
+    border-radius: 16px 16px 0 0 !important;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-body {
+    background: transparent !important;
+}
+
+.card-title {
+    color: #d4af37 !important;
+    font-weight: bold !important;
+    margin-bottom: 1rem !important;
+}
+
+.card-text {
+    color: #c0c0c0 !important;
+    line-height: 1.6 !important;
+}
+
+/* Game Bootstrap Cards */
+.game-bootstrap-card {
+    background: rgba(255,255,255,0.03) !important;
+    border: 1px solid rgba(212,175,55,0.2) !important;
+}
+
+.game-bootstrap-card:hover {
+    border-color: #d4af37 !important;
+    box-shadow: 0 12px 40px rgba(212,175,55,0.4) !important;
+}
+
+.game-bootstrap-card .card-img-top {
+    height: 180px;
+}
+
+/* News Bootstrap Cards */
+.news-bootstrap-card {
+    background: rgba(255,255,255,0.02) !important;
+    border: 1px solid rgba(192,192,192,0.2) !important;
+}
+
+.news-bootstrap-card:hover {
+    border-color: #d4af37 !important;
+    box-shadow: 0 8px 28px rgba(212,175,55,0.3) !important;
+}
+
+/* About Bootstrap Cards */
+.about-bootstrap-card {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(212,175,55,0.3) !important;
+}
+
+.about-bootstrap-card:hover {
+    border-color: #d4af37 !important;
+    box-shadow: 0 10px 35px rgba(212,175,55,0.4) !important;
+}
+
+/* Feature Bootstrap Cards */
+.feature-bootstrap-card {
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(212,175,55,0.25) !important;
+    text-align: center !important;
+}
+
+.feature-bootstrap-card:hover {
+    border-color: #d4af37 !important;
+    box-shadow: 0 10px 35px rgba(212,175,55,0.5) !important;
+    transform: translateY(-10px) !important;
+}
+
+.feature-icon {
+    font-size: 3rem;
+    color: #d4af37;
+    text-shadow: 0 0 20px rgba(212,175,55,0.5);
+}
+
+.feature-bootstrap-card .card-title {
+    color: #d4af37 !important;
+    font-size: 1.3rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.feature-bootstrap-card .card-text {
+    color: #c0c0c0 !important;
+    font-size: 1rem !important;
+}
+
+/* Responsive card adjustments */
+@media (max-width: 768px) {
+    .card-img-top {
+        height: 160px;
+    }
+    
+    .game-bootstrap-card .card-img-top {
+        height: 150px;
+    }
+    
+    .feature-icon {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-img-top {
+        height: 140px;
+    }
+    
+    .game-bootstrap-card .card-img-top {
+        height: 130px;
+    }
+    
+    .feature-icon {
+        font-size: 2rem;
+    }
+    
+    .card-title {
+        font-size: 1.1rem !important;
+    }
+    
+    .card-text {
+        font-size: 0.9rem !important;
+    }
+}
+
+/* Accessibility Enhancements */
+/* Focus indicators for better keyboard navigation */
+*:focus {
+    outline: 2px solid #d4af37 !important;
+    outline-offset: 2px !important;
+}
+
+/* Skip to main content link for screen readers */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #d4af37;
+    color: #000;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1000;
+    font-weight: bold;
+}
+
+.skip-link:focus {
+    top: 6px;
+}
+
+/* Improved contrast for links */
+a {
+    color: #4a9eff;
+    text-decoration: underline;
+}
+
+a:hover, a:focus {
+    color: #6bb6ff;
+    text-decoration: underline;
+}
+
+/* Better contrast for text elements */
+p, .card-text, .form-text {
+    color: #e0e0e0 !important;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    body {
+        background-color: #000000;
+        color: #ffffff;
+    }
+    
+    .navbar {
+        background: #000000 !important;
+        border-bottom: 3px solid #ffffff !important;
+    }
+    
+    .nav-link {
+        color: #ffffff !important;
+    }
+    
+    .btn-primary {
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: 2px solid #ffffff !important;
+    }
+    
+    .card {
+        background: #000000 !important;
+        border: 2px solid #ffffff !important;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .carousel {
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Screen reader only content */
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Ensure interactive elements are accessible */
+button, input, select, textarea {
+    min-height: 44px; /* Touch target size */
+    min-width: 44px;
+}
+
+/* Better focus states for form elements */
+.form-control:focus,
+.form-select:focus,
+.btn:focus {
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.5) !important;
+    border-color: #d4af37 !important;
+}
+
+/* Ensure sufficient color contrast for all text */
+.text-muted {
+    color: #b0b0b0 !important; /* Better contrast than default */
+}
+
+/* Improve readability for small text */
+small, .small {
+    color: #c0c0c0 !important;
+    font-size: 0.9rem;
+}
+
+/* Better contrast for form labels */
+.form-label {
+    color: #f0f0f0 !important;
+    font-weight: 600 !important;
+}
+
+/* Ensure buttons have sufficient contrast */
+.btn-outline-primary {
+    color: #d4af37 !important;
+    border-color: #d4af37 !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: #d4af37 !important;
+    color: #000000 !important;
+}
+
+.btn-outline-secondary {
+    color: #e0e0e0 !important;
+    border-color: #6c757d !important;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d !important;
+    color: #ffffff !important;
 }

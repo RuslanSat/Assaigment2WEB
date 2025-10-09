@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - GoldMine</title>
+    <title>Contact Us - GoldMine Gaming Platform</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -31,6 +31,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#categories">Categories</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="register.html">Register</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -41,22 +44,117 @@
         <div class="col-lg-6 col-md-8 col-sm-12">
             <div class="form_section p-4">
                 <h2 class="form_title text-center mb-4">Contact Us</h2>
-                <form action="#" method="post">
+                <form action="#" method="post" class="needs-validation" novalidate>
+                    <!-- Name Input Group -->
                     <div class="mb-3">
                         <label for="name" class="form-label">Your Name:</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+                        <div class="input-group">
+                            <span class="input-group-text">👤</span>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" required>
+                            <div class="invalid-feedback">
+                                Please provide your name.
+                            </div>
+                        </div>
                     </div>
 
+                    <!-- Email Input Group -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Your Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                        <div class="input-group">
+                            <span class="input-group-text">📧</span>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid email address.
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="mb-4">
+                    <!-- Phone Input Group -->
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number (Optional):</label>
+                        <div class="input-group">
+                            <span class="input-group-text">📱</span>
+                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number">
+                        </div>
+                    </div>
+
+                    <!-- Subject Selection -->
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">Subject:</label>
+                        <select class="form-select" id="subject" name="subject" required>
+                            <option value="">Choose a subject...</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="partnership">Partnership</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a subject.
+                        </div>
+                    </div>
+
+                    <!-- Priority Level -->
+                    <div class="mb-3">
+                        <label class="form-label">Priority Level:</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="priority" id="low" value="low" checked>
+                                    <label class="form-check-label" for="low">
+                                        Low
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="priority" id="medium" value="medium">
+                                    <label class="form-check-label" for="medium">
+                                        Medium
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="priority" id="high" value="high">
+                                    <label class="form-check-label" for="high">
+                                        High
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message Textarea -->
+                    <div class="mb-3">
                         <label for="message" class="form-label">Message:</label>
-                        <textarea class="form-control" id="message" name="message" rows="4" placeholder="Write your message..." required></textarea>
+                        <textarea class="form-control" id="message" name="message" rows="4" placeholder="Write your message here..." required></textarea>
+                        <div class="form-text">Please provide as much detail as possible.</div>
+                        <div class="invalid-feedback">
+                            Please provide your message.
+                        </div>
                     </div>
 
+                    <!-- Checkboxes -->
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+                            <label class="form-check-label" for="newsletter">
+                                Subscribe to our newsletter for gaming updates
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
+                            <label class="form-check-label" for="terms">
+                                I agree to the <a href="#" class="text-gold">Terms and Conditions</a>
+                            </label>
+                            <div class="invalid-feedback">
+                                You must agree to the terms and conditions.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Buttons -->
                     <div class="d-flex justify-content-center gap-3">
                         <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
                         <button type="reset" class="btn btn-outline-secondary btn-lg">Clear Form</button>
@@ -83,5 +181,23 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Bootstrap form validation
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+</script>
 </body>
 </html>
