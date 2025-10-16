@@ -127,23 +127,19 @@ h2 {
     text-align:center;
     color:#d4af37;
 }
-
 /* Accessibility improvements */
 h1, h2, h3, h4, h5, h6 {
     color: #f0f0f0; /* Better contrast for headings */
     font-weight: 600;
 }
-
 h1 {
     color: #d4af37;
     font-size: 2.5rem;
 }
-
 h2 {
     color: #d4af37;
     font-size: 2rem;
 }
-
 h3 {
     color: #e8e8e8;
     font-size: 1.5rem;
