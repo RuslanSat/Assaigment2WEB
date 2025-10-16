@@ -1,3 +1,10 @@
+/* Accordion answer hidden by default with transition */
+.accordion-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0 1em;
+}
 body {
     margin: 0;
     background-color: #0b0b0d;
@@ -11,14 +18,21 @@ h2 {
 }
 
 /* Accessibility improvements */
+/* General styles */
+.error {
 h1, h2, h3, h4, h5, h6 {
     color: #f0f0f0; /* Better contrast for headings */
     font-weight: 600;
 }
 
+/* Accordion styles */
+.accordion {
+
 h1 {
+.accordion-item {
     color: #d4af37;
     font-size: 2.5rem;
+.accordion-question {
 }
 
 h2 {
@@ -31,8 +45,10 @@ h3 {
     font-size: 1.5rem;
 }
 
+.accordion-question:hover {
 h4, h5, h6 {
     color: #e0e0e0;
+.accordion-answer {
 }
 
 /* Bootstrap navbar customization */
@@ -40,6 +56,9 @@ h4, h5, h6 {
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
     border-bottom: 2px solid #d4af37;
     box-shadow: 0 2px 15px rgba(212,175,55,0.3);
+
+/* Popup styles */
+.popup-overlay {
 }
 
 .navbar-brand {
@@ -48,6 +67,7 @@ h4, h5, h6 {
     font-size: 1.5rem;
 }
 
+.popup-content {
 .navbar-brand .brand-text {
     background: linear-gradient(45deg, #d4af37, #ffd700);
     -webkit-background-clip: text;
@@ -55,6 +75,7 @@ h4, h5, h6 {
     background-clip: text;
     text-shadow: 0 0 10px rgba(212,175,55,0.5);
 }
+.close-btn {
 
 .navbar-nav .nav-link {
     color: #e0e0e0 !important; /* Better contrast ratio */
@@ -62,6 +83,9 @@ h4, h5, h6 {
     transition: all 0.3s ease;
     padding: 0.75rem 1rem !important;
     margin: 0 0.25rem;
+
+/* Button styles */
+button {
     border-radius: 8px;
     position: relative;
 }
@@ -72,8 +96,12 @@ h4, h5, h6 {
     top: 0;
     left: 0;
     right: 0;
+button:hover {
     bottom: 0;
     background: linear-gradient(45deg, rgba(212,175,55,0.1), rgba(255,215,0,0.1));
+
+/* Date and time display */
+#dateTimeDisplay {
     border-radius: 8px;
     opacity: 0;
     transition: opacity 0.3s ease;
