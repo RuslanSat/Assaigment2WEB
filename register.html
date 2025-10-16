@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - GoldMine</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="index.html">
+            <img src="images/Minegoldlogo.png" width="50" height="50" class="me-2" alt="GoldMine Logo">
+            <span class="brand-text">GoldMine</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="#categories">Categories</a></li>
+                <li class="nav-item"><a class="nav-link active" href="register.html">Register</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container assignment-section mt-5 mb-5">
+    <h2>Registration Form</h2>
+    <form id="assignment-registration-form" class="assignment-form" novalidate>
+        <label for="assignment-email">Email:</label>
+        <input type="email" id="assignment-email" name="email" required>
+        <span class="assignment-error" id="assignment-email-error"></span><br>
+
+        <label for="assignment-password">Password:</label>
+        <input type="password" id="assignment-password" name="password" required minlength="6">
+        <span class="assignment-error" id="assignment-password-error"></span><br>
+
+        <label for="assignment-confirm-password">Confirm Password:</label>
+        <input type="password" id="assignment-confirm-password" name="confirmPassword" required>
+        <span class="assignment-error" id="assignment-confirm-password-error"></span><br>
+
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+<footer class="mt-5 py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <p class="mb-2">© 2025 GoldMine Game Library | All Rights Reserved</p>
+                <p class="mb-0">
+                    <a href="#" class="me-3">About</a> | 
+                    <a href="#" class="mx-3">Privacy Policy</a> | 
+                    <a href="#" class="ms-3">Support</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
