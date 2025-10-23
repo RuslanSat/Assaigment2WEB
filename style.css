@@ -2102,6 +2102,14 @@ body.night-theme .preview-box p {
     transform: scale(0.95);
 }
 
+/* Konami easter egg confetti area */
+.confetti-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1050;
+}
+
 .audio-status {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(192,192,192,0.2);

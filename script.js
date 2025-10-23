@@ -1222,6 +1222,30 @@ document.addEventListener('DOMContentLoaded', function() {
             audioStatus.innerHTML = '<p class="text-muted">Click a sound button to test audio functionality</p>';
         }, 3000);
     }
+
+        // Global mute toggle with persistence
+        const muteToggle = document.getElementById('mute-toggle');
+        const savedMuted = localStorage.getItem('audioMuted') === 'true';
+        if (muteToggle) {
+            muteToggle.checked = savedMuted;
+            if (savedMuted && typeof audioManager?.setVolume === 'function') {
+                audioManager.setVolume(0);
+                if (volumeDisplay) volumeDisplay.textContent = '0';
+                if (volumeControl) volumeControl.value = 0;
+            }
+            muteToggle.addEventListener('change', function() {
+                const muted = this.checked;
+                localStorage.setItem('audioMuted', String(muted));
+                if (muted) {
+                    if (typeof audioManager?.setVolume === 'function') audioManager.setVolume(0);
+                    if (volumeDisplay) volumeDisplay.textContent = '0';
+                    if (volumeControl) volumeControl.value = 0;
+                } else {
+                    if (typeof audioManager?.setVolume === 'function') audioManager.setVolume(volumeControl ? volumeControl.value : 50);
+                    if (volumeDisplay && volumeControl) volumeDisplay.textContent = volumeControl.value;
+                }
+            });
+        }
     
     // Animations Demo
     const animationTarget = document.getElementById('animation-target');
@@ -1286,6 +1310,50 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+        // Konami code easter egg: up up down down left right left right b a
+        const konamiSequence = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+        const recentKeys = [];
+        document.addEventListener('keydown', (e) => {
+            recentKeys.push(e.key);
+            if (recentKeys.length > konamiSequence.length) recentKeys.shift();
+            if (konamiSequence.every((k, i) => recentKeys[i]?.toLowerCase() === k.toLowerCase())) {
+                // fun: confetti-like animation and victory sound
+                try { audioManager.playVictorySound(); } catch (err) {}
+                triggerConfetti();
+                showNotification('Konami code activated! 🎉', 'success');
+                recentKeys.length = 0;
+            }
+        });
+
+        function triggerConfetti() {
+            const container = document.createElement('div');
+            container.className = 'confetti-container';
+            document.body.appendChild(container);
+            const colors = ['#d4af37','#ffd700','#17a2b8','#28a745','#dc3545','#6c757d'];
+            const pieces = 120;
+            for (let i = 0; i < pieces; i++) {
+                const piece = document.createElement('span');
+                piece.style.position = 'absolute';
+                piece.style.left = Math.random() * 100 + 'vw';
+                piece.style.top = '-10px';
+                piece.style.width = '8px';
+                piece.style.height = '14px';
+                piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+                piece.style.transform = `rotate(${Math.random()*360}deg)`;
+                piece.style.opacity = '0.9';
+                piece.style.borderRadius = '2px';
+                container.appendChild(piece);
+
+                const duration = 3000 + Math.random()*2000;
+                const translateX = (Math.random() - 0.5) * 200;
+                piece.animate([
+                    { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+                    { transform: `translate(${translateX}px, 100vh) rotate(720deg)`, opacity: 0.7 }
+                ], { duration, easing: 'cubic-bezier(.17,.67,.83,.67)', fill: 'forwards' });
+            }
+            setTimeout(() => container.remove(), 5500);
+        }
     
     // Utility function for notifications
     function showNotification(message, type = 'info') {
