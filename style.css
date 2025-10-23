@@ -1472,6 +1472,14 @@ body.night-theme .preview-box p {
     animation: fadeIn 0.5s ease-in;
 }
 
+/* Utility visibility classes */
+.is-hidden {
+    display: none !important;
+}
+.d-none {
+    display: none !important;
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -1912,6 +1920,387 @@ body.night-theme .preview-box p {
     }
     
     .time-display-area .time-content {
+        font-size: 1.2rem;
+    }
+}
+
+/* Advanced JavaScript Features Styles */
+
+/* Game Library Management */
+.game-library-demo {
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid rgba(212,175,55,0.2);
+}
+
+.game-library-display {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(192,192,192,0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    min-height: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.game-item-display {
+    background: rgba(212,175,55,0.1);
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.game-item-display:hover {
+    background: rgba(212,175,55,0.2);
+    transform: translateX(5px);
+}
+
+.game-item-display h6 {
+    color: #d4af37;
+    margin-bottom: 0.25rem;
+}
+
+.game-item-display .game-rating {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+/* Arrays and Loops Demo */
+.arrays-loops-demo {
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid rgba(212,175,55,0.2);
+}
+
+.achievements-list {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(192,192,192,0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    min-height: 150px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.achievement-item {
+    background: rgba(40,167,69,0.1);
+    border: 1px solid rgba(40,167,69,0.3);
+    border-radius: 6px;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    animation: slideInLeft 0.5s ease-out;
+}
+
+.stats-display {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(192,192,192,0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    min-height: 150px;
+}
+
+.stat-item-display {
+    background: rgba(23,162,184,0.1);
+    border: 1px solid rgba(23,162,184,0.3);
+    border-radius: 6px;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.stat-item-display .stat-value {
+    color: #17a2b8;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.stat-item-display .stat-label {
+    color: #c0c0c0;
+    font-size: 0.9rem;
+}
+
+/* Higher-Order Functions Demo */
+.higher-order-demo {
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid rgba(212,175,55,0.2);
+}
+
+.game-collection, .filtered-games-display, .mapped-names-display {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(192,192,192,0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    min-height: 120px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.collection-game-item {
+    background: rgba(108,117,125,0.1);
+    border: 1px solid rgba(108,117,125,0.3);
+    border-radius: 6px;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.collection-game-item:hover {
+    background: rgba(108,117,125,0.2);
+    transform: scale(1.02);
+}
+
+.collection-game-item .game-name {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+.collection-game-item .game-rating {
+    color: #ffd700;
+}
+
+.mapped-name-item {
+    background: rgba(220,53,69,0.1);
+    border: 1px solid rgba(220,53,69,0.3);
+    border-radius: 6px;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: #dc3545;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Sound Effects Demo */
+.sound-effects-demo {
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid rgba(212,175,55,0.2);
+}
+
+.sound-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.sound-buttons button {
+    transition: all 0.3s ease;
+}
+
+.sound-buttons button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.sound-buttons button:active {
+    transform: scale(0.95);
+}
+
+.audio-status {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(192,192,192,0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    min-height: 100px;
+}
+
+.audio-status .status-message {
+    color: #c0c0c0;
+    margin-bottom: 0.5rem;
+}
+
+.audio-status .status-success {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.audio-status .status-error {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Animations Demo */
+.animations-demo {
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid rgba(212,175,55,0.2);
+}
+
+.animation-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.animation-target {
+    background: rgba(255,255,255,0.03);
+    border: 2px solid rgba(212,175,55,0.3);
+    border-radius: 12px;
+    padding: 2rem;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.animated-element {
+    background: rgba(212,175,55,0.1);
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.animated-element h4 {
+    color: #d4af37;
+    margin-bottom: 0.5rem;
+}
+
+.animated-element p {
+    color: #c0c0c0;
+    margin: 0;
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 1s ease-in;
+}
+
+.fade-out {
+    animation: fadeOut 1s ease-out;
+}
+
+.slide-in {
+    animation: slideInFromLeft 1s ease-out;
+}
+
+.bounce {
+    animation: bounce 1s ease-in-out;
+}
+
+.rotate {
+    animation: rotate 1s ease-in-out;
+}
+
+.pulse {
+    animation: pulse 1s ease-in-out infinite;
+}
+
+/* Keyframe Animations */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Responsive Design for Advanced Features */
+@media (max-width: 768px) {
+    .game-library-demo .row,
+    .arrays-loops-demo .row,
+    .higher-order-demo .row,
+    .sound-effects-demo .row,
+    .animations-demo .row {
+        flex-direction: column;
+    }
+    
+    .sound-buttons {
+        flex-direction: column;
+    }
+    
+    .animation-controls {
+        flex-direction: column;
+    }
+    
+    .animation-target {
+        min-height: 150px;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .game-library-display,
+    .achievements-list,
+    .stats-display,
+    .game-collection,
+    .filtered-games-display,
+    .mapped-names-display {
+        min-height: 100px;
+        max-height: 150px;
+    }
+    
+    .animated-element {
+        padding: 1rem;
+    }
+    
+    .animated-element h4 {
         font-size: 1.2rem;
     }
 }

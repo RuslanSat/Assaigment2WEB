@@ -484,7 +484,7 @@
                             <p class="card-text">Click the button to expand content:</p>
                             <div class="read-more-content">
                                 <p>This is the initial content that is always visible. It provides a brief overview of what the user can expect to learn more about.</p>
-                                <div class="hidden-content" style="display: none;">
+                                <div class="hidden-content is-hidden">
                                     <p>This is the additional content that appears when you click "Read More". It contains detailed information, additional paragraphs, and more comprehensive details about the topic. This content was previously hidden and becomes visible through JavaScript manipulation of the display property.</p>
                                     <p>You can include multiple paragraphs, images, lists, or any other HTML content in this expandable section. The content smoothly transitions in and out based on user interaction.</p>
                                     <ul>
@@ -722,12 +722,12 @@
                                 <div class="form-navigation">
                                     <button type="button" id="prev-step-btn" class="btn btn-secondary" disabled>Previous</button>
                                     <button type="button" id="next-step-btn" class="btn btn-primary">Next</button>
-                                    <button type="submit" id="submit-form-btn" class="btn btn-success" style="display: none;">Complete Registration</button>
+                                    <button type="submit" id="submit-form-btn" class="btn btn-success d-none">Complete Registration</button>
                                 </div>
                             </form>
                             <div id="form-progress" class="form-progress mt-3">
                                 <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 33%"></div>
+                                    <div class="progress-bar" role="progressbar"></div>
                                 </div>
                                 <small class="text-muted">Step 1 of 3</small>
                             </div>
@@ -791,6 +791,195 @@
                                 <h4 id="welcome-text">Welcome to GoldMine Gaming Platform!</h4>
                                 <p id="description-text">Discover amazing games and connect with fellow gamers.</p>
                                 <p id="features-text">Features: Game Discovery, Expert Reviews, Community Hub</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced JavaScript Features Demo -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="text-center mb-4">Advanced JavaScript Features</h2>
+                </div>
+            </div>
+
+            <!-- JavaScript Objects and Methods -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Game Library Management</h3>
+                            <p class="card-text">Demonstrates JavaScript objects and methods:</p>
+                            <div class="game-library-demo">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5>Add New Game</h5>
+                                        <form id="add-game-form" class="mb-3">
+                                            <div class="mb-2">
+                                                <input type="text" id="game-name" class="form-control" placeholder="Game Name" required>
+                                            </div>
+                                            <div class="mb-2">
+                                                <input type="text" id="game-genre" class="form-control" placeholder="Genre" required>
+                                            </div>
+                                            <div class="mb-2">
+                                                <input type="number" id="game-rating" class="form-control" placeholder="Rating (1-10)" min="1" max="10" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Add Game</button>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5>Game Library</h5>
+                                        <div id="game-library-display" class="game-library-display">
+                                            <!-- Games will be displayed here -->
+                                        </div>
+                                        <button id="sort-games-btn" class="btn btn-outline-secondary btn-sm mt-2">Sort by Rating</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arrays and Loops Demo -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Dynamic Content with Arrays & Loops</h3>
+                            <p class="card-text">Demonstrates arrays and loops for dynamic content:</p>
+                            <div class="arrays-loops-demo">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5>Gaming Achievements</h5>
+                                        <button id="generate-achievements-btn" class="btn btn-primary mb-3">Generate Achievements</button>
+                                        <div id="achievements-list" class="achievements-list">
+                                            <!-- Achievements will be generated here -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5>Player Statistics</h5>
+                                        <button id="calculate-stats-btn" class="btn btn-success mb-3">Calculate Stats</button>
+                                        <div id="stats-display" class="stats-display">
+                                            <!-- Statistics will be calculated here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Higher-Order Functions Demo -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Higher-Order Functions Demo</h3>
+                            <p class="card-text">Demonstrates map, filter, and forEach functions:</p>
+                            <div class="higher-order-demo">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h5>Game Collection</h5>
+                                        <div id="game-collection" class="game-collection">
+                                            <!-- Games will be displayed here -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5>Filtered Games (Rating > 7)</h5>
+                                        <button id="filter-high-rated-btn" class="btn btn-warning btn-sm mb-2">Filter High Rated</button>
+                                        <div id="filtered-games-display" class="filtered-games-display">
+                                            <!-- Filtered games will be shown here -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5>Game Names (Mapped)</h5>
+                                        <button id="map-game-names-btn" class="btn btn-info btn-sm mb-2">Map Game Names</button>
+                                        <div id="mapped-names-display" class="mapped-names-display">
+                                            <!-- Mapped names will be shown here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sound Effects Demo -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Sound Effects & Audio</h3>
+                            <p class="card-text">Demonstrates JavaScript audio functionality:</p>
+                            <div class="sound-effects-demo">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5>Game Sound Effects</h5>
+                                        <div class="sound-buttons">
+                                            <button id="play-success-sound" class="btn btn-success me-2 mb-2">🎉 Success Sound</button>
+                                            <button id="play-error-sound" class="btn btn-danger me-2 mb-2">❌ Error Sound</button>
+                                            <button id="play-notification-sound" class="btn btn-info me-2 mb-2">🔔 Notification</button>
+                                            <button id="play-victory-sound" class="btn btn-warning me-2 mb-2">🏆 Victory Sound</button>
+                                        </div>
+                                        <div class="mt-3">
+                                            <label for="volume-control" class="form-label">Volume Control:</label>
+                                            <input type="range" id="volume-control" class="form-range" min="0" max="100" value="50">
+                                            <small class="text-muted">Volume: <span id="volume-display">50</span>%</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5>Audio Status</h5>
+                                        <div id="audio-status" class="audio-status">
+                                            <p class="text-muted">Click a sound button to test audio functionality</p>
+                                        </div>
+                                        <div class="mt-3">
+                                            <button id="test-all-sounds-btn" class="btn btn-primary">Test All Sounds</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Animations Demo -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">JavaScript Animations</h3>
+                            <p class="card-text">Demonstrates various animations triggered by JavaScript:</p>
+                            <div class="animations-demo">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5>Animation Controls</h5>
+                                        <div class="animation-controls">
+                                            <button id="fade-in-btn" class="btn btn-primary me-2 mb-2">Fade In</button>
+                                            <button id="fade-out-btn" class="btn btn-secondary me-2 mb-2">Fade Out</button>
+                                            <button id="slide-in-btn" class="btn btn-success me-2 mb-2">Slide In</button>
+                                            <button id="bounce-btn" class="btn btn-warning me-2 mb-2">Bounce</button>
+                                            <button id="rotate-btn" class="btn btn-info me-2 mb-2">Rotate</button>
+                                            <button id="pulse-btn" class="btn btn-danger me-2 mb-2">Pulse</button>
+                                        </div>
+                                        <div class="mt-3">
+                                            <button id="reset-animations-btn" class="btn btn-outline-secondary">Reset All</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5>Animation Target</h5>
+                                        <div id="animation-target" class="animation-target">
+                                            <div class="animated-element">
+                                                <h4>🎮 Gaming Element</h4>
+                                                <p>This element will be animated!</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

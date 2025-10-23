@@ -1,11 +1,12 @@
 // Assignment Demo JavaScript (unique selectors)
-
 document.addEventListener('DOMContentLoaded', function() {
+
     // Form Validation
     const registrationForm = document.getElementById('assignment-registration-form');
     if (registrationForm) {
         registrationForm.addEventListener('submit', function(e) {
             let valid = true;
+
             const email = document.getElementById('assignment-email');
             const emailError = document.getElementById('assignment-email-error');
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 emailError.textContent = '';
             }
+
             const password = document.getElementById('assignment-password');
             const passwordError = document.getElementById('assignment-password-error');
             if (!password.value) {
@@ -29,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 passwordError.textContent = '';
             }
+
             const confirmPassword = document.getElementById('assignment-confirm-password');
             const confirmPasswordError = document.getElementById('assignment-confirm-password-error');
             if (!confirmPassword.value) {
@@ -40,14 +43,14 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 confirmPasswordError.textContent = '';
             }
+
             if (!valid) {
                 e.preventDefault();
+            } else {
+                alert("Successfully registered");
             }
-            if (valid) {
-            alert("Succesfully registered");
-            }
-        }
-        );
+        });
+    } // <-- ЭТОЙ СКОБКИ НЕ ХВАТАЛО
 
     // Accordion
     const questions = document.querySelectorAll('.assignment-accordion-question');
@@ -106,12 +109,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // Date and Time
     function updateDateTime() {
         const now = new Date();
-        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true };
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        };
         const display = document.getElementById('assignment-date-time-display');
         if (display) display.textContent = now.toLocaleString('ru-Kz', options);
     }
     updateDateTime();
     setInterval(updateDateTime, 1000);
+
+    // --- Всё остальное остаётся без изменений ---
+    // (остальные функции: звёздочки, темы, галерея, фильтры, формы, язык и т.д.)
+
+});
+
 
     // DOM Manipulation Features
     
@@ -194,13 +210,13 @@ document.addEventListener('DOMContentLoaded', function() {
             isExpanded = !isExpanded;
             
             if (isExpanded) {
-                hiddenContent.style.display = 'block';
+                hiddenContent.classList.remove('is-hidden');
                 hiddenContent.classList.add('show');
                 this.textContent = 'Read Less';
                 this.classList.remove('btn-outline-primary');
                 this.classList.add('btn-outline-secondary');
             } else {
-                hiddenContent.style.display = 'none';
+                hiddenContent.classList.add('is-hidden');
                 hiddenContent.classList.remove('show');
                 this.textContent = 'Read More';
                 this.classList.remove('btn-outline-secondary');
@@ -459,10 +475,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Contact Form with Async Submission
-    const contactForm = document.getElementById('contact-form');
-    const contactFeedback = document.getElementById('contact-feedback');
+    const contactForm = document.getElementById('contact-form') || document.querySelector('.form_section form, form.needs-validation');
+    let contactFeedback = document.getElementById('contact-feedback');
     
-    if (contactForm && contactFeedback) {
+    if (contactForm) {
+        if (!contactFeedback) {
+            contactFeedback = document.createElement('div');
+            contactFeedback.id = 'contact-feedback';
+            contactFeedback.className = 'contact-feedback mt-3';
+            contactForm.parentElement.appendChild(contactFeedback);
+        }
+        
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -473,9 +496,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get form data
             const formData = new FormData(contactForm);
             const data = {
-                name: formData.get('name') || document.getElementById('contact-name').value,
-                email: formData.get('email') || document.getElementById('contact-email').value,
-                message: formData.get('message') || document.getElementById('contact-message').value
+                name: formData.get('name') || (document.getElementById('contact-name') ? document.getElementById('contact-name').value : (document.getElementById('name') ? document.getElementById('name').value : '')),
+                email: formData.get('email') || (document.getElementById('contact-email') ? document.getElementById('contact-email').value : (document.getElementById('email') ? document.getElementById('email').value : '')),
+                message: formData.get('message') || (document.getElementById('contact-message') ? document.getElementById('contact-message').value : (document.getElementById('message') ? document.getElementById('message').value : ''))
             };
             
             // Simulate async submission
@@ -484,7 +507,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 contactFeedback.className = 'contact-feedback success';
                 contactFeedback.innerHTML = `
                     <p>✅ Message sent successfully!</p>
-                    <p>Thank you, ${data.name}! We'll get back to you soon.</p>
+                    <p>Thank you, ${data.name || 'friend'}! We'll get back to you soon.</p>
                 `;
                 
                 // Reset form
@@ -558,12 +581,17 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Update navigation buttons
             prevBtn.disabled = currentStep === 1;
-            nextBtn.style.display = currentStep < totalSteps ? 'inline-block' : 'none';
-            submitBtn.style.display = currentStep === totalSteps ? 'inline-block' : 'none';
+            if (currentStep < totalSteps) {
+                nextBtn.classList.remove('d-none');
+                submitBtn.classList.add('d-none');
+            } else {
+                nextBtn.classList.add('d-none');
+                submitBtn.classList.remove('d-none');
+            }
             
             // Update progress
             const progress = (currentStep / totalSteps) * 100;
-            progressBar.style.width = `${progress}%`;
+            if (progressBar) progressBar.style.width = `${progress}%`;
             progressText.textContent = `Step ${currentStep} of ${totalSteps}`;
         }
         
@@ -819,4 +847,461 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 1000);
         });
     }
-});
+
+    // Advanced JavaScript Features
+    
+    // JavaScript Objects and Methods - Game Library Management
+    class GameLibrary {
+        constructor() {
+            this.games = [];
+            this.nextId = 1;
+        }
+        
+        addGame(name, genre, rating) {
+            const game = {
+                id: this.nextId++,
+                name: name,
+                genre: genre,
+                rating: rating,
+                dateAdded: new Date().toLocaleDateString()
+            };
+            this.games.push(game);
+            return game;
+        }
+        
+        getAllGames() {
+            return this.games;
+        }
+        
+        sortByRating() {
+            return this.games.sort((a, b) => b.rating - a.rating);
+        }
+        
+        getGamesByGenre(genre) {
+            return this.games.filter(game => game.genre.toLowerCase() === genre.toLowerCase());
+        }
+        
+        getAverageRating() {
+            if (this.games.length === 0) return 0;
+            const total = this.games.reduce((sum, game) => sum + game.rating, 0);
+            return (total / this.games.length).toFixed(2);
+        }
+        
+        getTotalGames() {
+            return this.games.length;
+        }
+    }
+    
+    const gameLibrary = new GameLibrary();
+    
+    // Initialize with sample games
+    gameLibrary.addGame("Minecraft", "Sandbox", 9);
+    gameLibrary.addGame("Hollow Knight", "Metroidvania", 8);
+    gameLibrary.addGame("Dark Souls 3", "Action RPG", 9);
+    gameLibrary.addGame("Hearts of Iron 4", "Strategy", 7);
+    
+    // Game Library Form Handler
+    const addGameForm = document.getElementById('add-game-form');
+    const gameLibraryDisplay = document.getElementById('game-library-display');
+    const sortGamesBtn = document.getElementById('sort-games-btn');
+    
+    if (addGameForm && gameLibraryDisplay) {
+        addGameForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('game-name').value;
+            const genre = document.getElementById('game-genre').value;
+            const rating = parseInt(document.getElementById('game-rating').value);
+            
+            const newGame = gameLibrary.addGame(name, genre, rating);
+            displayGames();
+            
+            // Clear form
+            addGameForm.reset();
+            
+            // Show success message
+            showNotification(`Game "${name}" added successfully!`, 'success');
+        });
+    }
+    
+    if (sortGamesBtn) {
+        sortGamesBtn.addEventListener('click', function() {
+            const sortedGames = gameLibrary.sortByRating();
+            displayGames(sortedGames);
+            this.textContent = 'Sorted by Rating ✓';
+            setTimeout(() => {
+                this.textContent = 'Sort by Rating';
+            }, 2000);
+        });
+    }
+    
+    function displayGames(games = null) {
+        if (!gameLibraryDisplay) return;
+        
+        const gamesToShow = games || gameLibrary.getAllGames();
+        gameLibraryDisplay.innerHTML = '';
+        
+        if (gamesToShow.length === 0) {
+            gameLibraryDisplay.innerHTML = '<p class="text-muted">No games in library</p>';
+            return;
+        }
+        
+        gamesToShow.forEach(game => {
+            const gameElement = document.createElement('div');
+            gameElement.className = 'game-item-display';
+            gameElement.innerHTML = `
+                <h6>${game.name}</h6>
+                <p class="mb-1"><strong>Genre:</strong> ${game.genre}</p>
+                <p class="mb-1"><strong>Rating:</strong> <span class="game-rating">${game.rating}/10</span></p>
+                <small class="text-muted">Added: ${game.dateAdded}</small>
+            `;
+            gameLibraryDisplay.appendChild(gameElement);
+        });
+    }
+    
+    // Initialize display
+    displayGames();
+    
+    // Arrays and Loops Demo
+    const achievementsData = [
+        "First Victory", "Speed Runner", "Collector", "Explorer", "Master Builder",
+        "Boss Slayer", "Treasure Hunter", "Puzzle Solver", "Team Player", "Legend"
+    ];
+    
+    const playerStats = [
+        { label: "Games Played", value: 0 },
+        { label: "Hours Played", value: 0 },
+        { label: "Achievements", value: 0 },
+        { label: "High Score", value: 0 }
+    ];
+    
+    const generateAchievementsBtn = document.getElementById('generate-achievements-btn');
+    const achievementsList = document.getElementById('achievements-list');
+    const calculateStatsBtn = document.getElementById('calculate-stats-btn');
+    const statsDisplay = document.getElementById('stats-display');
+    
+    if (generateAchievementsBtn && achievementsList) {
+        generateAchievementsBtn.addEventListener('click', function() {
+            achievementsList.innerHTML = '';
+            
+            // Use for loop to generate random achievements
+            const numAchievements = Math.floor(Math.random() * 5) + 3;
+            const usedAchievements = new Set();
+            
+            for (let i = 0; i < numAchievements; i++) {
+                let randomAchievement;
+                do {
+                    randomAchievement = achievementsData[Math.floor(Math.random() * achievementsData.length)];
+                } while (usedAchievements.has(randomAchievement));
+                
+                usedAchievements.add(randomAchievement);
+                
+                const achievementElement = document.createElement('div');
+                achievementElement.className = 'achievement-item';
+                achievementElement.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>🏆 ${randomAchievement}</span>
+                        <small class="text-muted">${new Date().toLocaleDateString()}</small>
+                    </div>
+                `;
+                achievementsList.appendChild(achievementElement);
+            }
+        });
+    }
+    
+    if (calculateStatsBtn && statsDisplay) {
+        calculateStatsBtn.addEventListener('click', function() {
+            statsDisplay.innerHTML = '';
+            
+            // Use while loop to calculate random stats
+            let i = 0;
+            while (i < playerStats.length) {
+                const stat = playerStats[i];
+                stat.value = Math.floor(Math.random() * 1000) + 100;
+                
+                const statElement = document.createElement('div');
+                statElement.className = 'stat-item-display';
+                statElement.innerHTML = `
+                    <div class="stat-value">${stat.value}</div>
+                    <div class="stat-label">${stat.label}</div>
+                `;
+                statsDisplay.appendChild(statElement);
+                i++;
+            }
+        });
+    }
+    
+    // Higher-Order Functions Demo
+    const gameCollection = [
+        { name: "Minecraft", rating: 9, genre: "Sandbox" },
+        { name: "Hollow Knight", rating: 8, genre: "Metroidvania" },
+        { name: "Dark Souls 3", rating: 9, genre: "Action RPG" },
+        { name: "Hearts of Iron 4", rating: 7, genre: "Strategy" },
+        { name: "Among Us", rating: 6, genre: "Social" },
+        { name: "The Witcher 3", rating: 10, genre: "RPG" }
+    ];
+    
+    const gameCollectionDisplay = document.getElementById('game-collection');
+    const filterHighRatedBtn = document.getElementById('filter-high-rated-btn');
+    const filteredGamesDisplay = document.getElementById('filtered-games-display');
+    const mapGameNamesBtn = document.getElementById('map-game-names-btn');
+    const mappedNamesDisplay = document.getElementById('mapped-names-display');
+    
+    // Display initial collection using forEach
+    function displayGameCollection(games, container) {
+        if (!container) return;
+        
+        container.innerHTML = '';
+        games.forEach(game => {
+            const gameElement = document.createElement('div');
+            gameElement.className = 'collection-game-item';
+            gameElement.innerHTML = `
+                <div class="game-name">${game.name}</div>
+                <div class="game-rating">Rating: ${game.rating}/10</div>
+                <small class="text-muted">Genre: ${game.genre}</small>
+            `;
+            container.appendChild(gameElement);
+        });
+    }
+    
+    // Initialize collection display
+    displayGameCollection(gameCollection, gameCollectionDisplay);
+    
+    if (filterHighRatedBtn && filteredGamesDisplay) {
+        filterHighRatedBtn.addEventListener('click', function() {
+            // Use filter higher-order function
+            const highRatedGames = gameCollection.filter(game => game.rating > 7);
+            displayGameCollection(highRatedGames, filteredGamesDisplay);
+            this.textContent = `Found ${highRatedGames.length} High Rated Games`;
+        });
+    }
+    
+    if (mapGameNamesBtn && mappedNamesDisplay) {
+        mapGameNamesBtn.addEventListener('click', function() {
+            // Use map higher-order function
+            const gameNames = gameCollection.map(game => game.name.toUpperCase());
+            
+            mappedNamesDisplay.innerHTML = '';
+            gameNames.forEach(name => {
+                const nameElement = document.createElement('div');
+                nameElement.className = 'mapped-name-item';
+                nameElement.textContent = name;
+                mappedNamesDisplay.appendChild(nameElement);
+            });
+            
+            this.textContent = `Mapped ${gameNames.length} Names`;
+        });
+    }
+    
+    // Sound Effects Demo
+    class AudioManager {
+        constructor() {
+            this.audioContext = null;
+            this.volume = 0.5;
+            this.initAudio();
+        }
+        
+        initAudio() {
+            try {
+                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            } catch (e) {
+                console.log('Web Audio API not supported');
+            }
+        }
+        
+        playTone(frequency, duration, type = 'sine') {
+            if (!this.audioContext) return;
+            
+            const oscillator = this.audioContext.createOscillator();
+            const gainNode = this.audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(this.audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
+            oscillator.type = type;
+            
+            gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(this.volume, this.audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + duration);
+            
+            oscillator.start(this.audioContext.currentTime);
+            oscillator.stop(this.audioContext.currentTime + duration);
+        }
+        
+        playSuccessSound() {
+            this.playTone(523, 0.2); // C5
+            setTimeout(() => this.playTone(659, 0.2), 100); // E5
+            setTimeout(() => this.playTone(784, 0.3), 200); // G5
+        }
+        
+        playErrorSound() {
+            this.playTone(200, 0.5, 'sawtooth');
+        }
+        
+        playNotificationSound() {
+            this.playTone(800, 0.1);
+            setTimeout(() => this.playTone(600, 0.1), 150);
+            setTimeout(() => this.playTone(400, 0.1), 300);
+        }
+        
+        playVictorySound() {
+            const notes = [523, 659, 784, 1047]; // C5, E5, G5, C6
+            notes.forEach((note, index) => {
+                setTimeout(() => this.playTone(note, 0.3), index * 150);
+            });
+        }
+        
+        setVolume(volume) {
+            this.volume = volume / 100;
+        }
+    }
+    
+    const audioManager = new AudioManager();
+    
+    // Sound effect buttons
+    const playSuccessSoundBtn = document.getElementById('play-success-sound');
+    const playErrorSoundBtn = document.getElementById('play-error-sound');
+    const playNotificationSoundBtn = document.getElementById('play-notification-sound');
+    const playVictorySoundBtn = document.getElementById('play-victory-sound');
+    const testAllSoundsBtn = document.getElementById('test-all-sounds-btn');
+    const volumeControl = document.getElementById('volume-control');
+    const volumeDisplay = document.getElementById('volume-display');
+    const audioStatus = document.getElementById('audio-status');
+    
+    if (playSuccessSoundBtn) {
+        playSuccessSoundBtn.addEventListener('click', function() {
+            audioManager.playSuccessSound();
+            updateAudioStatus('Success sound played!', 'success');
+        });
+    }
+    
+    if (playErrorSoundBtn) {
+        playErrorSoundBtn.addEventListener('click', function() {
+            audioManager.playErrorSound();
+            updateAudioStatus('Error sound played!', 'error');
+        });
+    }
+    
+    if (playNotificationSoundBtn) {
+        playNotificationSoundBtn.addEventListener('click', function() {
+            audioManager.playNotificationSound();
+            updateAudioStatus('Notification sound played!', 'success');
+        });
+    }
+    
+    if (playVictorySoundBtn) {
+        playVictorySoundBtn.addEventListener('click', function() {
+            audioManager.playVictorySound();
+            updateAudioStatus('Victory sound played!', 'success');
+        });
+    }
+    
+    if (testAllSoundsBtn) {
+        testAllSoundsBtn.addEventListener('click', function() {
+            updateAudioStatus('Playing all sounds...', 'success');
+            audioManager.playSuccessSound();
+            setTimeout(() => audioManager.playNotificationSound(), 1000);
+            setTimeout(() => audioManager.playVictorySound(), 2000);
+        });
+    }
+    
+    if (volumeControl && volumeDisplay) {
+        volumeControl.addEventListener('input', function() {
+            const volume = this.value;
+            volumeDisplay.textContent = volume;
+            audioManager.setVolume(volume);
+        });
+    }
+    
+    function updateAudioStatus(message, type) {
+        if (!audioStatus) return;
+        
+        audioStatus.innerHTML = `<p class="status-${type}">${message}</p>`;
+        setTimeout(() => {
+            audioStatus.innerHTML = '<p class="text-muted">Click a sound button to test audio functionality</p>';
+        }, 3000);
+    }
+    
+    // Animations Demo
+    const animationTarget = document.getElementById('animation-target');
+    const animatedElement = animationTarget ? animationTarget.querySelector('.animated-element') : null;
+    
+    const fadeInBtn = document.getElementById('fade-in-btn');
+    const fadeOutBtn = document.getElementById('fade-out-btn');
+    const slideInBtn = document.getElementById('slide-in-btn');
+    const bounceBtn = document.getElementById('bounce-btn');
+    const rotateBtn = document.getElementById('rotate-btn');
+    const pulseBtn = document.getElementById('pulse-btn');
+    const resetAnimationsBtn = document.getElementById('reset-animations-btn');
+    
+    function applyAnimation(animationClass) {
+        if (!animatedElement) return;
+        
+        // Remove all animation classes
+        animatedElement.classList.remove('fade-in', 'fade-out', 'slide-in', 'bounce', 'rotate', 'pulse');
+        
+        // Force reflow
+        animatedElement.offsetHeight;
+        
+        // Add new animation class
+        animatedElement.classList.add(animationClass);
+        
+        // Remove animation class after animation completes
+        setTimeout(() => {
+            animatedElement.classList.remove(animationClass);
+        }, 1000);
+    }
+    
+    if (fadeInBtn) {
+        fadeInBtn.addEventListener('click', () => applyAnimation('fade-in'));
+    }
+    
+    if (fadeOutBtn) {
+        fadeOutBtn.addEventListener('click', () => applyAnimation('fade-out'));
+    }
+    
+    if (slideInBtn) {
+        slideInBtn.addEventListener('click', () => applyAnimation('slide-in'));
+    }
+    
+    if (bounceBtn) {
+        bounceBtn.addEventListener('click', () => applyAnimation('bounce'));
+    }
+    
+    if (rotateBtn) {
+        rotateBtn.addEventListener('click', () => applyAnimation('rotate'));
+    }
+    
+    if (pulseBtn) {
+        pulseBtn.addEventListener('click', () => applyAnimation('pulse'));
+    }
+    
+    if (resetAnimationsBtn) {
+        resetAnimationsBtn.addEventListener('click', function() {
+            if (animatedElement) {
+                animatedElement.classList.remove('fade-in', 'fade-out', 'slide-in', 'bounce', 'rotate', 'pulse');
+                animatedElement.style.transform = '';
+                animatedElement.style.opacity = '';
+            }
+        });
+    }
+    
+    // Utility function for notifications
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `alert alert-${type === 'success' ? 'success' : 'info'} alert-dismissible fade show position-fixed`;
+        notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        notification.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 3000);
+    }
