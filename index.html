@@ -414,6 +414,390 @@
         <h2>Current Date and Time</h2>
         <div id="assignment-date-time-display"></div>
     </section>
+
+    <!-- DOM Manipulation Demo Section -->
+    <section class="dom-demo-section mt-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Interactive Features Demo</h2>
+            
+            <!-- Star Rating System -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Rate Our Games</h3>
+                            <p class="card-text">Click on the stars to rate your favorite games:</p>
+                            <div class="rating-container mb-3">
+                                <div class="game-rating">
+                                    <h5>Minecraft</h5>
+                                    <div class="stars" data-game="minecraft">
+                                        <span class="star" data-rating="1">★</span>
+                                        <span class="star" data-rating="2">★</span>
+                                        <span class="star" data-rating="3">★</span>
+                                        <span class="star" data-rating="4">★</span>
+                                        <span class="star" data-rating="5">★</span>
+                                    </div>
+                                    <span class="rating-text">Click to rate</span>
+                                </div>
+                                <div class="game-rating">
+                                    <h5>Hollow Knight</h5>
+                                    <div class="stars" data-game="hollow-knight">
+                                        <span class="star" data-rating="1">★</span>
+                                        <span class="star" data-rating="2">★</span>
+                                        <span class="star" data-rating="3">★</span>
+                                        <span class="star" data-rating="4">★</span>
+                                        <span class="star" data-rating="5">★</span>
+                                    </div>
+                                    <span class="rating-text">Click to rate</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theme Toggle -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Theme Toggle</h3>
+                            <p class="card-text">Switch between day and night themes:</p>
+                            <button id="theme-toggle-btn" class="btn btn-primary">Switch to Night Mode</button>
+                            <div class="theme-preview mt-3">
+                                <div class="preview-box">
+                                    <h5>Preview Box</h5>
+                                    <p>This box will change colors with the theme</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Read More Functionality -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Read More Demo</h3>
+                            <p class="card-text">Click the button to expand content:</p>
+                            <div class="read-more-content">
+                                <p>This is the initial content that is always visible. It provides a brief overview of what the user can expect to learn more about.</p>
+                                <div class="hidden-content" style="display: none;">
+                                    <p>This is the additional content that appears when you click "Read More". It contains detailed information, additional paragraphs, and more comprehensive details about the topic. This content was previously hidden and becomes visible through JavaScript manipulation of the display property.</p>
+                                    <p>You can include multiple paragraphs, images, lists, or any other HTML content in this expandable section. The content smoothly transitions in and out based on user interaction.</p>
+                                    <ul>
+                                        <li>Feature 1: Dynamic content visibility</li>
+                                        <li>Feature 2: Smooth transitions</li>
+                                        <li>Feature 3: User-controlled expansion</li>
+                                    </ul>
+                                </div>
+                                <button id="read-more-btn" class="btn btn-outline-primary mt-2">Read More</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Gallery -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Image Gallery</h3>
+                            <p class="card-text">Click thumbnails to view larger images:</p>
+                            <div class="image-gallery">
+                                <div class="main-image-container">
+                                    <img id="main-gallery-image" src="images/Minecraft.jpg" alt="Main Gallery Image" class="main-gallery-image">
+                                    <div class="image-caption">
+                                        <h5 id="image-title">Minecraft</h5>
+                                        <p id="image-description">Build, explore, and survive in an infinite world of creativity</p>
+                                    </div>
+                                </div>
+                                <div class="thumbnail-container">
+                                    <div class="thumbnail" data-src="images/Minecraft.jpg" data-title="Minecraft" data-desc="Build, explore, and survive in an infinite world of creativity">
+                                        <img src="images/Minecraft.jpg" alt="Minecraft Thumbnail">
+                                    </div>
+                                    <div class="thumbnail" data-src="images/HollowKnight.jpeg" data-title="Hollow Knight" data-desc="Explore the depths of Hallownest in this beautiful metroidvania">
+                                        <img src="images/HollowKnight.jpeg" alt="Hollow Knight Thumbnail">
+                                    </div>
+                                    <div class="thumbnail" data-src="images/DarkSouls.jpg" data-title="Dark Souls 3" data-desc="Face the ultimate challenge in this punishing action RPG">
+                                        <img src="images/DarkSouls.jpg" alt="Dark Souls 3 Thumbnail">
+                                    </div>
+                                    <div class="thumbnail" data-src="images/Hoi4.jpg" data-title="Hearts of Iron 4" data-desc="Command nations in this grand strategy World War II simulation">
+                                        <img src="images/Hoi4.jpg" alt="Hearts of Iron 4 Thumbnail">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Greeting -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Personal Greeting</h3>
+                            <p class="card-text">Enter your name to get a personalized greeting:</p>
+                            <div class="greeting-container">
+                                <div class="input-group mb-3">
+                                    <input type="text" id="name-input" class="form-control" placeholder="Enter your name">
+                                    <button id="greeting-btn" class="btn btn-primary">Update Greeting</button>
+                                </div>
+                                <div id="greeting-display" class="greeting-display">
+                                    <h4>Welcome to GoldMine Gaming Platform!</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Random Content Fetcher -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Random Gaming Facts</h3>
+                            <p class="card-text">Click the button to get a random gaming fact or quote:</p>
+                            <button id="random-content-btn" class="btn btn-primary mb-3">Get Random Fact</button>
+                            <div id="random-content-display" class="random-content-display">
+                                <p class="text-muted">Click the button above to get a random gaming fact!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Handling Demo Section -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="text-center mb-4">Event Handling Features</h2>
+                </div>
+            </div>
+
+            <!-- Current Time Display -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Current Time Display</h3>
+                            <p class="card-text">Click the button to show the current time:</p>
+                            <button id="time-display-btn" class="btn btn-primary mb-3">Show Current Time</button>
+                            <div id="time-display-area" class="time-display-area">
+                                <p class="text-muted">Click the button above to see the current time!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Keyboard Navigation Demo -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Keyboard Navigation</h3>
+                            <p class="card-text">Use arrow keys to navigate between menu items (focus on this area first):</p>
+                            <div class="keyboard-nav-demo">
+                                <nav class="keyboard-nav-menu" tabindex="0">
+                                    <div class="nav-item" tabindex="0">Home</div>
+                                    <div class="nav-item" tabindex="0">Games</div>
+                                    <div class="nav-item" tabindex="0">News</div>
+                                    <div class="nav-item" tabindex="0">About</div>
+                                    <div class="nav-item" tabindex="0">Contact</div>
+                                </nav>
+                                <p class="text-muted mt-2">Use ← → arrow keys to navigate, Enter to select</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form with Async Submission -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Contact Form (Async Submission)</h3>
+                            <p class="card-text">Fill out the form and submit it asynchronously:</p>
+                            <form id="contact-form" class="contact-form">
+                                <div class="mb-3">
+                                    <label for="contact-name" class="form-label">Name:</label>
+                                    <input type="text" id="contact-name" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contact-email" class="form-label">Email:</label>
+                                    <input type="email" id="contact-email" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contact-message" class="form-label">Message:</label>
+                                    <textarea id="contact-message" class="form-control" rows="4" required></textarea>
+                                </div>
+                                <button type="submit" id="contact-submit-btn" class="btn btn-primary">Send Message</button>
+                            </form>
+                            <div id="contact-feedback" class="contact-feedback mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-Step Form -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Multi-Step Registration Form</h3>
+                            <p class="card-text">Navigate through the registration steps:</p>
+                            <form id="multi-step-form" class="multi-step-form">
+                                <!-- Step 1: Personal Information -->
+                                <div class="form-step active" data-step="1">
+                                    <h5>Step 1: Personal Information</h5>
+                                    <div class="mb-3">
+                                        <label for="reg-firstname" class="form-label">First Name:</label>
+                                        <input type="text" id="reg-firstname" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reg-lastname" class="form-label">Last Name:</label>
+                                        <input type="text" id="reg-lastname" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reg-age" class="form-label">Age:</label>
+                                        <input type="number" id="reg-age" class="form-control" min="13" required>
+                                    </div>
+                                </div>
+
+                                <!-- Step 2: Account Details -->
+                                <div class="form-step" data-step="2">
+                                    <h5>Step 2: Account Details</h5>
+                                    <div class="mb-3">
+                                        <label for="reg-username" class="form-label">Username:</label>
+                                        <input type="text" id="reg-username" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reg-email" class="form-label">Email:</label>
+                                        <input type="email" id="reg-email" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reg-password" class="form-label">Password:</label>
+                                        <input type="password" id="reg-password" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3: Preferences -->
+                                <div class="form-step" data-step="3">
+                                    <h5>Step 3: Gaming Preferences</h5>
+                                    <div class="mb-3">
+                                        <label for="reg-favorite-genre" class="form-label">Favorite Genre:</label>
+                                        <select id="reg-favorite-genre" class="form-select" required>
+                                            <option value="">Select a genre</option>
+                                            <option value="action">Action</option>
+                                            <option value="rpg">RPG</option>
+                                            <option value="strategy">Strategy</option>
+                                            <option value="sports">Sports</option>
+                                            <option value="puzzle">Puzzle</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Gaming Experience:</label>
+                                        <div class="form-check">
+                                            <input type="radio" id="exp-beginner" name="experience" value="beginner" class="form-check-input">
+                                            <label for="exp-beginner" class="form-check-label">Beginner</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" id="exp-intermediate" name="experience" value="intermediate" class="form-check-input">
+                                            <label for="exp-intermediate" class="form-check-label">Intermediate</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" id="exp-advanced" name="experience" value="advanced" class="form-check-input">
+                                            <label for="exp-advanced" class="form-check-label">Advanced</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Navigation Buttons -->
+                                <div class="form-navigation">
+                                    <button type="button" id="prev-step-btn" class="btn btn-secondary" disabled>Previous</button>
+                                    <button type="button" id="next-step-btn" class="btn btn-primary">Next</button>
+                                    <button type="submit" id="submit-form-btn" class="btn btn-success" style="display: none;">Complete Registration</button>
+                                </div>
+                            </form>
+                            <div id="form-progress" class="form-progress mt-3">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 33%"></div>
+                                </div>
+                                <small class="text-muted">Step 1 of 3</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Filtering System -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Game Filtering System</h3>
+                            <p class="card-text">Filter games by category and price range:</p>
+                            <div class="filter-controls mb-4">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="category-filter" class="form-label">Category:</label>
+                                        <select id="category-filter" class="form-select">
+                                            <option value="all">All Categories</option>
+                                            <option value="action">Action</option>
+                                            <option value="rpg">RPG</option>
+                                            <option value="strategy">Strategy</option>
+                                            <option value="sports">Sports</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="price-filter" class="form-label">Price Range:</label>
+                                        <select id="price-filter" class="form-select">
+                                            <option value="all">All Prices</option>
+                                            <option value="free">Free</option>
+                                            <option value="under-20">Under $20</option>
+                                            <option value="20-50">$20 - $50</option>
+                                            <option value="over-50">Over $50</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="filtered-games" class="filtered-games">
+                                <!-- Games will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Language Selector -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Language Selector</h3>
+                            <p class="card-text">Choose your preferred language:</p>
+                            <div class="language-selector">
+                                <button class="btn btn-outline-primary language-btn active" data-lang="en">English</button>
+                                <button class="btn btn-outline-primary language-btn" data-lang="ru">Русский</button>
+                                <button class="btn btn-outline-primary language-btn" data-lang="kz">Қазақша</button>
+                            </div>
+                            <div id="language-content" class="language-content mt-3">
+                                <h4 id="welcome-text">Welcome to GoldMine Gaming Platform!</h4>
+                                <p id="description-text">Discover amazing games and connect with fellow gamers.</p>
+                                <p id="features-text">Features: Game Discovery, Expert Reviews, Community Hub</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     </div>
 </div>
 <footer class="mt-5 py-4">
