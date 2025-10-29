@@ -9,6 +9,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
+<div id="scroll-progress">
+    <div id="scroll-progress-bar"></div>
+    <div id="scroll-progress-glow"></div>
+    <div id="scroll-progress-stripes"></div>
+</div>
 <!-- Skip to main content link for screen readers -->
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation" aria-label="Main navigation">
@@ -161,6 +166,40 @@
                     </div>
                 </div>
             </section>
+
+<!-- Animated Stats Counters -->
+<section class="container py-5">
+    <div class="row justify-content-center text-center">
+        <div class="col-12 mb-4">
+            <h2 class="fw-bold">GoldMine in Numbers</h2>
+            <p class="text-muted">Real-time stats that count up when visible</p>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <div class="counter-card p-4 bg-dark text-light rounded-3 border border-warning">
+                <div class="display-5 text-warning counter" data-target="10000" data-suffix="+">0</div>
+                <div class="small text-light-50 mt-2">Games Reviewed</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <div class="counter-card p-4 bg-dark text-light rounded-3 border border-warning">
+                <div class="display-5 text-warning counter" data-target="50000" data-suffix="+">0</div>
+                <div class="small text-light-50 mt-2">Active Users</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <div class="counter-card p-4 bg-dark text-light rounded-3 border border-warning">
+                <div class="display-5 text-warning counter" data-target="120" data-suffix="+">0</div>
+                <div class="small text-light-50 mt-2">Categories</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <div class="counter-card p-4 bg-dark text-light rounded-3 border border-warning">
+                <div class="display-5 text-warning counter" data-target="5" data-suffix="+">0</div>
+                <div class="small text-light-50 mt-2">Years Experience</div>
+            </div>
+        </div>
+    </div>
+    </section>
 
             <section class="mb-5">
                 <h2 class="text-center mb-4">Popular Games</h2>

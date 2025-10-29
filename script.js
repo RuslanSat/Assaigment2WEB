@@ -548,6 +548,69 @@ document.addEventListener('DOMContentLoaded', function() {
         navbar.style.transition = 'transform 0.3s ease-in-out';
     }
 
+    // Scroll Progress Bar Logic (horizontal top)
+    const progressBar = document.getElementById('scroll-progress-bar');
+    const progressGlow = document.getElementById('scroll-progress-glow');
+    const progressStripes = document.getElementById('scroll-progress-stripes');
+
+    function updateScrollProgress() {
+        if (!progressBar) return;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const docHeight = Math.max(
+            document.body.scrollHeight, document.documentElement.scrollHeight,
+            document.body.offsetHeight, document.documentElement.offsetHeight,
+            document.body.clientHeight, document.documentElement.clientHeight
+        );
+        const winHeight = window.innerHeight || document.documentElement.clientHeight;
+        const totalScrollable = Math.max(docHeight - winHeight, 1);
+        const progress = Math.min(100, Math.max(0, (scrollTop / totalScrollable) * 100));
+        const width = progress + '%';
+        progressBar.style.width = width;
+        if (progressGlow) progressGlow.style.width = width;
+        if (progressStripes) progressStripes.style.width = width;
+    }
+
+    updateScrollProgress();
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    window.addEventListener('resize', updateScrollProgress);
+
+    // Animated Number Counters (IntersectionObserver)
+    const counters = document.querySelectorAll('.counter[data-target]');
+    const hasCounted = new WeakSet();
+
+    function animateCounter(el) {
+        const target = Number(el.getAttribute('data-target')) || 0;
+        const suffix = el.getAttribute('data-suffix') || '';
+        const durationMs = 1500; // total duration
+        const startTime = performance.now();
+        const startVal = 0;
+        function format(val) {
+            if (target >= 1000) return Math.floor(val).toLocaleString() + suffix;
+            return Math.floor(val) + suffix;
+        }
+        function step(now) {
+            const t = Math.min(1, (now - startTime) / durationMs);
+            // easeOutCubic
+            const eased = 1 - Math.pow(1 - t, 3);
+            const value = startVal + (target - startVal) * eased;
+            el.textContent = format(value);
+            if (t < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+
+    if (counters.length) {
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !hasCounted.has(entry.target)) {
+                    hasCounted.add(entry.target);
+                    animateCounter(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        counters.forEach(el => io.observe(el));
+    }
+
     // Event Handling Features
     
     // Current Time Display Button
@@ -607,6 +670,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Loading helpers for submit buttons
+    function startButtonLoading(button, loadingText = 'Please wait…') {
+        if (!button) return;
+        if (!button.dataset.originalHtml) button.dataset.originalHtml = button.innerHTML;
+        button.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>' + loadingText;
+        button.disabled = true;
+    }
+    function stopButtonLoading(button) {
+        if (!button) return;
+        button.innerHTML = button.dataset.originalHtml || 'Submit';
+        button.disabled = false;
+    }
+
     // Contact Form with Async Submission
     const contactForm = document.getElementById('contact-form') || document.querySelector('.form_section form, form.needs-validation');
     let contactFeedback = document.getElementById('contact-feedback');
@@ -621,6 +697,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            const submitButton = contactForm.querySelector('[type="submit"], button.btn-primary, button.btn');
+            startButtonLoading(submitButton);
             
             // Show loading state
             contactFeedback.className = 'contact-feedback loading';
@@ -645,6 +723,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Reset form
                 contactForm.reset();
+                stopButtonLoading(submitButton);
             }, 2000);
         });
     }
@@ -655,7 +734,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const prevBtn = document.getElementById('prev-step-btn');
     const nextBtn = document.getElementById('next-step-btn');
     const submitBtn = document.getElementById('submit-form-btn');
-    const progressBar = document.querySelector('.progress-bar');
+    const formStepProgressBar = document.querySelector('.progress-bar');
     const progressText = document.querySelector('.form-progress small');
     
     let currentStep = 1;
@@ -690,16 +769,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 if (validateCurrentStep()) {
                     // Simulate form submission
-                    submitBtn.textContent = 'Submitting...';
-                    submitBtn.disabled = true;
+                    startButtonLoading(submitBtn, 'Please wait…');
                     
                     setTimeout(() => {
                         alert('Registration completed successfully!');
                         multiStepForm.reset();
                         currentStep = 1;
                         updateFormStep();
-                        submitBtn.textContent = 'Complete Registration';
-                        submitBtn.disabled = false;
+                        stopButtonLoading(submitBtn);
                     }, 1500);
                 }
             });
@@ -724,7 +801,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Update progress
             const progress = (currentStep / totalSteps) * 100;
-            if (progressBar) progressBar.style.width = `${progress}%`;
+            if (formStepProgressBar) formStepProgressBar.style.width = `${progress}%`;
             progressText.textContent = `Step ${currentStep} of ${totalSteps}`;
         }
         
