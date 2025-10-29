@@ -1,4 +1,137 @@
 // Assignment Demo JavaScript (unique selectors)
+$(document).ready(function(){
+    console.log("jQuery is ready!");
+
+    // Live Search: real-time filter on keyup/input
+    const $input = $('#live-search-input');
+    const $listItems = $('#live-search-list .live-item');
+    const $count = $('#live-search-count');
+    const $clear = $('#live-search-clear');
+    // Autocomplete suggestions container
+    let $suggestions = $('#live-search-suggestions');
+    if (!$suggestions.length && $input.length) {
+        $suggestions = $('<ul id="live-search-suggestions" class="list-group mt-1"></ul>');
+        $input.after($suggestions);
+    }
+
+    // Build suggestions source from list items
+    function getAllItems() {
+        return $listItems.map(function(){ return $(this).text().trim(); }).get();
+    }
+
+    let activeIndex = -1; // keyboard selection
+
+    function updateList() {
+        const query = ($input.val() || '').toString().toLowerCase();
+        let visible = 0;
+        $listItems.each(function(){
+            const text = $(this).text().toLowerCase();
+            const match = text.indexOf(query) !== -1;
+            $(this).toggle(match);
+            if (match) visible++;
+        });
+        $count.text(visible);
+        updateSuggestions();
+    }
+
+    function updateSuggestions() {
+        const query = ($input.val() || '').toString().trim().toLowerCase();
+        $suggestions.empty();
+        activeIndex = -1;
+        if (!query) { return; }
+
+        const items = getAllItems();
+        const matches = items.filter(txt => txt.toLowerCase().includes(query)).slice(0, 8);
+        if (matches.length === 0) { return; }
+
+        matches.forEach((txt, i) => {
+            const $li = $('<li class="list-group-item bg-dark text-light border-secondary" role="option"></li>');
+            const re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+            $li.html(txt.replace(re, '<span class="text-warning">$1<\/span>'));
+            $li.on('mousedown', function(e){
+                e.preventDefault();
+                selectSuggestion(txt);
+            });
+            $suggestions.append($li);
+        });
+    }
+
+    function selectSuggestion(value) {
+        $input.val(value);
+        $suggestions.empty();
+        updateList();
+    }
+
+    if ($input.length && $listItems.length) {
+        // Initialize count and bind events
+        updateList();
+        $input.on('keyup input', updateList);
+        $clear.on('click', function(){
+            $input.val('');
+            updateList();
+            $input.trigger('focus');
+        });
+
+        // Keyboard navigation for suggestions
+        $input.on('keydown', function(e){
+            const items = $suggestions.children('li');
+            if (!items.length) return;
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                activeIndex = (activeIndex + 1) % items.length;
+                items.removeClass('active');
+                $(items[activeIndex]).addClass('active');
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                activeIndex = (activeIndex - 1 + items.length) % items.length;
+                items.removeClass('active');
+                $(items[activeIndex]).addClass('active');
+            } else if (e.key === 'Enter') {
+                if (activeIndex >= 0 && activeIndex < items.length) {
+                    e.preventDefault();
+                    const text = $(items[activeIndex]).text();
+                    selectSuggestion(text);
+                }
+            } else if (e.key === 'Escape') {
+                $suggestions.empty();
+            }
+        });
+    }
+    // Search Highlight Feature
+    (function(){
+        const $hSearch = $('#highlight-search');
+        const $hClear = $('#clear-highlight');
+        const $content = $('#article-content');
+        
+        if (!$hSearch.length || !$content.length) return;
+        
+        let originalHTML = $content.html();
+        
+        function highlight(searchTerm){
+            if (!searchTerm || !searchTerm.trim()){
+                $content.html(originalHTML);
+                return;
+            }
+            const term = searchTerm.trim();
+            let modified = originalHTML;
+            const regex = new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+            modified = modified.replace(regex, '<mark class="highlight-match bg-warning text-dark">$1</mark>');
+            $content.html(modified);
+        }
+        
+        $hSearch.on('input keyup', function(){
+            highlight($(this).val());
+        });
+        
+        $hClear.on('click', function(){
+            $hSearch.val('');
+            $content.html(originalHTML);
+            $hSearch.focus();
+        });
+    })();
+
+});
+
 document.addEventListener('DOMContentLoaded', function() {
 
     // Form Validation

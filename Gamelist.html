@@ -6,6 +6,7 @@
     <title>Games - GoldMine</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -29,7 +30,7 @@
                     <a class="nav-link" href="contact.html">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#categories">Categories</a>
+                    <a class="nav-link" href="Gamelist.html">Categories</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="register.html">Register</a>
@@ -180,11 +181,38 @@
                             </div>
                         </div>
                     </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Live Search Section -->
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <div class="p-4 border border-2 border-warning rounded-3 bg-dark text-light">
+                <h2 class="text-center mb-4 text-warning">Live Search</h2>
+                <p class="mb-3 text-center text-light-50">Type to filter the list below in real time.</p>
+                <input id="live-search-input" type="text" class="form-control mb-3 bg-dark text-light border-warning" placeholder="Search items...">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <small class="text-warning">Matching items: <span id="live-search-count">0</span></small>
+                    <button id="live-search-clear" type="button" class="btn btn-sm btn-outline-warning">Clear</button>
                 </div>
+                <ul id="live-search-list" class="list-group">
+                    <li class="list-group-item bg-dark text-light border-secondary live-item">Minecraft</li>
+                    <li class="list-group-item bg-dark text-light border-secondary live-item">Hollow Knight</li>
+                    <li class="list-group-item bg-dark text-light border-secondary live-item">Dark Souls 3</li>
+                    <li class="list-group-item bg-dark text-light border-secondary live-item">Hearts of Iron 4</li>
+                    <li class="list-group-item bg-dark text-light border-secondary live-item">FIFA 24</li>
+                    <li class="list-group-item bg-dark text-light border-secondary live-item">Among Us</li>
+                    <li class="list-group-item bg-dark text-light border-secondary live-item">Civilization VI</li>
+                    <li class="list-group-item bg-dark text-light border-secondary live-item">The Witcher 3</li>
+                </ul>
             </div>
         </div>
     </div>
-</div>
+    </section>
 
 <footer class="mt-5 py-4">
     <div class="container">
