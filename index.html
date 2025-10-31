@@ -206,7 +206,7 @@
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
                     <div class="col">
                         <div class="card h-100 game-bootstrap-card">
-                            <img src="images/Minecraft.jpg" class="card-img-top" alt="Minecraft">
+                            <img class="card-img-top lazy-img" src="placeholder.jpg" data-src="images/Minecraft.jpg" alt="Minecraft">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">Minecraft</h5>
                                 <p class="card-text">Sandbox survival and creativity game where you can build, explore, and survive in an infinite world of blocks.</p>
@@ -214,8 +214,8 @@
                                     <small class="text-muted">Genre: Sandbox | ⭐ 4.8</small>
                                 </div>
                                 <div class="btn-group mt-3" role="group">
-                                    <button type="button" class="btn btn-primary btn-sm">Play Now</button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm">Add to Wishlist</button>
+                                    <button type="button" class="btn btn-primary btn-sm play-btn" data-action="play" data-game="Minecraft">Play Now</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm wishlist-btn" data-action="wishlist" data-game="Minecraft">Add to Wishlist</button>
                                 </div>
                             </div>
                         </div>
@@ -231,7 +231,7 @@
                                 </div>
                                 <div class="btn-group mt-3" role="group">
                                     <button type="button" class="btn btn-primary btn-sm">Play Now</button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm">Add to Wishlist</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm wishlist-btn" data-action="wishlist" data-game="Hearts of Iron 4">Add to Wishlist</button>
                                 </div>
                             </div>
                         </div>
@@ -247,7 +247,7 @@
                                 </div>
                                 <div class="btn-group mt-3" role="group">
                                     <button type="button" class="btn btn-primary btn-sm">Play Now</button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm">Add to Wishlist</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm wishlist-btn" data-action="wishlist" data-game="Hollow Knight">Add to Wishlist</button>
                                 </div>
                             </div>
                         </div>
@@ -263,7 +263,7 @@
                                 </div>
                                 <div class="btn-group mt-3" role="group">
                                     <button type="button" class="btn btn-primary btn-sm">Play Now</button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm">Add to Wishlist</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm wishlist-btn" data-action="wishlist" data-game="Dark Souls 3">Add to Wishlist</button>
                                 </div>
                             </div>
                         </div>
@@ -278,7 +278,8 @@
                         <div class="card h-100 news-bootstrap-card">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">New Update for Minecraft</h5>
-                                <p class="card-text">The 1.21 update adds new biomes, mobs and adventures for players worldwide. Explore new dimensions and discover exciting gameplay features.</p>
+                                <p class="card-text" id="news-snippet-1">The 1.21 update adds new biomes, mobs and adventures for players worldwide. Explore new dimensions and discover exciting gameplay features.</p>
+                                <button class="copy-btn btn btn-secondary btn-sm ms-2" data-clipboard-target="#news-snippet-1">Copy News</button>
                                 <div class="news-date mt-auto mb-3">
                                     <small class="text-muted">📅 01 Oct 2025</small>
                                 </div>
@@ -290,7 +291,8 @@
                         <div class="card h-100 news-bootstrap-card">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">Cyberpunk 2077 DLC Released</h5>
-                                <p class="card-text">The long-awaited expansion brings new quests, areas, and improved gameplay mechanics to Night City.</p>
+                                <p class="card-text" id="news-snippet-2">The long-awaited expansion brings new quests, areas, and improved gameplay mechanics to Night City.</p>
+                                <button class="copy-btn btn btn-secondary btn-sm ms-2" data-clipboard-target="#news-snippet-2">Copy News</button>
                                 <div class="news-date mt-auto mb-3">
                                     <small class="text-muted">📅 28 Sep 2025</small>
                                 </div>
@@ -302,7 +304,8 @@
                         <div class="card h-100 news-bootstrap-card">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">Esports Tournament Announced</h5>
-                                <p class="card-text">International teams will compete for the biggest prize pool in gaming history with over $50 million at stake.</p>
+                                <p class="card-text" id="news-snippet-3">International teams will compete for the biggest prize pool in gaming history with over $50 million at stake.</p>
+                                <button class="copy-btn btn btn-secondary btn-sm ms-2" data-clipboard-target="#news-snippet-3">Copy News</button>
                                 <div class="news-date mt-auto mb-3">
                                     <small class="text-muted">📅 25 Sep 2025</small>
                                 </div>
@@ -1047,6 +1050,8 @@
         </div>
     </div>
 </footer>
+
+<div id="notification-toast" style="display:none; position: fixed; top: 30px; right: 30px; z-index: 2000; background: #222; color: #fff; padding: 1em 2em; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.25);"></div>
 
  
 

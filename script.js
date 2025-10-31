@@ -183,8 +183,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert("Successfully registered");
             }
         });
-    } // <-- ЭТОЙ СКОБКИ НЕ ХВАТАЛО
-
+    }
+    
     // Accordion
     const questions = document.querySelectorAll('.assignment-accordion-question');
     questions.forEach(q => {
@@ -1583,3 +1583,39 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 3000);
     }
+;
+
+// Part 3: jQuery Features for Assignment 7
+// Toast Notification System
+window.showToast = function(message) {
+    $('#notification-toast').stop(true).text(message).fadeIn(300).delay(2000).fadeOut(600);
+};
+$(document).on('click', 'button[data-action="wishlist"]', function() {
+    var game = $(this).data('game') || "Game";
+    showToast(game + ' added to your wishlist!');
+});
+// Copy to Clipboard Button
+$(document).on('click', '.copy-btn', function() {
+    var $btn = $(this);
+    var targetEl = $($btn.data('clipboard-target'))[0];
+    if (!targetEl) return;
+    var copied = targetEl.tagName === 'PRE' ? targetEl.innerText : $(targetEl).text();
+    navigator.clipboard.writeText(copied).then(function() {
+        $btn.text('✔ Copied!');
+        setTimeout(function() {
+            $btn.text('Copy');
+        }, 1200);
+    });
+});
+// Image Lazy Loading
+function lazyLoad() {
+    $('.lazy-img').each(function() {
+        var $img = $(this);
+        if ($img.attr('src') !== $img.data('src') &&
+            $img.offset().top < $(window).scrollTop() + $(window).height() + 150) {
+            $img.attr('src', $img.data('src'));
+        }
+    });
+}
+$(window).on('scroll resize', lazyLoad);
+lazyLoad();
