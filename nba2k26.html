@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBA 2K26 - GoldMine</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center fw-bold" href="index.html">
+      <img src="images/Minegoldlogo.png" width="50" height="50" class="me-2" alt="GoldMine Logo"><span class="brand-text">GoldMine</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="Gamelist.html">Categories</a></li>
+        <li class="nav-item"><span id="navbar-date-time" class="nav-link disabled text-warning"></span></li>
+        <li class="nav-item"><button id="theme-toggle-btn" class="btn btn-sm btn-outline-warning ms-lg-2 my-2 my-lg-0" type="button">Switch to Night Mode</button></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<main class="container py-5">
+  <div class="row mb-4 align-items-center">
+    <div class="col-md-5"><img src="images/nba2k26.jpg" class="img-fluid rounded" alt="NBA 2K26"></div>
+    <div class="col-md-7">
+      <h1 class="mb-3">NBA 2K26</h1>
+      <p class="lead">Next-gen basketball simulation with enhanced MyCareer, MyTeam, and realistic gameplay.</p>
+      <div class="btn-group mt-2" role="group">
+        <button type="button" class="btn btn-primary play-btn" data-action="play" data-game="NBA 2K26">Play Now</button>
+        <button type="button" class="btn btn-outline-secondary wishlist-btn" data-action="wishlist" data-game="NBA 2K26">Add to Wishlist</button>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-5"><div class="col-12"><div class="card"><div class="card-body">
+    <h3 class="card-title">Rate This Game</h3>
+    <div class="stars" data-game="NBA 2K26">
+      <span class="star" data-rating="1">★</span><span class="star" data-rating="2">★</span><span class="star" data-rating="3">★</span><span class="star" data-rating="4">★</span><span class="star" data-rating="5">★</span>
+    </div>
+    <span class="rating-text">Click to rate</span>
+  </div></div></div></div>
+  <div class="row mb-5"><div class="col-12"><div class="card"><div class="card-body">
+    <h3 class="card-title">Tips (Copy to Clipboard)</h3>
+    <pre class="snippet bg-light p-2" id="nba-tip">Tip: Master timing for green releases and optimize badges per position.</pre>
+    <button class="copy-btn btn btn-secondary mt-2" data-clipboard-target="#nba-tip">Copy</button>
+  </div></div></div></div>
+  <div class="row mb-5"><div class="col-12"><div class="card"><div class="card-body">
+    <h3 class="card-title">Gallery</h3>
+    <img class="lazy-img img-fluid border" src="placeholder.jpg" data-src="images/nba2k26.jpg" alt="NBA 2K26 screenshot">
+  </div></div></div></div>
+  <div class="row mb-5"><div class="col-12"><div class="card"><div class="card-body">
+    <h3 class="card-title">Game Sound Effects</h3>
+    <div class="sound-buttons">
+      <button id="play-success-sound" class="btn btn-success me-2 mb-2">🎉 Success Sound</button>
+      <button id="play-error-sound" class="btn btn-danger me-2 mb-2">❌ Error Sound</button>
+      <button id="play-notification-sound" class="btn btn-info me-2 mb-2">🔔 Notification</button>
+      <button id="play-victory-sound" class="btn btn-warning me-2 mb-2">🏆 Victory Sound</button>
+    </div>
+  </div></div></div></div>
+</main>
+<footer class="mt-5 py-4"><div class="container"><div class="row"><div class="col-12 text-center">
+  <p class="mb-2">© 2025 GoldMine Game Library | All Rights Reserved</p>
+  <p class="mb-0"><a href="#" class="me-3">About</a> | <a href="#" class="mx-3">Privacy Policy</a> | <a href="#" class="ms-3">Support</a></p>
+</div></div></div></footer>
+<div id="notification-toast" style="display:none; position: fixed; top: 30px; right: 30px; z-index: 2000; background: #222; color: #fff; padding: 1em 2em; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.25);"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

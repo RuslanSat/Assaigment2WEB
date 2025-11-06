@@ -19,7 +19,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
                 <li class="nav-item">
                     <a class="nav-link" href="index.html">Home</a>
                 </li>
@@ -34,6 +34,12 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="register.html">Register</a>
+                </li>
+                <li class="nav-item">
+                    <span id="navbar-date-time" class="nav-link disabled text-warning"></span>
+                </li>
+                <li class="nav-item">
+                    <button id="theme-toggle-btn" class="btn btn-sm btn-outline-warning ms-lg-2 my-2 my-lg-0" type="button">Switch to Night Mode</button>
                 </li>
             </ul>
         </div>
@@ -187,32 +193,54 @@
 </div>
 </div>
 
-<!-- Live Search Section -->
+<!-- Replace Live Search Section -->
 <section class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-8 col-md-10 col-sm-12">
             <div class="p-4 border border-2 border-warning rounded-3 bg-dark text-light">
-                <h2 class="text-center mb-4 text-warning">Live Search</h2>
-                <p class="mb-3 text-center text-light-50">Type to filter the list below in real time.</p>
-                <input id="live-search-input" type="text" class="form-control mb-3 bg-dark text-light border-warning" placeholder="Search items...">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <small class="text-warning">Matching items: <span id="live-search-count">0</span></small>
-                    <button id="live-search-clear" type="button" class="btn btn-sm btn-outline-warning">Clear</button>
-                </div>
-                <ul id="live-search-list" class="list-group">
-                    <li class="list-group-item bg-dark text-light border-secondary live-item">Minecraft</li>
-                    <li class="list-group-item bg-dark text-light border-secondary live-item">Hollow Knight</li>
-                    <li class="list-group-item bg-dark text-light border-secondary live-item">Dark Souls 3</li>
-                    <li class="list-group-item bg-dark text-light border-secondary live-item">Hearts of Iron 4</li>
-                    <li class="list-group-item bg-dark text-light border-secondary live-item">FIFA 24</li>
-                    <li class="list-group-item bg-dark text-light border-secondary live-item">Among Us</li>
-                    <li class="list-group-item bg-dark text-light border-secondary live-item">Civilization VI</li>
-                    <li class="list-group-item bg-dark text-light border-secondary live-item">The Witcher 3</li>
-                </ul>
+                <h2 class="text-center mb-4 text-warning">Search Games</h2>
+                <p class="mb-3 text-center text-light-50">Type to highlight matching games below.</p>
+                <input id="category-search-input" type="text" class="form-control mb-3 bg-dark text-light border-warning" placeholder="Search games...">
+                <small class="text-warning">Matches are highlighted; others dim.</small>
             </div>
         </div>
     </div>
-    </section>
+</section>
+
+<!-- Moved: Product Filtering System -->
+<section class="container mb-5">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Game Filtering System</h3>
+            <p class="card-text">Filter games by category and price range:</p>
+            <div class="filter-controls mb-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="category-filter" class="form-label">Category:</label>
+                        <select id="category-filter" class="form-select">
+                            <option value="all">All Categories</option>
+                            <option value="action">Action</option>
+                            <option value="rpg">RPG</option>
+                            <option value="strategy">Strategy</option>
+                            <option value="sports">Sports</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="price-filter" class="form-label">Price Range:</label>
+                        <select id="price-filter" class="form-select">
+                            <option value="all">All Prices</option>
+                            <option value="free">Free</option>
+                            <option value="under-20">Under $20</option>
+                            <option value="20-50">$20 - $50</option>
+                            <option value="over-50">Over $50</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="filtered-games" class="filtered-games"></div>
+        </div>
+    </div>
+</section>
 
 <footer class="mt-5 py-4">
     <div class="container">

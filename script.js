@@ -256,6 +256,41 @@ document.addEventListener('DOMContentLoaded', function() {
     updateDateTime();
     setInterval(updateDateTime, 1000);
 
+    // Enhance date-time updater to support navbar
+    (function(){
+        function updateGlobalDateTime(){
+            var now = new Date();
+            var options = { year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'2-digit', hour12:true };
+            var navEl = document.getElementById('navbar-date-time');
+            if (navEl) navEl.textContent = now.toLocaleString('en-US', options);
+        }
+        updateGlobalDateTime();
+        setInterval(updateGlobalDateTime, 1000);
+    })();
+
+    // Categories: search highlights on cards
+    $(document).ready(function(){
+        var $catSearch = $('#category-search-input');
+        if ($catSearch.length) {
+            $catSearch.on('input keyup', function(){
+                var q = ($(this).val() || '').toString().trim().toLowerCase();
+                var $cards = $('.game-bootstrap-card');
+                if (!q) {
+                    $cards.removeClass('search-highlight dimmed');
+                    return;
+                }
+                $cards.each(function(){
+                    var $c = $(this);
+                    var title = $c.find('.card-title').text().toLowerCase();
+                    var text = $c.find('.card-text').text().toLowerCase();
+                    var match = title.includes(q) || text.includes(q);
+                    $c.toggleClass('search-highlight', match);
+                    $c.toggleClass('dimmed', !match);
+                });
+            });
+        }
+    });
+
     // --- Всё остальное остаётся без изменений ---
     // (остальные функции: звёздочки, темы, галерея, фильтры, формы, язык и т.д.)
 
