@@ -1170,6 +1170,18 @@ footer a:hover {
     height: 180px;
 }
 
+/* Visual highlight for category search matches */
+.game-bootstrap-card.search-highlight {
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 2px rgba(212,175,55,0.6), 0 8px 28px rgba(212,175,55,0.35) !important;
+    transform: translateY(-4px);
+}
+
+.game-bootstrap-card.dimmed {
+    opacity: 0.45;
+    filter: grayscale(0.2) brightness(0.8);
+}
+
 /* News Bootstrap Cards */
 .news-bootstrap-card {
     background: rgba(255,255,255,0.02) !important;

@@ -348,30 +348,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Theme Toggle Functionality (default: dark/night)
+    // Theme Toggle Functionality
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
-    const savedTheme = localStorage.getItem('theme'); // 'night' | 'day' | null
-    let isNightTheme = (savedTheme ? savedTheme === 'night' : true);
-
-    function applyTheme() {
-        if (isNightTheme) {
-            document.body.classList.add('night-theme');
-            document.body.classList.remove('day-theme');
-            if (themeToggleBtn) themeToggleBtn.textContent = 'Switch to Light Mode';
-        } else {
-            document.body.classList.remove('night-theme');
-            document.body.classList.add('day-theme');
-            if (themeToggleBtn) themeToggleBtn.textContent = 'Switch to Dark Mode';
-        }
-        localStorage.setItem('theme', isNightTheme ? 'night' : 'day');
-    }
-
-    applyTheme();
-
+    let isNightTheme = false;
+    
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', function() {
             isNightTheme = !isNightTheme;
-            applyTheme();
+            
+            if (isNightTheme) {
+                document.body.classList.add('night-theme');
+                this.textContent = 'Switch to Day Mode';
+                this.style.background = 'linear-gradient(to right, #2d2d2d, #1a1a1a)';
+            } else {
+                document.body.classList.remove('night-theme');
+                this.textContent = 'Switch to Night Mode';
+                this.style.background = 'linear-gradient(to right, #d4af37, #b8860b)';
+            }
         });
     }
 
