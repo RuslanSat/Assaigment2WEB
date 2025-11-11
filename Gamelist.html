@@ -122,6 +122,85 @@
                 </div>
             </section>
 
+            <!-- Details Modal -->
+            <div class="modal fade" id="gbDetailsModal" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content bg-dark text-light">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="gbDetailsTitle"></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div id="gbDetailsCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+                      <div class="carousel-inner" id="gbDetailsSlides"></div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#gbDetailsCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span></button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#gbDetailsCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></button>
+                    </div>
+                    <p id="gbDetailsDesc" class="mb-3"></p>
+                    <div id="gbDetailsVideoWrap" class="ratio ratio-16x9 d-none"><iframe id="gbDetailsVideo" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+                  </div>
+                  <div class="modal-footer">
+                    <a id="gbDetailsLink" href="#" target="_blank" rel="noopener" class="btn btn-primary">Open Page</a>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- GameBrain Discover Section -->
+            <section class="mb-5">
+                <div class="card bg-transparent border-0">
+                    <div class="card-body p-0">
+                        <div class="gb-toolbar d-flex flex-wrap align-items-center justify-content-between gap-3 p-3 rounded-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <h2 class="h4 m-0 text-gold">Discover Games</h2>
+                                <span class="badge rounded-pill gb-badge" id="gb-result-count" aria-live="polite"></span>
+                            </div>
+                            <div class="d-flex flex-wrap align-items-center gap-2">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">Genre</span>
+                                    <select id="gb-genre" class="form-select" aria-label="Genre">
+                                        <option value="">Any</option>
+                                        <option value="action">Action</option>
+                                        <option value="rpg">RPG</option>
+                                        <option value="strategy">Strategy</option>
+                                        <option value="adventure">Adventure</option>
+                                        <option value="simulation">Simulation</option>
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">Limit</span>
+                                    <input type="number" id="gb-limit" class="form-control" min="1" max="50" value="12" aria-label="Limit">
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" id="gb-query" class="form-control" placeholder="Search titles..." aria-label="Search GameBrain">
+                                    <button class="btn btn-primary" id="gb-search-btn">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gb-config d-flex flex-wrap align-items-center gap-2 mt-2">
+                            <input type="text" id="gb-base-url" class="form-control form-control-sm" placeholder="https://gamebrain.co" style="max-width: 320px;" aria-label="API Base URL">
+                            <input type="password" id="gb-api-key" class="form-control form-control-sm" placeholder="API Key" style="max-width: 280px;" aria-label="API Key">
+                            <button class="btn btn-sm btn-outline-primary" id="gb-save-config">Save</button>
+                            <button class="btn btn-sm btn-outline-secondary" id="gb-clear-config">Clear</button>
+                            <small class="text-muted ms-auto">Saved locally in your browser.</small>
+                        </div>
+                        <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+                            <label for="gb-sort" class="form-label mb-0 me-1">Sort by:</label>
+                            <select id="gb-sort" class="form-select form-select-sm" style="max-width:200px" aria-label="Sorting">
+                                <option value="">Default</option>
+                            </select>
+                        </div>
+                        <div id="gb-filters" class="mt-2" aria-label="Filters"></div>
+                    </div>
+                </div>
+
+                <div id="gamebrain-grid" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3" data-endpoint-list="/api/search/games" data-endpoint-search="/api/search/games"></div>
+                <div class="d-flex justify-content-center mt-3">
+                    <button class="btn btn-outline-secondary" id="gb-load-more" style="display:none;">Load more</button>
+                </div>
+            </section>
+
             <h1 class="text-center mb-5">All Games</h1>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <div class="col">
