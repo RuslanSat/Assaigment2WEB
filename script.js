@@ -14,223 +14,7 @@ if (window.jQuery) $(document).ready(function () {
         $input.after($suggestions);
     }
 
-// Standalone GameBrain initializer (runs when jQuery blocks are skipped)
-(function(){
-    if (window.__gbInitDone) return; // prevent double init
-    const grid = document.getElementById('gamebrain-grid');
-    if (!grid) return;
-    window.__gbInitDone = true;
-
-    const baseInput = document.getElementById('gb-base-url');
-    const keyInput = document.getElementById('gb-api-key');
-    const saveBtn = document.getElementById('gb-save-config');
-    const clearBtn = document.getElementById('gb-clear-config');
-    const searchBtn = document.getElementById('gb-search-btn');
-    const queryInput = document.getElementById('gb-query');
-    const loadMoreBtn = document.getElementById('gb-load-more');
-    const genreSelect = document.getElementById('gb-genre');
-    const limitInput = document.getElementById('gb-limit');
-
-    const endpointList = grid.getAttribute('data-endpoint-list') || '/api/search/games';
-    const endpointSearch = grid.getAttribute('data-endpoint-search') || '/api/search/games';
-
-    let gbBase = localStorage.getItem('gb.base') || 'https://gamebrain.co';
-    let gbKey = localStorage.getItem('gb.key') || '';
-    let page = 1;
-    let lastQuery = '';
-    let isLoading = false;
-
-    if (baseInput) baseInput.value = gbBase;
-    if (keyInput) keyInput.value = gbKey ? '••••••••' : '';
-
-    function setStatus(loading) {
-        isLoading = loading;
-        if (searchBtn) searchBtn.disabled = loading;
-        if (loadMoreBtn) loadMoreBtn.disabled = loading;
-    }
-    function getHeaders() {
-        const headers = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
-        if (gbKey) { headers['Authorization'] = 'Bearer ' + gbKey; headers['X-API-Key'] = gbKey; }
-        return headers;
-    }
-    function normalizeGames(data) {
-        const list = Array.isArray(data) ? data
-            : (Array.isArray(data?.games) ? data.games
-            : (Array.isArray(data?.results) ? data.results
-            : (Array.isArray(data?.items) ? data.items : [])));
-        return list.map(g => {
-            const title = g.title || g.name || g.slug || 'Untitled';
-            const desc = g.short_description || g.description || g.summary || g.tagline || '';
-            // rating.mean comes 0..1; convert to 0..100 and 0..5 stars proxy
-            const mean = (typeof g.rating === 'object' && typeof g.rating.mean === 'number') ? g.rating.mean : (typeof g.rating === 'number' ? g.rating : null);
-            const rating100 = mean != null && mean <= 1 ? Math.round(mean * 100) : (mean != null ? Math.round(mean) : null);
-            const ratingStars = rating100 != null ? Math.round((rating100 / 100) * 5) : null;
-            const genres = Array.isArray(g.genres) ? g.genres : (g.genre ? [g.genre] : (g.tags || []));
-            const genreStr = g.genre || (Array.isArray(g.genres) ? g.genres[0] : '') || '';
-            const ratingCount = (typeof g.rating === 'object' && typeof g.rating.count === 'number') ? g.rating.count : (typeof g.reviews === 'number' ? g.reviews : null);
-            const platforms = Array.isArray(g.platforms) ? g.platforms.map(p => (p.name || p).toString()).slice(0,3) : [];
-            const img = g.image || g.cover || g.thumbnail || (g.images && (g.images.cover || g.images[0])) || '';
-            const url = g.link || g.url || '#';
-            const adult = !!g.adult_only;
-            const year = g.year || g.release_year || null;
-            const screenshots = Array.isArray(g.screenshots) ? g.screenshots : [];
-            const microTrailer = g.micro_trailer || '';
-            const gameplay = g.gameplay || '';
-            const id = g.id || (g.slug || title);
-            return { id, title, desc, rating100, ratingStars, ratingCount, genres, genreStr, platforms, img, url, adult, year, screenshots, microTrailer, gameplay };
-        });
-    }
-    function starRow(stars) {
-        if (stars == null) return '';
-        const s = Math.max(0, Math.min(5, stars));
-        return '<span class="text-warning">' + '★'.repeat(s) + '<span class="text-muted">' + '☆'.repeat(5 - s) + '</span></span>';
-    }
-    function badgeList(items) {
-        if (!items || !items.length) return '';
-        return items.map(txt => '<span class="badge bg-secondary me-1">'+String(txt)+'</span>').join('');
-    }
-    function kFormat(n){ if(typeof n!=='number') return ''; if(n>=1000000) return (n/1000000).toFixed(1)+'m'; if(n>=1000) return (n/1000).toFixed(1)+'k'; return String(n); }
-    function cardHTML(item) {
-        const imgSrc = item.img || 'images/placeholder-game.png';
-        const genres = Array.isArray(item.genres) ? item.genres.slice(0, 3) : [];
-        const platforms = item.platforms || [];
-        const percent = (typeof item.rating100==='number') ? (item.rating100+'%') : '';
-        const reviews = (typeof item.ratingCount==='number') ? (kFormat(item.ratingCount)+' reviews') : '';
-        const sub = [item.year, item.genreStr].filter(Boolean).join(' · ');
-        const adultOverlay = item.adult ? ('<div class="gb-adult" data-id="'+item.id+'"><div>Site contains adult content</div><button class="btn btn-success btn-sm gb-adult-enable">Enable adult content</button></div>') : '';
-        return '<div class="col">\
-          <div class="card gb-card h-100">\
-            <div class="gb-toolbar-actions">\
-              <button class="gb-action gb-action-wishlist" title="Add to wishlist">🔖</button>\
-              <button class="gb-action" title="Like">👍</button>\
-              <button class="gb-action" title="Share">🔗</button>\
-            </div>\
-            <img loading="lazy" src="'+imgSrc+'" class="card-img-top gb-img" alt="'+item.title+'" onerror="this.src=\'images/placeholder-game.png\'">\
-            '+(percent?('<div class="gb-rating"><div>'+percent+'</div><small>'+reviews+'</small></div>'):'')+'\
-            '+adultOverlay+'\
-            <div class="gb-meta-strip">\
-              <h5 class="gb-title">'+item.title+'</h5>\
-              <div class="gb-sub">'+(sub||'')+'</div>\
-              <div class="gb-pills">'+(platforms.slice(0,3).map(p=>'<span class="gb-pill">'+p+'</span>').join(''))+(platforms.length>3?'<span class="gb-pill gb-plus">+'+(platforms.length-3)+'</span>':'')+'</div>\
-              <div class="d-flex gap-2 mt-2">\
-                <a href="'+item.url+'" target="_blank" rel="noopener" class="btn btn-outline-light btn-sm">Open</a>\
-                <button class="btn btn-primary btn-sm gb-details" data-id="'+item.id+'">Details</button>\
-              </div>\
-            </div>\
-          </div>\
-        </div>';
-    }
-    function renderGames(list, append) {
-        const html = list.map(cardHTML).join('');
-        if (append) grid.insertAdjacentHTML('beforeend', html); else grid.innerHTML = html;
-        const badge = document.getElementById('gb-result-count');
-        if (badge) badge.textContent = list.length ? (list.length + ' results') : '';
-    }
-
-    function renderSkeletons(count){
-        const cols = new Array(count).fill(0).map(()=>'<div class="col"><div class="card h-100 game-bootstrap-card"><div class="gb-skeleton" style="height:160px"></div><div class="card-body"><div class="gb-skeleton mb-2" style="height:18px"></div><div class="gb-skeleton" style="height:48px"></div></div></div></div>').join('');
-        grid.innerHTML = cols;
-    }
-    async function fetchGames(opts) {
-        const q = (opts && opts.q) || '';
-        const pageNum = (opts && opts.pageNum) || 1;
-        if (!gbBase) return { items: [], next: false, error: 'Missing base URL' };
-        setStatus(true);
-        if (!q) { setStatus(false); return { items: [], next: false, error: '' }; }
-        try {
-            const url = new URL(endpointSearch, gbBase);
-            url.searchParams.set('name', q);
-            const res = await fetch(url.toString(), { headers: getHeaders() });
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            const data = await res.json();
-            const items = normalizeGames(data);
-            const total = Array.isArray(data?.games) ? data.games.length : (Array.isArray(items) ? items.length : undefined);
-            const next = false;
-            return { items, next, total };
-        } catch (err) {
-            console.error('GameBrain fetch error:', err);
-            return { items: [], next: false, error: String(err) };
-        } finally { setStatus(false); }
-    }
-    async function runSearch(reset) {
-        if (reset) { page = 1; lastQuery = (queryInput?.value || '').trim(); localStorage.setItem('gb.query', lastQuery); }
-        if (!lastQuery) {
-            grid.innerHTML = '<div class="col"><div class="alert alert-info">Enter a game name above and press Search.</div></div>';
-            if (loadMoreBtn) loadMoreBtn.style.display = 'none';
-            return;
-        }
-        const { items, next, error, total } = await fetchGames({ q: lastQuery, pageNum: page });
-        if (error) {
-            grid.innerHTML = '<div class="col"><div class="alert alert-danger">GameBrain request failed: ' + error.replace(/</g,'&lt;') + '</div></div>';
-            if (!gbKey) grid.insertAdjacentHTML('beforeend','<div class="col"><div class="alert alert-warning">Please set your GameBrain API base URL and API key, then click Search.</div></div>');
-            return;
-        }
-        if (reset) renderGames(items); else renderGames(items, true);
-        if (next) {
-            if (loadMoreBtn) loadMoreBtn.style.display = 'block';
-        } else {
-            if (loadMoreBtn) loadMoreBtn.style.display = 'none';
-        }
-    }
-    if (saveBtn) saveBtn.addEventListener('click', function(){
-        const base = (baseInput?.value || '').trim();
-        const keyVal = (keyInput?.value || '').trim();
-        if (base) { localStorage.setItem('gb.base', base); gbBase = base; }
-        if (keyVal && keyVal !== '••••••••') { localStorage.setItem('gb.key', keyVal); gbKey = keyVal; }
-        if (keyInput && gbKey) keyInput.value = '••••••••';
-        runSearch(true);
-    });
-    if (clearBtn) clearBtn.addEventListener('click', function(){
-        localStorage.removeItem('gb.base'); localStorage.removeItem('gb.key');
-        gbBase = ''; gbKey = '';
-        if (baseInput) baseInput.value = '';
-        if (keyInput) keyInput.value = '';
-        grid.innerHTML = '';
-        if (loadMoreBtn) loadMoreBtn.style.display = 'none';
-    });
-    if (searchBtn) searchBtn.addEventListener('click', function(){ runSearch(true); });
-    if (queryInput) {
-        let t; queryInput.addEventListener('input', function(){ clearTimeout(t); t=setTimeout(()=>runSearch(true), 400); });
-        queryInput.addEventListener('keypress', function(e){ if (e.key === 'Enter') { e.preventDefault(); runSearch(true); } });
-        const savedQ = localStorage.getItem('gb.query'); if (savedQ) queryInput.value = savedQ;
-    }
-    if (genreSelect) { const sv = localStorage.getItem('gb.genre'); if (sv) genreSelect.value = sv; }
-    if (limitInput) { const sl = localStorage.getItem('gb.limit'); if (sl) limitInput.value = sl; }
-    const sortSel = document.getElementById('gb-sort');
-    if (sortSel) {
-        // basic options to mirror screenshot
-        [['computed_rating','DESC','Rating'],['price','ASC','Price'],['release_date','DESC','Release Date']].forEach(([k,d,label])=>{
-            const opt = document.createElement('option'); opt.value = k+':'+d; opt.textContent = label; sortSel.appendChild(opt);
-        });
-        sortSel.addEventListener('change', ()=>runSearch(true));
-    }
-    // Details/modal and card actions
-    grid.addEventListener('click', function(e){
-        const btn = e.target.closest('.gb-details');
-        if (btn) {
-            e.preventDefault();
-            const id = btn.getAttribute('data-id');
-            const card = btn.closest('.gb-card');
-            const title = card.querySelector('.gb-title').textContent;
-            const img = card.querySelector('img.gb-img')?.getAttribute('src') || '';
-            const modalEl = document.getElementById('gbDetailsModal');
-            if (!modalEl) return;
-            document.getElementById('gbDetailsTitle').textContent = title;
-            document.getElementById('gbDetailsDesc').textContent = '';
-            const slides = document.getElementById('gbDetailsSlides');
-            slides.innerHTML = '<div class="carousel-item active"><img src="'+img+'" class="d-block w-100" alt="'+title+'"></div>';
-            document.getElementById('gbDetailsLink').setAttribute('href', '#');
-            const modal = new bootstrap.Modal(modalEl); modal.show();
-            return;
-        }
-        const wish = e.target.closest('.gb-action-wishlist');
-        if (wish) { wish.classList.toggle('active'); return; }
-        const adultBtn = e.target.closest('.gb-adult-enable');
-        if (adultBtn) { const wrap = adultBtn.closest('.gb-adult'); if (wrap) wrap.remove(); return; }
-    });
-    if (loadMoreBtn) loadMoreBtn.addEventListener('click', async function(){ page += 1; await runSearch(false); });
-    if (gbBase && gbKey) { runSearch(true); }
-})();
+// (GameBrain integration removed)
 
 // Build suggestions source from list items
 function getAllItems() {
@@ -296,7 +80,7 @@ if ($input.length && $listItems.length) {
         $input.trigger('focus');
     });
 
-// GameBrain block handled by standalone initializer above
+//
 
 // Keyboard navigation for suggestions
 $input.on('keydown', function (e) {
@@ -573,62 +357,554 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // RAWG.io: Recently Added Games on Categories page
+    (function(){
+        const listEl = document.getElementById('rawg-game-list');
+        const loadMoreBtn = document.getElementById('rawg-load-more');
+        const loadingEl = document.getElementById('rawg-loading');
+        const errorEl = document.getElementById('rawg-error');
+        const genreSelect = document.getElementById('rawg-genre-select');
+        const genreClearBtn = document.getElementById('rawg-genre-clear');
+        const searchInput = document.getElementById('rawg-search-input');
+        const searchClearBtn = document.getElementById('rawg-search-clear');
+        const sortSelect = document.getElementById('rawg-sort-select');
+        // Sidebar filters
+        const platChecks = Array.from(document.querySelectorAll('.rawg-plat'));
+        const yearFromEl = document.getElementById('rawg-year-from');
+        const yearToEl = document.getElementById('rawg-year-to');
+        const onlyWishlistEl = document.getElementById('rawg-only-wishlist');
+        const filtersResetBtn = document.getElementById('rawg-filters-reset');
+        if (!listEl || !loadMoreBtn) return;
+
+        const APIKEY = (typeof window.APIKEY !== 'undefined' && window.APIKEY) ? window.APIKEY : (localStorage.getItem('rawg.key') || '');
+        let nextUrl = null;
+        let selectedGenre = '';
+        let searchQuery = '';
+        let selectedOrdering = '-added';
+        let selectedPlatforms = [];
+        let yearFrom = '';
+        let yearTo = '';
+        // Restore persisted Only-wishlist switch
+        try {
+            const onlyW = localStorage.getItem('rawg.only_wishlist') === '1';
+            if (onlyWishlistEl) onlyWishlistEl.checked = onlyW;
+        } catch(_){}
+
+        function getPlatformStr(platforms){
+            try {
+                const s = (platforms || []).map(pl => pl.platform?.name || '').filter(Boolean).join(', ');
+                return s.length > 30 ? (s.slice(0, 30) + '...') : s;
+            } catch(_) { return ''; }
+        }
+
+        function setLoading(v){ if (loadingEl) loadingEl.style.display = v ? 'flex' : 'none'; loadMoreBtn.disabled = v; }
+        function setError(msg){ if (!errorEl) return; if (!msg) { errorEl.style.display='none'; errorEl.textContent=''; } else { errorEl.style.display='block'; errorEl.className='alert alert-danger'; errorEl.textContent = msg; } }
+
+        function platformBadgeClass(name){
+            const n = (name||'').toLowerCase();
+            if (n.includes('xbox')) return 'xbox';
+            if (n.includes('playstation') || n.includes('ps')) return 'ps';
+            if (n.includes('nintendo') || n.includes('switch')) return 'nintendo';
+            if (n.includes('mac')) return 'mac';
+            if (n.includes('linux')) return 'linux';
+            if (n.includes('ios') || n.includes('android') || n.includes('mobile')) return 'mobile';
+            if (n.includes('pc') || n.includes('windows')) return 'pc';
+            return 'other';
+        }
+        function platformAbbr(name){
+            const n = (name||'').toLowerCase();
+            if (n.includes('xbox')) return 'XB';
+            if (n.includes('playstation') || n.includes('ps')) return 'PS';
+            if (n.includes('nintendo') || n.includes('switch')) return 'NT';
+            if (n.includes('mac')) return 'MAC';
+            if (n.includes('linux')) return 'LNX';
+            if (n.includes('ios') || n.includes('android') || n.includes('mobile')) return 'MB';
+            if (n.includes('pc') || n.includes('windows')) return 'PC';
+            return 'OTH';
+        }
+        function platformBadgesRow(parents){
+            const list = (parents||[]).slice(0,6).map(p=>{
+                const nm = p.platform?.name || '';
+                const cls = platformBadgeClass(nm);
+                const ab = platformAbbr(nm);
+                return `<span class="rawg-pl rawg-pl-${cls}" title="${nm}">${ab}</span>`;
+            });
+            return list.join('');
+        }
+        function wishLabelHTML(wished){
+            const icon = wished
+                ? 'https://img.icons8.com/ios-glyphs/16/D4AF37/like--v1.png'
+                : 'https://img.icons8.com/ios-glyphs/16/FFFFFF/like--v1.png';
+            return `<img class="icon me-1" src="${icon}" alt="Heart">` + (wished ? 'Wishlisted' : 'Wishlist');
+        }
+        function itemHTML(game){
+            const img = game.background_image || 'images/placeholder-game.png';
+            const name = game.name || 'Untitled';
+            const rating = (game.rating != null) ? game.rating : '';
+            const released = game.released || '';
+            const plats = getPlatformStr(game.parent_platforms || []);
+            const platformRow = platformBadgesRow(game.parent_platforms||[]);
+            const added = (game.added!=null)? game.added : null;
+            const ratingsCount = (game.ratings_count!=null)? game.ratings_count : null;
+            const mainGenre = Array.isArray(game.genres)&&game.genres[0]? game.genres[0].name : '';
+            const wl = JSON.parse(localStorage.getItem('rawg.wishlist')||'[]');
+            const wished = wl.includes(game.id);
+            return (
+                '<div class="col-lg-3 col-md-6 col-sm-12">\
+                   <div class="item card h-100 rawg-card">\
+                     <a href="game.html?id='+game.id+'&slug='+(encodeURIComponent(game.slug||''))+'" class="d-block">\
+                       <img src="'+img+'" alt="'+name+' image" class="card-img-top" onerror="this.src=\'images/placeholder-game.png\'">\
+                     </a>\
+                     <div class="card-body">\
+                        <div class="d-flex align-items-center text-muted small mb-2 rawg-platforms">'+platformRow+'</div>\
+                        <h4 class="game-name h6 mb-2"><a href="game.html?id='+game.id+'&slug='+(encodeURIComponent(game.slug||''))+'" class="text-decoration-none text-light">'+name+'</a></h4>\
+                        <div class="d-flex flex-wrap gap-2 mb-2">\
+                          '+(added!=null?('<span class="rawg-chip"><img class="icon me-1" src="https://img.icons8.com/ios-glyphs/16/D4AF37/plus-math.png" alt="Added">'+added.toLocaleString()+'</span>'):'')+'\
+                          '+(ratingsCount!=null?('<span class="rawg-chip"><img class="icon me-1" src="https://img.icons8.com/ios-glyphs/16/D4AF37/star--v1.png" alt="Ratings">'+ratingsCount.toLocaleString()+'</span>'):'')+'\
+                          '+(rating!==''?('<span class="rawg-chip"><img class="icon me-1" src="https://img.icons8.com/ios-glyphs/16/D4AF37/star--v1.png" alt="Rating">'+rating+'</span>'):'')+'\
+                          <button class="rawg-chip rawg-wish'+(wished?' active':'')+'" data-game-id="'+game.id+'">'+wishLabelHTML(wished)+'</button>\
+                        </div>\
+                       <div class="mb-2 d-flex gap-2">\
+                         <button type="button" class="btn btn-sm btn-outline-primary rawg-stores-btn" data-game-id="'+game.id+'"><img class="icon me-1" src="https://img.icons8.com/ios-glyphs/16/FFFFFF/shopping-cart--v1.png" alt="Stores">Stores</button>\
+                         <button type="button" class="btn btn-sm btn-primary rawg-details-btn" data-game-id="'+game.id+'"><img class="icon me-1" src="https://img.icons8.com/ios-glyphs/16/FFFFFF/info--v1.png" alt="Details">Details</button>\
+                        </div>\
+                        <div class="mt-2 small" id="stores-'+game.id+'" hidden></div>\
+                     </div>\
+                     ' +
+                     '<div class="rawg-card-footer d-flex justify-content-between align-items-center small text-muted">\
+                       <span>' + (mainGenre?('<img class="icon me-1" src="https://img.icons8.com/ios-glyphs/16/9AA0A6/tags.png" alt="Genre">'+mainGenre):'') + '</span>\
+                       <span>' + (released?('<img class="icon me-1" src="https://img.icons8.com/ios-glyphs/16/9AA0A6/calendar--v1.png" alt="Release">'+released):'') + '</span>\
+                     </div>\
+                   </div>\
+                 </div>'
+            );
+        }
+
+        async function loadGames(url){
+            setError('');
+            if (!APIKEY) { setError('RAWG API key missing. Set window.APIKEY or localStorage "rawg.key".'); return; }
+            setLoading(true);
+            try {
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('HTTP '+res.status);
+                const data = await res.json();
+                nextUrl = data.next || null;
+                const games = Array.isArray(data.results) ? data.results : [];
+                const html = games.map(itemHTML).join('');
+                listEl.insertAdjacentHTML('beforeend', html);
+                applyClientFilters();
+                loadMoreBtn.style.display = nextUrl ? 'inline-block' : 'none';
+            } catch (e){
+                setError('Failed to load games: '+String(e.message||e));
+            } finally { setLoading(false); }
+        }
+
+        const today = new Date();
+        const start = '2022-01-01';
+        const end = '2022-12-31';
+        function buildBaseUrl(){
+            const u = new URL('https://api.rawg.io/api/games');
+            u.searchParams.set('key', APIKEY);
+            // Dates: from sidebar if provided, else defaults
+            const yFrom = (yearFrom||'').toString().trim();
+            const yTo = (yearTo||'').toString().trim();
+            const useDates = (yFrom && yTo) ? `${yFrom}-01-01,${yTo}-12-31` : `${start},${end}`;
+            u.searchParams.set('dates', useDates);
+            u.searchParams.set('ordering', selectedOrdering || '-added');
+            if (selectedGenre) u.searchParams.set('genres', selectedGenre);
+            if (searchQuery) u.searchParams.set('search', searchQuery);
+            if (selectedPlatforms.length) u.searchParams.set('parent_platforms', selectedPlatforms.join(','));
+            return u.toString();
+        }
+        async function populateGenres(){
+            if (!genreSelect) return;
+            try{
+                const u = new URL('https://api.rawg.io/api/genres');
+                u.searchParams.set('key', APIKEY);
+                u.searchParams.set('page_size', '40');
+                const res = await fetch(u.toString());
+                if (!res.ok) throw new Error('HTTP '+res.status);
+                const data = await res.json();
+                const items = Array.isArray(data.results)? data.results:[];
+                const options = items.map(g=>`<option value="${g.slug}">${g.name}</option>`).join('');
+                genreSelect.insertAdjacentHTML('beforeend', options);
+            }catch(_){ /* non-fatal */ }
+        }
+        function resetAndLoad(){ listEl.innerHTML=''; nextUrl=null; loadMoreBtn.style.display='none'; loadGames(buildBaseUrl()); }
+        if (genreSelect){
+            genreSelect.addEventListener('change', function(){ selectedGenre = this.value || ''; resetAndLoad(); });
+        }
+        if (genreClearBtn){
+            genreClearBtn.addEventListener('click', function(){ if (genreSelect) genreSelect.value=''; if (selectedGenre){ selectedGenre=''; resetAndLoad(); } });
+        }
+        if (searchInput){
+            let t=null; const deb = (fn,ms)=>{ return function(...a){ clearTimeout(t); t=setTimeout(()=>fn.apply(this,a),ms); } };
+            const onChange = deb(function(){ searchQuery = (searchInput.value||'').trim(); resetAndLoad(); }, 400);
+            searchInput.addEventListener('input', onChange);
+        }
+        if (searchClearBtn){
+            searchClearBtn.addEventListener('click', function(){ if (!searchInput) return; if (searchInput.value){ searchInput.value=''; } if (searchQuery){ searchQuery=''; resetAndLoad(); } });
+        }
+        if (sortSelect){
+            sortSelect.addEventListener('change', function(){ selectedOrdering = this.value || '-added'; resetAndLoad(); });
+        }
+        // Sidebar handlers
+        function readPlatforms(){
+            const vals = [];
+            platChecks.forEach(ch=>{ if (ch.checked) { vals.push(...String(ch.value).split(',').map(v=>v.trim()).filter(Boolean)); } });
+            selectedPlatforms = Array.from(new Set(vals));
+        }
+        platChecks.forEach(ch=> ch.addEventListener('change', function(){ readPlatforms(); resetAndLoad(); }));
+        function readYears(){ yearFrom = (yearFromEl?.value||'').slice(0,4); yearTo = (yearToEl?.value||'').slice(0,4); }
+        yearFromEl && yearFromEl.addEventListener('change', function(){ readYears(); resetAndLoad(); });
+        yearToEl && yearToEl.addEventListener('change', function(){ readYears(); resetAndLoad(); });
+        filtersResetBtn && filtersResetBtn.addEventListener('click', function(){
+            // clear sidebar
+            platChecks.forEach(ch=> ch.checked=false);
+            if (yearFromEl) yearFromEl.value=''; if (yearToEl) yearToEl.value='';
+            if (onlyWishlistEl) { onlyWishlistEl.checked=false; try{ localStorage.removeItem('rawg.only_wishlist'); }catch(_){} }
+            // clear top filters
+            if (genreSelect) genreSelect.value=''; selectedGenre='';
+            if (searchInput) searchInput.value=''; searchQuery='';
+            if (sortSelect) sortSelect.value='-added'; selectedOrdering='-added';
+            selectedPlatforms=[]; yearFrom=''; yearTo='';
+            resetAndLoad();
+        });
+
+        // Client-side wishlist filter after render
+        function applyClientFilters(){
+            const onlyWishlist = !!(onlyWishlistEl && onlyWishlistEl.checked);
+            let wl=[]; try{ wl=JSON.parse(localStorage.getItem('rawg.wishlist')||'[]'); if(!Array.isArray(wl)) wl=[]; }catch(_){ wl=[]; }
+            const cards = listEl.querySelectorAll('.rawg-card');
+            // reset visibility first
+            cards.forEach(card=>{ if (card.parentElement) card.parentElement.style.display=''; });
+            if (!onlyWishlist) return;
+            cards.forEach(card=>{
+                const wishBtn = card.querySelector('.rawg-wish');
+                const id = wishBtn ? Number(wishBtn.getAttribute('data-game-id')) : NaN;
+                if (!wl.includes(id) && card.parentElement) card.parentElement.style.display='none';
+            });
+        }
+        populateGenres();
+        loadGames(buildBaseUrl());
+        loadMoreBtn.addEventListener('click', function(){ if (nextUrl) loadGames(nextUrl); });
+
+        // Toggle wishlist from list
+        listEl.addEventListener('click', function(e){
+            const w = e.target.closest('.rawg-wish');
+            if (!w) return;
+            const id = Number(w.getAttribute('data-game-id'));
+            if (!id) return;
+            let wl = [];
+            try { wl = JSON.parse(localStorage.getItem('rawg.wishlist')||'[]'); if(!Array.isArray(wl)) wl=[]; } catch(_) { wl=[]; }
+            const idx = wl.indexOf(id);
+            if (idx === -1) { wl.push(id); w.classList.add('active'); w.innerHTML = wishLabelHTML(true); }
+            else { wl.splice(idx,1); w.classList.remove('active'); w.innerHTML = wishLabelHTML(false); }
+            localStorage.setItem('rawg.wishlist', JSON.stringify(wl));
+            // If Only wishlist filter is on, reflect immediately
+            if (onlyWishlistEl && onlyWishlistEl.checked) {
+                const col = w.closest('.col-lg-3, .col-md-6, .col-sm-12, .col');
+                if (col) col.style.display = wl.includes(id) ? '' : 'none';
+            }
+        });
+
+        // React to Only wishlist switch (persist + filter)
+        onlyWishlistEl && onlyWishlistEl.addEventListener('change', function(){
+            try { localStorage.setItem('rawg.only_wishlist', this.checked ? '1' : '0'); } catch(_){ }
+            applyClientFilters();
+        });
+
+        async function fetchStores(gameId, { ordering = '', page = 1, page_size = 10 } = {}){
+            const url = new URL(`https://api.rawg.io/api/games/${encodeURIComponent(gameId)}/stores`);
+            url.searchParams.set('key', APIKEY);
+            if (ordering) url.searchParams.set('ordering', ordering);
+            if (page) url.searchParams.set('page', String(page));
+            if (page_size) url.searchParams.set('page_size', String(page_size));
+            const res = await fetch(url.toString());
+            if (!res.ok) throw new Error('HTTP '+res.status);
+            return res.json();
+        }
+
+        // Cache for store metadata (id -> { name, domain, slug })
+        const storesCache = new Map();
+        async function fetchAllStoresPage(page=1){
+            const url = new URL('https://api.rawg.io/api/stores');
+            url.searchParams.set('key', APIKEY);
+            url.searchParams.set('page', String(page));
+            url.searchParams.set('page_size', '40');
+            const res = await fetch(url.toString());
+            if (!res.ok) throw new Error('HTTP '+res.status);
+            return res.json();
+        }
+        async function ensureStoresMeta(){
+            if (storesCache.size) return;
+            try {
+                let page = 1, next = null;
+                do {
+                    const data = await fetchAllStoresPage(page);
+                    const items = Array.isArray(data.results) ? data.results : [];
+                    items.forEach(s => { if (s && typeof s.id !== 'undefined') storesCache.set(String(s.id), { name: s.name, domain: s.domain, slug: s.slug }); });
+                    next = data.next; page += 1;
+                } while (next && page <= 5); // cap pages for safety
+            } catch(_) { /* non-fatal */ }
+        }
+        function unwrapRedirect(href){
+            try {
+                const u = new URL(href);
+                if (u.pathname.includes('redirect') && u.searchParams.get('url')) {
+                    return decodeURIComponent(u.searchParams.get('url'));
+                }
+            } catch(_) {}
+            return href;
+        }
+        function resolveStoreUrl(storeItem){
+            const meta = storeItem && storeItem.store ? storesCache.get(String(storeItem.store.id || storeItem.store_id)) : storesCache.get(String(storeItem.store_id));
+            let href = storeItem.url || '';
+            if (href) href = unwrapRedirect(href);
+            if (!href && meta?.domain) href = 'https://' + meta.domain;
+            if (!href) href = '#';
+            const name = (storeItem && storeItem.store && storeItem.store.name) || meta?.name || 'Store';
+            return { href, name };
+        }
+
+        listEl.addEventListener('click', async function(e){
+            const btn = e.target.closest('.rawg-stores-btn');
+            if (!btn) return;
+            const gameId = btn.getAttribute('data-game-id');
+            const box = document.getElementById('stores-'+gameId);
+            if (!gameId || !box) return;
+            if (!box.hasAttribute('hidden')) { box.setAttribute('hidden',''); return; }
+            btn.disabled = true; btn.textContent = 'Loading...';
+            try {
+                const data = await fetchStores(gameId, { page_size: 10 });
+                const items = Array.isArray(data.results) ? data.results : [];
+                await ensureStoresMeta();
+                if (!items.length) {
+                    box.innerHTML = '<div class="text-muted">No store links available</div>';
+                } else {
+                    const html = items.map(s => {
+                        const { href, name } = resolveStoreUrl(s);
+                        return '<a class="badge bg-secondary me-1 mb-1" target="_blank" rel="noopener" href="'+href+'">'+name+'</a>';
+                    }).join('');
+                    box.innerHTML = html;
+                }
+                box.removeAttribute('hidden');
+            } catch(err){
+                box.innerHTML = '<div class="text-danger">Failed to load stores</div>';
+                box.removeAttribute('hidden');
+            } finally { btn.disabled = false; btn.textContent = 'Stores'; }
+        });
+
+        async function fetchGameDetails(id){
+            const url = new URL(`https://api.rawg.io/api/games/${encodeURIComponent(id)}`);
+            url.searchParams.set('key', APIKEY);
+            const res = await fetch(url.toString());
+            if (!res.ok) throw new Error('HTTP '+res.status);
+            return res.json();
+        }
+
+        async function fetchScreenshots(id){
+            const url = new URL(`https://api.rawg.io/api/games/${encodeURIComponent(id)}/screenshots`);
+            url.searchParams.set('key', APIKEY);
+            const res = await fetch(url.toString());
+            if (!res.ok) throw new Error('HTTP '+res.status);
+            return res.json();
+        }
+
+        async function fetchMovies(id){
+            const url = new URL(`https://api.rawg.io/api/games/${encodeURIComponent(id)}/movies`);
+            url.searchParams.set('key', APIKEY);
+            const res = await fetch(url.toString());
+            if (!res.ok) throw new Error('HTTP '+res.status);
+            return res.json();
+        }
+
+        listEl.addEventListener('click', async function(e){
+            const btn = e.target.closest('.rawg-details-btn');
+            if (!btn) return;
+            const gameId = btn.getAttribute('data-game-id');
+            if (!gameId) return;
+            btn.disabled = true; const old = btn.textContent; btn.textContent = 'Loading...';
+            try {
+                const loadingOverlay = document.getElementById('rawgDetailsLoading');
+                if (loadingOverlay) loadingOverlay.classList.remove('d-none');
+                const d = await fetchGameDetails(gameId);
+                // Populate modal
+                const titleEl = document.getElementById('rawgDetailsTitle');
+                const imgEl = document.getElementById('rawgDetailsImage');
+                const badgesEl = document.getElementById('rawgDetailsBadges');
+                const descEl = document.getElementById('rawgDetailsDesc');
+                const metaEl = document.getElementById('rawgDetailsMeta');
+                const extraEl = document.getElementById('rawgDetailsExtra');
+                const webEl = document.getElementById('rawgDetailsWebsite');
+                const mcEl = document.getElementById('rawgDetailsMetacritic');
+                const rdEl = document.getElementById('rawgDetailsReddit');
+                const openRawgEl = document.getElementById('rawgOpenRawg');
+                const copyBtnEl = document.getElementById('rawgCopyLink');
+                const screensEl = document.getElementById('rawgScreensGrid');
+                const moviesEl = document.getElementById('rawgMoviesGrid');
+                const mediaEmptyEl = document.getElementById('rawgMediaEmpty');
+                const storesWrap = document.getElementById('rawgStoresWrap');
+                const storesEmpty = document.getElementById('rawgStoresEmpty');
+
+                if (titleEl) titleEl.textContent = d.name || d.slug || 'Game';
+                if (imgEl) {
+                    const src = d.background_image || d.background_image_additional || '';
+                    if (src) { imgEl.src = src; imgEl.style.display = ''; }
+                    else { imgEl.style.display = 'none'; }
+                }
+                if (badgesEl) {
+                    const plats = (Array.isArray(d.platforms)? d.platforms.map(p=>p.platform?.name).filter(Boolean) : []).slice(0,6);
+                    const rating = (d.rating!=null? d.rating: null);
+                    const released = d.released || '';
+                    const meta = (d.metacritic!=null? d.metacritic: null);
+                    const chips = [];
+                    if (rating!=null) chips.push(`<span class="badge bg-warning text-dark">★ ${rating}</span>`);
+                    if (meta!=null) chips.push(`<span class="badge bg-success">Metacritic ${meta}</span>`);
+                    if (released) chips.push(`<span class="badge bg-secondary">${released}</span>`);
+                    if (plats.length) chips.push(...plats.map(n=>`<span class="badge bg-dark">${n}</span>`));
+                    badgesEl.innerHTML = chips.join(' ');
+                }
+                if (descEl) {
+                    // RAWG returns HTML in description; trust limited or strip if needed
+                    descEl.innerHTML = d.description || '';
+                }
+                if (metaEl) {
+                    const rows = [];
+                    if (d.playtime) rows.push(`<div class="col-6"><strong>Playtime:</strong> ${d.playtime}h</div>`);
+                    if (d.ratings_count!=null) rows.push(`<div class="col-6"><strong>Ratings:</strong> ${d.ratings_count}</div>`);
+                    if (d.screenshots_count!=null) rows.push(`<div class="col-6"><strong>Screenshots:</strong> ${d.screenshots_count}</div>`);
+                    if (d.movies_count!=null) rows.push(`<div class="col-6"><strong>Trailers:</strong> ${d.movies_count}</div>`);
+                    metaEl.innerHTML = rows.join('');
+                }
+                if (extraEl) {
+                    const blocks = [];
+                    // ESRB rating
+                    if (d.esrb_rating?.name) {
+                        blocks.push(`<div class="col-12"><strong>ESRB:</strong> ${d.esrb_rating.name}</div>`);
+                    }
+                    // PC requirements (minimum/recommended)
+                    let reqMin = '', reqRec = '';
+                    if (Array.isArray(d.platforms)) {
+                        const pc = d.platforms.find(p => (p.platform?.slug||'').toLowerCase() === 'pc');
+                        if (pc && pc.requirements) {
+                            reqMin = pc.requirements.minimum || '';
+                            reqRec = pc.requirements.recommended || '';
+                        }
+                    }
+                    if (reqMin || reqRec) {
+                        blocks.push(`<div class="col-12"><strong>PC Requirements:</strong></div>`);
+                        if (reqMin) blocks.push(`<div class="col-12 small"><em>Minimum:</em> ${reqMin}</div>`);
+                        if (reqRec) blocks.push(`<div class="col-12 small"><em>Recommended:</em> ${reqRec}</div>`);
+                    }
+                    extraEl.innerHTML = blocks.join('');
+                }
+                if (webEl) {
+                    if (d.website) { webEl.href = d.website; webEl.style.display='inline-block'; } else { webEl.style.display='none'; }
+                }
+                if (mcEl) {
+                    const mcu = d.metacritic_url || (d.metacritic ? `https://www.metacritic.com/` : '');
+                    if (mcu) { mcEl.href = mcu; mcEl.style.display='inline-block'; } else { mcEl.style.display='none'; }
+                }
+                if (rdEl) {
+                    if (d.reddit_url) { rdEl.href = d.reddit_url.startsWith('http') ? d.reddit_url : ('https://www.reddit.com/'+d.reddit_url.replace(/^\/+/,'')); rdEl.style.display='inline-block'; } else { rdEl.style.display='none'; }
+                }
+                if (openRawgEl) {
+                    const slug = d.slug || '';
+                    if (slug) { openRawgEl.href = `https://rawg.io/games/${slug}`; openRawgEl.style.display='inline-block'; }
+                    else { openRawgEl.style.display='none'; }
+                }
+                if (copyBtnEl) {
+                    const link = d.website || (d.slug ? `https://rawg.io/games/${d.slug}` : '');
+                    if (link) {
+                        copyBtnEl.style.display='inline-block';
+                        copyBtnEl.onclick = async () => { try { await navigator.clipboard.writeText(link); showNotification('Link copied!', 'success'); } catch(_) {} };
+                    } else { copyBtnEl.style.display='none'; copyBtnEl.onclick = null; }
+                }
+
+                // Media tab
+                if (screensEl) screensEl.innerHTML = '';
+                if (moviesEl) moviesEl.innerHTML = '';
+                if (mediaEmptyEl) mediaEmptyEl.style.display = 'none';
+                try {
+                    const [sc, mv] = await Promise.allSettled([fetchScreenshots(gameId), fetchMovies(gameId)]);
+                    let anyMedia = false;
+                    if (sc.status === 'fulfilled') {
+                        const itemsSc = Array.isArray(sc.value?.results) ? sc.value.results : [];
+                        if (itemsSc.length && screensEl) {
+                            window.__rawgShots = itemsSc.map(it => it.image).filter(Boolean);
+                            const html = itemsSc.slice(0,12).map((s, i) => `
+                              <div class="col-6 col-md-4 col-lg-3">
+                                <img class="img-fluid rounded rawg-shot" data-idx="${i}" src="${s.image}" alt="Screenshot" loading="lazy"/>
+                              </div>`).join('');
+                            screensEl.innerHTML = html; anyMedia = true;
+                        }
+                    }
+                    if (mv.status === 'fulfilled') {
+                        const itemsMv = Array.isArray(mv.value?.results) ? mv.value.results : [];
+                        if (itemsMv.length && moviesEl) {
+                            const html = itemsMv.slice(0,4).map(v => {
+                                const data = v?.data || {};
+                                const mp4 = data.max || data['720'] || data['480'] || '';
+                                const thumb = v?.preview || '';
+                                if (mp4) {
+                                    return `<div class="col-12 col-md-6">
+                                        <div class="ratio ratio-16x9 rounded overflow-hidden">
+                                          <video controls preload="metadata" src="${mp4}" poster="${thumb || ''}"></video>
+                                        </div>
+                                      </div>`;
+                                }
+                                // Fallback: clickable thumbnail to RAWG page
+                                const rawgLink = d?.slug ? `https://rawg.io/games/${d.slug}` : '#';
+                                return `<div class="col-12 col-md-6">
+                                    <a class="d-block ratio ratio-16x9 rounded overflow-hidden" href="${rawgLink}" target="_blank" rel="noopener">
+                                      <img src="${thumb}" alt="Trailer preview" class="w-100 h-100 object-fit-cover">
+                                    </a>
+                                  </div>`;
+                            }).join('');
+                            moviesEl.innerHTML = html; anyMedia = true;
+                        }
+                    }
+                    if (!anyMedia && mediaEmptyEl) mediaEmptyEl.style.display = '';
+                } catch(_) { if (mediaEmptyEl) mediaEmptyEl.style.display = ''; }
+
+                // Stores tab in modal
+                if (storesWrap) storesWrap.innerHTML = '';
+                if (storesEmpty) storesEmpty.style.display = 'none';
+                try {
+                    await ensureStoresMeta();
+                    const dataStores = await fetchStores(gameId, { page_size: 12 });
+                    const items = Array.isArray(dataStores?.results) ? dataStores.results : [];
+                    if (items.length && storesWrap) {
+                        const html = items.map(s => {
+                            const { href, name } = resolveStoreUrl(s);
+                            return `<a class="badge bg-secondary" target="_blank" rel="noopener" href="${href}">${name}</a>`;
+                        }).join(' ');
+                        storesWrap.innerHTML = html;
+                    } else if (storesEmpty) { storesEmpty.style.display = ''; }
+                } catch(_) { if (storesEmpty) storesEmpty.style.display = ''; }
+
+                const modalEl = document.getElementById('rawgDetailsModal');
+                if (modalEl && window.bootstrap?.Modal) {
+                    const m = new bootstrap.Modal(modalEl); m.show();
+                }
+            } catch(err){
+                showNotification('Failed to load game details', 'info');
+            } finally {
+                const loadingOverlay = document.getElementById('rawgDetailsLoading');
+                if (loadingOverlay) loadingOverlay.classList.add('d-none');
+                btn.disabled = false; btn.textContent = old;
+            }
+        });
+    })();
+
     // --- Всё остальное остаётся без изменений ---
     // (остальные функции: звёздочки, темы, галерея, фильтры, формы, язык и т.д.)
 
 });
 
 
-// DOM Manipulation Features
-
-// Star Rating System
-const starContainers = document.querySelectorAll('.stars');
-starContainers.forEach(container => {
-    const stars = container.querySelectorAll('.star');
-    const ratingText = container.parentElement.querySelector('.rating-text');
-
-    stars.forEach((star, index) => {
-        star.addEventListener('click', function () {
-            const rating = parseInt(this.dataset.rating);
-
-            // Update visual state
-            stars.forEach((s, i) => {
-                if (i < rating) {
-                    s.classList.add('active');
-                } else {
-                    s.classList.remove('active');
-                }
-            });
-
-            // Update rating text
-            const gameName = container.dataset.game;
-            ratingText.textContent = `Rated ${rating} star${rating > 1 ? 's' : ''} for ${gameName}`;
-
-            // Store rating (could be sent to server)
-            console.log(`${gameName} rated ${rating} stars`);
-        });
-
-        // Hover effects
-        star.addEventListener('mouseenter', function () {
-            const rating = parseInt(this.dataset.rating);
-            stars.forEach((s, i) => {
-                if (i < rating) {
-                    s.style.color = '#ffd700';
-                } else {
-                    s.style.color = '#666';
-                }
-            });
-        });
-
-        star.addEventListener('mouseleave', function () {
-            stars.forEach(s => {
-                if (!s.classList.contains('active')) {
-                    s.style.color = '#666';
-                }
-            });
-        });
-    });
-});
+// DOM Cleanup: removed legacy .stars rating demo
 
 // Theme Toggle Functionality (default: dark/night, persists via localStorage + cookie)
 const themeToggleBtn = document.getElementById('theme-toggle-btn');
@@ -706,220 +982,17 @@ if (themeToggleBtn) {
     });
 }
 
-// Read More Functionality
-const readMoreBtn = document.getElementById('read-more-btn');
-const hiddenContent = document.querySelector('.hidden-content');
-let isExpanded = false;
+// DOM Cleanup: removed read-more demo
 
-if (readMoreBtn && hiddenContent) {
-    readMoreBtn.addEventListener('click', function () {
-        isExpanded = !isExpanded;
+// DOM Cleanup: removed gallery thumbs demo
 
-        if (isExpanded) {
-            hiddenContent.classList.remove('is-hidden');
-            hiddenContent.classList.add('show');
-            this.textContent = 'Read Less';
-            this.classList.remove('btn-outline-primary');
-            this.classList.add('btn-outline-secondary');
-        } else {
-            hiddenContent.classList.add('is-hidden');
-            hiddenContent.classList.remove('show');
-            this.textContent = 'Read More';
-            this.classList.remove('btn-outline-secondary');
-            this.classList.add('btn-outline-primary');
-        }
-    });
-}
+// DOM Cleanup: removed greeting demo
 
-// Image Gallery Functionality
-const mainImage = document.getElementById('main-gallery-image');
-const imageTitle = document.getElementById('image-title');
-const imageDescription = document.getElementById('image-description');
-const thumbnails = document.querySelectorAll('.thumbnail');
+// DOM Cleanup: removed random facts demo
 
-if (mainImage && imageTitle && imageDescription && thumbnails.length > 0) {
-    thumbnails.forEach(thumbnail => {
-        thumbnail.addEventListener('click', function () {
-            // Remove active class from all thumbnails
-            thumbnails.forEach(t => t.classList.remove('active'));
+// DOM Cleanup: removed demo card interactions
 
-            // Add active class to clicked thumbnail
-            this.classList.add('active');
-
-            // Update main image
-            const newSrc = this.dataset.src;
-            const newTitle = this.dataset.title;
-            const newDesc = this.dataset.desc;
-
-            // Smooth transition effect
-            mainImage.style.opacity = '0.5';
-
-            setTimeout(() => {
-                mainImage.src = newSrc;
-                mainImage.alt = newTitle + ' - Main Gallery Image';
-                imageTitle.textContent = newTitle;
-                imageDescription.textContent = newDesc;
-                mainImage.style.opacity = '1';
-            }, 150);
-        });
-    });
-
-    // Set first thumbnail as active by default
-    if (thumbnails.length > 0) {
-        thumbnails[0].classList.add('active');
-    }
-}
-
-// Dynamic Greeting Functionality
-const nameInput = document.getElementById('name-input');
-const greetingBtn = document.getElementById('greeting-btn');
-const greetingDisplay = document.getElementById('greeting-display');
-
-if (nameInput && greetingBtn && greetingDisplay) {
-    greetingBtn.addEventListener('click', function () {
-        const name = nameInput.value.trim();
-
-        if (name) {
-            greetingDisplay.innerHTML = `
-                    <h4>Welcome to GoldMine, ${name}!</h4>
-                    <p class="text-muted">Ready to discover amazing games?</p>
-                `;
-            greetingDisplay.style.background = 'rgba(212,175,55,0.2)';
-            greetingDisplay.style.borderColor = '#d4af37';
-
-            // Clear input
-            nameInput.value = '';
-        } else {
-            greetingDisplay.innerHTML = `
-                    <h4>Please enter your name first!</h4>
-                    <p class="text-muted">We'd love to personalize your experience.</p>
-                `;
-            greetingDisplay.style.background = 'rgba(220,53,69,0.1)';
-            greetingDisplay.style.borderColor = '#dc3545';
-        }
-    });
-
-    // Allow Enter key to trigger greeting
-    nameInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-            greetingBtn.click();
-        }
-    });
-}
-
-// Random Content Fetcher
-const randomContentBtn = document.getElementById('random-content-btn');
-const randomContentDisplay = document.getElementById('random-content-display');
-
-const gamingFacts = [
-    "The first video game, 'Pong', was created in 1972 by Atari founder Nolan Bushnell.",
-    "Minecraft has sold over 300 million copies worldwide, making it the best-selling video game of all time.",
-    "The gaming industry is worth over $180 billion globally, surpassing both the movie and music industries combined.",
-    "The average age of a gamer is 35 years old, and 45% of gamers are women.",
-    "The first video game console, the Magnavox Odyssey, was released in 1972.",
-    "Tetris was created by Russian programmer Alexey Pajitnov in 1984 while working at the Soviet Academy of Sciences.",
-    "The term 'NPC' (Non-Player Character) was first used in tabletop role-playing games before video games.",
-    "The first video game tournament was held in 1972 at Stanford University for the game 'Spacewar!'",
-    "Pac-Man was originally called 'Puck-Man' but was changed to avoid vandalism of the arcade cabinets.",
-    "The gaming industry employs over 2.5 million people worldwide across development, publishing, and related fields."
-];
-
-if (randomContentBtn && randomContentDisplay) {
-    randomContentBtn.addEventListener('click', function () {
-        // Add loading effect
-        this.textContent = 'Loading...';
-        this.disabled = true;
-
-        // Simulate loading delay for better UX
-        setTimeout(() => {
-            const randomIndex = Math.floor(Math.random() * gamingFacts.length);
-            const randomFact = gamingFacts[randomIndex];
-
-            randomContentDisplay.innerHTML = `
-                    <div class="fact-content">
-                        <h5>🎮 Gaming Fact #${randomIndex + 1}</h5>
-                        <p>${randomFact}</p>
-                    </div>
-                `;
-
-            // Reset button
-            this.textContent = 'Get Random Fact';
-            this.disabled = false;
-        }, 800);
-    });
-}
-
-// Additional DOM Manipulation Examples
-
-// Dynamic content updates based on user interaction
-const gameCards = document.querySelectorAll('.game-bootstrap-card');
-gameCards.forEach(card => {
-    const playBtn = card.querySelector('.btn-primary');
-    const wishlistBtn = card.querySelector('.btn-outline-secondary');
-
-    if (playBtn) {
-        playBtn.addEventListener('click', function () {
-            const gameTitle = card.querySelector('.card-title').textContent;
-
-            // Update button text and style
-            this.textContent = 'Playing...';
-            this.classList.remove('btn-primary');
-            this.classList.add('btn-success');
-            this.disabled = true;
-
-            // Reset after 3 seconds
-            setTimeout(() => {
-                this.textContent = 'Play Now';
-                this.classList.remove('btn-success');
-                this.classList.add('btn-primary');
-                this.disabled = false;
-            }, 3000);
-
-            console.log(`Started playing: ${gameTitle}`);
-        });
-    }
-
-    if (wishlistBtn) {
-        wishlistBtn.addEventListener('click', function () {
-            const gameTitle = card.querySelector('.card-title').textContent;
-
-            if (this.textContent === 'Add to Wishlist') {
-                this.textContent = 'Added to Wishlist';
-                this.classList.remove('btn-outline-secondary');
-                this.classList.add('btn-success');
-            } else {
-                this.textContent = 'Add to Wishlist';
-                this.classList.remove('btn-success');
-                this.classList.add('btn-outline-secondary');
-            }
-
-            console.log(`Wishlist toggled for: ${gameTitle}`);
-        });
-    }
-});
-
-// Dynamic style changes on scroll
-let lastScrollTop = 0;
-window.addEventListener('scroll', function () {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const navbar = document.querySelector('.navbar');
-
-    if (scrollTop > lastScrollTop && scrollTop > 100) {
-        // Scrolling down
-        navbar.style.transform = 'translateY(-100%)';
-    } else {
-        // Scrolling up
-        navbar.style.transform = 'translateY(0)';
-    }
-
-    lastScrollTop = scrollTop;
-});
-
-// Add smooth transitions to navbar
-const navbar = document.querySelector('.navbar');
-if (navbar) {
-    navbar.style.transition = 'transform 0.3s ease-in-out';
-}
+// DOM Cleanup: removed navbar hide-on-scroll demo
 
 // Scroll Progress Bar Logic (horizontal top)
 const progressBar = document.getElementById('scroll-progress-bar');
@@ -987,64 +1060,9 @@ if (counters.length) {
     counters.forEach(el => io.observe(el));
 }
 
-// Event Handling Features
+// DOM Cleanup: removed time display demo
 
-// Current Time Display Button
-const timeDisplayBtn = document.getElementById('time-display-btn');
-const timeDisplayArea = document.getElementById('time-display-area');
-
-if (timeDisplayBtn && timeDisplayArea) {
-    timeDisplayBtn.addEventListener('click', function () {
-        const currentTime = new Date().toLocaleTimeString();
-        timeDisplayArea.innerHTML = `
-                <p class="time-content">Current Time: ${currentTime}</p>
-            `;
-    });
-}
-
-// Keyboard Navigation
-const keyboardNavMenu = document.querySelector('.keyboard-nav-menu');
-const navItems = document.querySelectorAll('.nav-item');
-let currentNavIndex = 0;
-
-if (keyboardNavMenu && navItems.length > 0) {
-    // Set initial focus
-    navItems[0].classList.add('active');
-
-    keyboardNavMenu.addEventListener('keydown', function (e) {
-        switch (e.key) {
-            case 'ArrowRight':
-                e.preventDefault();
-                currentNavIndex = (currentNavIndex + 1) % navItems.length;
-                updateNavFocus();
-                break;
-            case 'ArrowLeft':
-                e.preventDefault();
-                currentNavIndex = (currentNavIndex - 1 + navItems.length) % navItems.length;
-                updateNavFocus();
-                break;
-            case 'Enter':
-                e.preventDefault();
-                const selectedItem = navItems[currentNavIndex];
-                console.log(`Selected: ${selectedItem.textContent}`);
-                selectedItem.style.background = '#28a745';
-                setTimeout(() => {
-                    selectedItem.style.background = '';
-                }, 1000);
-                break;
-        }
-    });
-
-    function updateNavFocus() {
-        navItems.forEach((item, index) => {
-            item.classList.remove('active');
-            if (index === currentNavIndex) {
-                item.classList.add('active');
-                item.focus();
-            }
-        });
-    }
-}
+// DOM Cleanup: removed keyboard navigation demo
 
 // Loading helpers for submit buttons
 function startButtonLoading(button, loadingText = 'Please wait…') {
@@ -1105,100 +1123,7 @@ if (contactForm) {
     });
 }
 
-// Multi-Step Form
-const multiStepForm = document.getElementById('multi-step-form');
-const formSteps = document.querySelectorAll('.form-step');
-const prevBtn = document.getElementById('prev-step-btn');
-const nextBtn = document.getElementById('next-step-btn');
-const submitBtn = document.getElementById('submit-form-btn');
-const formStepProgressBar = document.querySelector('.progress-bar');
-const progressText = document.querySelector('.form-progress small');
-
-let currentStep = 1;
-const totalSteps = formSteps.length;
-
-if (multiStepForm && formSteps.length > 0) {
-    // Next step functionality
-    if (nextBtn) {
-        nextBtn.addEventListener('click', function () {
-            if (validateCurrentStep()) {
-                if (currentStep < totalSteps) {
-                    currentStep++;
-                    updateFormStep();
-                }
-            }
-        });
-    }
-
-    // Previous step functionality
-    if (prevBtn) {
-        prevBtn.addEventListener('click', function () {
-            if (currentStep > 1) {
-                currentStep--;
-                updateFormStep();
-            }
-        });
-    }
-
-    // Form submission
-    if (submitBtn) {
-        submitBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            if (validateCurrentStep()) {
-                // Simulate form submission
-                startButtonLoading(submitBtn, 'Please wait…');
-
-                setTimeout(() => {
-                    alert('Registration completed successfully!');
-                    multiStepForm.reset();
-                    currentStep = 1;
-                    updateFormStep();
-                    stopButtonLoading(submitBtn);
-                }, 1500);
-            }
-        });
-    }
-
-    function updateFormStep() {
-        // Hide all steps
-        formSteps.forEach(step => step.classList.remove('active'));
-
-        // Show current step
-        formSteps[currentStep - 1].classList.add('active');
-
-        // Update navigation buttons
-        prevBtn.disabled = currentStep === 1;
-        if (currentStep < totalSteps) {
-            nextBtn.classList.remove('d-none');
-            submitBtn.classList.add('d-none');
-        } else {
-            nextBtn.classList.add('d-none');
-            submitBtn.classList.remove('d-none');
-        }
-
-        // Update progress
-        const progress = (currentStep / totalSteps) * 100;
-        if (formStepProgressBar) formStepProgressBar.style.width = `${progress}%`;
-        progressText.textContent = `Step ${currentStep} of ${totalSteps}`;
-    }
-
-    function validateCurrentStep() {
-        const currentStepElement = formSteps[currentStep - 1];
-        const requiredInputs = currentStepElement.querySelectorAll('input[required], select[required]');
-
-        for (let input of requiredInputs) {
-            if (!input.value.trim()) {
-                input.focus();
-                alert(`Please fill in the ${input.previousElementSibling.textContent.replace(':', '')} field.`);
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // Initialize form
-    updateFormStep();
-}
+// DOM Cleanup: removed multi-step form demo
 
 // Product Filtering System with Switch Statements
 const categoryFilter = document.getElementById('category-filter');

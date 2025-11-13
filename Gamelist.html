@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Games - GoldMine</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
@@ -30,7 +34,7 @@
                     <a class="nav-link" href="contact.html">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Gamelist.html">Categories</a>
+                    <a class="nav-link" href="Gamelist.html">Browse</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="register.html">Register</a>
@@ -49,21 +53,40 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
-            <div class="sidebar p-3">
-                <h3>Game Categories</h3>
-                <ul>
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">RPG</a></li>
-                    <li><a href="#">Strategy</a></li>
-                    <li><a href="#">Adventure</a></li>
-                    <li><a href="#">Simulation</a></li>
-                </ul>
-                <h3>Popular</h3>
-                <ul>
-                    <li><a href="#">Minecraft</a></li>
-                    <li><a href="#">Cyberpunk 2077</a></li>
-                    <li><a href="#">Hollow Knight</a></li>
-                </ul>
+            <div class="sidebar p-3 sticky-top" style="top: 90px;">
+                <h3 class="text-gold h5">Filters</h3>
+                <div class="mb-3">
+                    <div class="fw-semibold mb-2">Platforms</div>
+                    <div class="row g-2">
+                        <div class="col-6"><div class="form-check"><input class="form-check-input rawg-plat" type="checkbox" value="1" id="pl-pc"><label class="form-check-label" for="pl-pc">PC</label></div></div>
+                        <div class="col-6"><div class="form-check"><input class="form-check-input rawg-plat" type="checkbox" value="2" id="pl-ps"><label class="form-check-label" for="pl-ps">PlayStation</label></div></div>
+                        <div class="col-6"><div class="form-check"><input class="form-check-input rawg-plat" type="checkbox" value="3" id="pl-xb"><label class="form-check-label" for="pl-xb">Xbox</label></div></div>
+                        <div class="col-6"><div class="form-check"><input class="form-check-input rawg-plat" type="checkbox" value="7" id="pl-nt"><label class="form-check-label" for="pl-nt">Nintendo</label></div></div>
+                        <div class="col-6"><div class="form-check"><input class="form-check-input rawg-plat" type="checkbox" value="4,8" id="pl-mb"><label class="form-check-label" for="pl-mb">Mobile</label></div></div>
+                        <div class="col-6"><div class="form-check"><input class="form-check-input rawg-plat" type="checkbox" value="5" id="pl-mac"><label class="form-check-label" for="pl-mac">Mac</label></div></div>
+                        <div class="col-6"><div class="form-check"><input class="form-check-input rawg-plat" type="checkbox" value="6" id="pl-lnx"><label class="form-check-label" for="pl-lnx">Linux</label></div></div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="fw-semibold mb-2">Release year</div>
+                    <div class="input-group input-group-sm mb-2">
+                        <span class="input-group-text bg-dark text-light border-secondary">From</span>
+                        <input id="rawg-year-from" type="number" class="form-control bg-dark text-light border-secondary" placeholder="2000" min="1980" max="2100">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-dark text-light border-secondary">To</span>
+                        <input id="rawg-year-to" type="number" class="form-control bg-dark text-light border-secondary" placeholder="2025" min="1980" max="2100">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="rawg-only-wishlist">
+                        <label class="form-check-label" for="rawg-only-wishlist">Only wishlist</label>
+                    </div>
+                </div>
+                <div class="d-grid">
+                    <button id="rawg-filters-reset" class="btn btn-sm btn-outline-secondary" type="button">Reset filters</button>
+                </div>
             </div>
         </div>
         <div class="col-lg-9 col-md-8 col-sm-12">
@@ -122,83 +145,97 @@
                 </div>
             </section>
 
-            <!-- Details Modal -->
-            <div class="modal fade" id="gbDetailsModal" tabindex="-1" aria-hidden="true">
-              <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content bg-dark text-light">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="gbDetailsTitle"></h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <div id="gbDetailsCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
-                      <div class="carousel-inner" id="gbDetailsSlides"></div>
-                      <button class="carousel-control-prev" type="button" data-bs-target="#gbDetailsCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span></button>
-                      <button class="carousel-control-next" type="button" data-bs-target="#gbDetailsCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></button>
+            <!-- RAWG: Game Details Modal (revamped) -->
+            <div class="modal fade" id="rawgDetailsModal" tabindex="-1" aria-hidden="true" aria-labelledby="rawgDetailsTitle">
+              <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content rawg-modal">
+                  <div class="rawg-modal-banner position-relative">
+                    <img id="rawgDetailsImage" src="" alt="Game cover" class="rawg-modal-banner-img"/>
+                    <div class="rawg-modal-banner-overlay"></div>
+                    <div class="rawg-modal-banner-content">
+                      <h3 class="m-0" id="rawgDetailsTitle">Game</h3>
+                      <div class="d-flex flex-wrap gap-2 mt-2" id="rawgDetailsBadges"></div>
                     </div>
-                    <p id="gbDetailsDesc" class="mb-3"></p>
-                    <div id="gbDetailsVideoWrap" class="ratio ratio-16x9 d-none"><iframe id="gbDetailsVideo" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+                    <button type="button" class="btn-close btn-close-white rawg-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="rawg-modal-body p-3 p-md-4 position-relative">
+                    <div id="rawgDetailsLoading" class="position-absolute top-0 start-0 w-100 h-100 d-none" style="background: rgba(0,0,0,0.35); z-index: 5;">
+                      <div class="d-flex w-100 h-100 justify-content-center align-items-center">
+                        <div class="spinner-border text-warning" role="status" aria-label="Loading"></div>
+                      </div>
+                    </div>
+                    <ul class="nav nav-tabs" id="rawgDetailsTabs" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="tab-overview" data-bs-toggle="tab" data-bs-target="#pane-overview" type="button" role="tab">Overview</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="tab-media" data-bs-toggle="tab" data-bs-target="#pane-media" type="button" role="tab">Media</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="tab-stores" data-bs-toggle="tab" data-bs-target="#pane-stores" type="button" role="tab">Stores</button>
+                      </li>
+                    </ul>
+                    <div class="tab-content pt-3">
+                      <div class="tab-pane fade show active" id="pane-overview" role="tabpanel" aria-labelledby="tab-overview">
+                        <div id="rawgDetailsDesc" class="mb-3"></div>
+                        <div class="row g-3" id="rawgDetailsMeta"></div>
+                        <div class="row g-3 mt-1" id="rawgDetailsExtra"></div>
+                      </div>
+                      <div class="tab-pane fade" id="pane-media" role="tabpanel" aria-labelledby="tab-media">
+                        <div id="rawgMediaWrap">
+                          <div class="row g-3" id="rawgScreensGrid"></div>
+                          <div class="row g-3 mt-2" id="rawgMoviesGrid"></div>
+                          <div class="text-center text-muted small mt-2" id="rawgMediaEmpty" style="display:none;">No media available</div>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="pane-stores" role="tabpanel" aria-labelledby="tab-stores">
+                        <div id="rawgStoresWrap" class="d-flex flex-wrap gap-2"></div>
+                        <div class="text-muted small" id="rawgStoresEmpty" style="display:none;">No store links available</div>
+                      </div>
+                    </div>
                   </div>
                   <div class="modal-footer">
-                    <a id="gbDetailsLink" href="#" target="_blank" rel="noopener" class="btn btn-primary">Open Page</a>
+                    <a id="rawgDetailsWebsite" href="#" target="_blank" rel="noopener" class="btn btn-primary" style="display:none;">Website</a>
+                    <a id="rawgDetailsMetacritic" href="#" target="_blank" rel="noopener" class="btn btn-outline-success" style="display:none;">Metacritic</a>
+                    <a id="rawgDetailsReddit" href="#" target="_blank" rel="noopener" class="btn btn-outline-secondary" style="display:none;">Reddit</a>
+                    <a id="rawgOpenRawg" href="#" target="_blank" rel="noopener" class="btn btn-outline-warning" style="display:none;">Open on RAWG</a>
+                    <button type="button" id="rawgCopyLink" class="btn btn-outline-light" style="display:none;">Copy Link</button>
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- GameBrain Discover Section -->
+            <!-- RAWG: Browse Games -->
             <section class="mb-5">
-                <div class="card bg-transparent border-0">
-                    <div class="card-body p-0">
-                        <div class="gb-toolbar d-flex flex-wrap align-items-center justify-content-between gap-3 p-3 rounded-3">
-                            <div class="d-flex align-items-center gap-2">
-                                <h2 class="h4 m-0 text-gold">Discover Games</h2>
-                                <span class="badge rounded-pill gb-badge" id="gb-result-count" aria-live="polite"></span>
-                            </div>
-                            <div class="d-flex flex-wrap align-items-center gap-2">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text">Genre</span>
-                                    <select id="gb-genre" class="form-select" aria-label="Genre">
-                                        <option value="">Any</option>
-                                        <option value="action">Action</option>
-                                        <option value="rpg">RPG</option>
-                                        <option value="strategy">Strategy</option>
-                                        <option value="adventure">Adventure</option>
-                                        <option value="simulation">Simulation</option>
-                                    </select>
-                                </div>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text">Limit</span>
-                                    <input type="number" id="gb-limit" class="form-control" min="1" max="50" value="12" aria-label="Limit">
-                                </div>
-                                <div class="input-group input-group-sm">
-                                    <input type="text" id="gb-query" class="form-control" placeholder="Search titles..." aria-label="Search GameBrain">
-                                    <button class="btn btn-primary" id="gb-search-btn">Search</button>
-                                </div>
-                            </div>
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="input-group input-group-sm" style="min-width:260px;">
+                          <span class="input-group-text bg-dark text-light border-secondary"><img class="icon" src="https://img.icons8.com/ios-glyphs/16/FFFFFF/search--v1.png" alt="Search"></span>
+                          <input id="rawg-search-input" type="text" class="form-control bg-dark text-light border-secondary" placeholder="Search by title...">
+                          <button id="rawg-search-clear" class="btn btn-outline-secondary" type="button"><img class="icon" src="https://img.icons8.com/ios-glyphs/16/FFFFFF/delete-sign.png" alt="Clear"></button>
                         </div>
-                        <div class="gb-config d-flex flex-wrap align-items-center gap-2 mt-2">
-                            <input type="text" id="gb-base-url" class="form-control form-control-sm" placeholder="https://gamebrain.co" style="max-width: 320px;" aria-label="API Base URL">
-                            <input type="password" id="gb-api-key" class="form-control form-control-sm" placeholder="API Key" style="max-width: 280px;" aria-label="API Key">
-                            <button class="btn btn-sm btn-outline-primary" id="gb-save-config">Save</button>
-                            <button class="btn btn-sm btn-outline-secondary" id="gb-clear-config">Clear</button>
-                            <small class="text-muted ms-auto">Saved locally in your browser.</small>
-                        </div>
-                        <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
-                            <label for="gb-sort" class="form-label mb-0 me-1">Sort by:</label>
-                            <select id="gb-sort" class="form-select form-select-sm" style="max-width:200px" aria-label="Sorting">
-                                <option value="">Default</option>
-                            </select>
-                        </div>
-                        <div id="gb-filters" class="mt-2" aria-label="Filters"></div>
+                        <select id="rawg-genre-select" class="form-select form-select-sm" style="min-width:220px">
+                            <option value="">All genres</option>
+                        </select>
+                        <select id="rawg-sort-select" class="form-select form-select-sm" style="min-width:200px">
+                            <option value="-added">Sort: Recently added</option>
+                            <option value="-released">Sort: Recently released</option>
+                            <option value="-rating">Sort: Rating</option>
+                            <option value="-metacritic">Sort: Metacritic</option>
+                            <option value="name">Sort: Name A→Z</option>
+                        </select>
+                        <button id="rawg-genre-clear" class="btn btn-sm btn-outline-secondary" type="button">Clear genre</button>
                     </div>
                 </div>
-
-                <div id="gamebrain-grid" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3" data-endpoint-list="/api/search/games" data-endpoint-search="/api/search/games"></div>
+                <div class="row gameList g-4" id="rawg-game-list"></div>
                 <div class="d-flex justify-content-center mt-3">
-                    <button class="btn btn-outline-secondary" id="gb-load-more" style="display:none;">Load more</button>
+                    <button type="button" class="btn btn-outline-primary main-button rawg-load-more hidden" id="rawg-load-more">Load More Games</button>
                 </div>
+                <div class="d-flex justify-content-center mt-3" id="rawg-loading" aria-live="polite" style="display:none;">
+                    <div class="spinner-border text-warning" role="status" aria-label="Loading games"></div>
+                </div>
+                <div class="mt-3" id="rawg-error" style="display:none;"></div>
             </section>
 
             <h1 class="text-center mb-5">All Games</h1>
@@ -337,6 +374,21 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="dev.env.js"></script>
 <script src="script.js"></script>
+
+<!-- RAWG Screenshot Lightbox -->
+<div id="rawgLightbox" class="rawg-lightbox d-none" aria-hidden="true" role="dialog">
+  <div class="rawg-lightbox-backdrop"></div>
+  <button class="rawg-lightbox-close" aria-label="Close">×</button>
+  <button class="rawg-lightbox-prev" aria-label="Previous">‹</button>
+  <button class="rawg-lightbox-next" aria-label="Next">›</button>
+  <div class="rawg-lightbox-stage">
+    <img id="rawgLightboxImg" src="" alt="Screenshot" />
+    <div id="rawgLightboxCaption" class="rawg-lightbox-caption"></div>
+  </div>
+  <div class="rawg-lightbox-zoom-hint">Double click to zoom • Mouse wheel to zoom • Drag to pan</div>
+  <div class="rawg-lightbox-counter"><span id="rawgLbIdx">1</span>/<span id="rawgLbTotal">1</span></div>
+</div>
 </body>
 </html>
