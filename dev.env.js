@@ -1,0 +1,1 @@
+window.APIKEY = 'db3143cadbd24592b354b98d1ce81244';
