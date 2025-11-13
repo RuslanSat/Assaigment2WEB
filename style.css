@@ -1,3 +1,61 @@
+/* Day theme RAWG cards/readability */
+body.day-theme .rawg-card,
+body.day-theme .game-bootstrap-card,
+body.day-theme .card {
+  background: #ffffff !important;
+  color: #111 !important;
+}
+
+body.day-theme .rawg-card .card-title,
+body.day-theme .rawg-card .card-text,
+body.day-theme .rawg-card .small,
+body.day-theme .rawg-card .text-muted,
+body.day-theme .game-bootstrap-card .card-title,
+body.day-theme .game-bootstrap-card .card-text,
+body.day-theme .game-bootstrap-card .small,
+body.day-theme .game-bootstrap-card .text-muted {
+  color: #374151 !important;
+  opacity: 1 !important;
+}
+
+body.day-theme .rawg-card .text-muted,
+body.day-theme .game-bootstrap-card .text-muted {
+  color: #495057 !important;
+}
+
+body.day-theme .rawg-card a,
+body.day-theme .game-bootstrap-card a {
+  color: #0d6efd !important;
+}
+body.day-theme .rawg-card a:hover,
+body.day-theme .game-bootstrap-card a:hover {
+  color: #0b5ed7 !important;
+  text-decoration: underline;
+}
+
+body.day-theme .rawg-card .badge,
+body.day-theme .rawg-pl,
+body.day-theme .badge.bg-light,
+body.day-theme .badge.bg-white {
+  background: #f1f3f5 !important;
+  color: #374151 !important;
+  border: 1px solid #d1d5db !important;
+}
+
+body.day-theme .rawg-card .btn-outline-light {
+  color: #374151 !important;
+  border-color: #9ca3af !important;
+}
+body.day-theme .rawg-card .btn-outline-light:hover {
+  background: #9ca3af !important;
+  color: #fff !important;
+}
+
+body.day-theme .rawg-card-footer {
+  background: #fafafa !important;
+  border-top-color: #e5e7eb !important;
+  color: #374151 !important;
+}
 /* Counter styling */
 .counter-card {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -2697,3 +2755,29 @@ body.day-theme .form-control, body.day-theme .form-select { background: #fff !im
 body.day-theme .input-group-text { background: #f1f3f5 !important; color: #222 !important; border-color: #ced4da !important; }
 /* Search highlighting in categories */
 body.day-theme .search-highlight { outline-color: #0d6efd; box-shadow: 0 0 16px rgba(13,110,253,0.35) !important; }
+/* Day theme readability fixes */
+body.day-theme .card .text-muted,
+body.day-theme .game-bootstrap-card .text-muted,
+body.day-theme .card .small,
+body.day-theme .game-bootstrap-card .small {
+  color: #495057 !important;
+  opacity: 1 !important;
+}
+
+body.day-theme .card .card-text,
+body.day-theme .game-bootstrap-card .card-text,
+body.day-theme .card .card-title,
+body.day-theme .game-bootstrap-card .card-title {
+  color: #111 !important;
+}
+
+body.day-theme .text-light,
+body.day-theme .text-light-50 {
+  color: #212529 !important;
+}
+
+body.day-theme .badge.bg-light,
+body.day-theme .badge.bg-white {
+  color: #111 !important;
+  border: 1px solid #ddd;
+}

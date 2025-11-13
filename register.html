@@ -37,53 +37,120 @@
       <div class="col-12 col-md-8 col-lg-6">
         <div class="card auth-card border-warning">
           <div class="card-body p-4 p-md-5">
-            <h2 class="auth-title text-center mb-1">Create your account</h2>
-            <p class="text-center text-muted mb-4">Join GoldMine for personalized recommendations and wishlists.</p>
+            <ul class="nav nav-pills justify-content-center mb-4" id="auth-tabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="signup-tab" data-bs-toggle="tab" data-bs-target="#signup-pane" type="button" role="tab" aria-controls="signup-pane" aria-selected="true">Sign Up</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-pane" type="button" role="tab" aria-controls="login-pane" aria-selected="false">Log In</button>
+              </li>
+            </ul>
 
-            <form id="assignment-registration-form" class="assignment-form" novalidate>
-              <div class="mb-3">
-                <label for="assignment-email" class="form-label">Email</label>
-                <div class="input-group">
-                  <span class="input-group-text">@</span>
-                  <input type="email" class="form-control" id="assignment-email" name="email" placeholder="you@example.com" required>
-                </div>
-                <div class="form-text">We'll never share your email.</div>
-                <span class="assignment-error d-block" id="assignment-email-error"></span>
+            <div class="tab-content" id="auth-tab-content">
+              <div class="tab-pane fade show active" id="signup-pane" role="tabpanel" aria-labelledby="signup-tab" tabindex="0">
+                <h2 class="auth-title text-center mb-1">Create your account</h2>
+                <p class="text-center text-muted mb-4">Join GoldMine for personalized recommendations and wishlists.</p>
+
+                <form id="assignment-registration-form" class="assignment-form" novalidate>
+                  <div class="mb-3">
+                    <label for="assignment-name" class="form-label">Name</label>
+                    <div class="input-group">
+                      <span class="input-group-text">👤</span>
+                      <input type="text" class="form-control" id="assignment-name" name="name" placeholder="Your name" required>
+                    </div>
+                    <span class="assignment-error d-block" id="assignment-name-error"></span>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="assignment-email" class="form-label">Email</label>
+                    <div class="input-group">
+                      <span class="input-group-text">@</span>
+                      <input type="email" class="form-control" id="assignment-email" name="email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-text">We'll never share your email.</div>
+                    <span class="assignment-error d-block" id="assignment-email-error"></span>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="assignment-password" class="form-label">Password</label>
+                    <div class="input-group">
+                      <span class="input-group-text">🔒</span>
+                      <input type="password" class="form-control" id="assignment-password" name="password" minlength="8" placeholder="8+ chars, upper, lower, number, symbol" required>
+                      <button class="btn btn-outline-secondary" type="button" id="toggle-password">Show</button>
+                    </div>
+                    <div class="progress mt-2" style="height: 6px;">
+                      <div id="assignment-password-strength-bar" class="progress-bar bg-danger" style="width: 0%"></div>
+                    </div>
+                    <small id="assignment-password-strength-text" class="form-text text-muted">Enter a strong password</small>
+                    <span class="assignment-error d-block" id="assignment-password-error"></span>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="assignment-confirm-password" class="form-label">Confirm Password</label>
+                    <div class="input-group">
+                      <span class="input-group-text">✅</span>
+                      <input type="password" class="form-control" id="assignment-confirm-password" name="confirmPassword" placeholder="Re-enter your password" required>
+                      <button class="btn btn-outline-secondary" type="button" id="toggle-confirm-password">Show</button>
+                    </div>
+                    <span class="assignment-error d-block" id="assignment-confirm-password-error"></span>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="assignment-phone" class="form-label">Phone</label>
+                    <div class="input-group">
+                      <span class="input-group-text">📞</span>
+                      <input type="tel" class="form-control" id="assignment-phone" name="phone" placeholder="+1 555 123 4567" required>
+                    </div>
+                    <small class="form-text text-muted">Use international format (e.g., +1 555 123 4567).</small>
+                    <span class="assignment-error d-block" id="assignment-phone-error"></span>
+                  </div>
+
+                  <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" value="1" id="termsCheck" required>
+                    <label class="form-check-label" for="termsCheck">I agree to the Terms and Privacy Policy</label>
+                  </div>
+
+                  <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary" id="register-submit-btn">Create Account</button>
+                  </div>
+                </form>
               </div>
 
-              <div class="mb-3">
-                <label for="assignment-password" class="form-label">Password</label>
-                <div class="input-group">
-                  <span class="input-group-text">🔒</span>
-                  <input type="password" class="form-control" id="assignment-password" name="password" minlength="6" placeholder="At least 6 characters" required>
-                  <button class="btn btn-outline-secondary" type="button" id="toggle-password">Show</button>
-                </div>
-                <div class="progress mt-2" style="height: 6px;">
-                  <div id="assignment-password-strength-bar" class="progress-bar bg-danger" style="width: 0%"></div>
-                </div>
-                <small id="assignment-password-strength-text" class="form-text text-muted">Enter a strong password</small>
-                <span class="assignment-error d-block" id="assignment-password-error"></span>
-              </div>
+              <div class="tab-pane fade" id="login-pane" role="tabpanel" aria-labelledby="login-tab" tabindex="0">
+                <h2 class="auth-title text-center mb-1">Welcome back</h2>
+                <p class="text-center text-muted mb-4">Log in to your GoldMine account.</p>
 
-              <div class="mb-3">
-                <label for="assignment-confirm-password" class="form-label">Confirm Password</label>
-                <div class="input-group">
-                  <span class="input-group-text">✅</span>
-                  <input type="password" class="form-control" id="assignment-confirm-password" name="confirmPassword" placeholder="Re-enter your password" required>
-                  <button class="btn btn-outline-secondary" type="button" id="toggle-confirm-password">Show</button>
-                </div>
-                <span class="assignment-error d-block" id="assignment-confirm-password-error"></span>
-              </div>
+                <form id="assignment-login-form" novalidate>
+                  <div class="mb-3">
+                    <label for="login-email" class="form-label">Email</label>
+                    <div class="input-group">
+                      <span class="input-group-text">@</span>
+                      <input type="email" class="form-control" id="login-email" name="email" placeholder="you@example.com" required>
+                    </div>
+                    <span class="assignment-error d-block" id="login-email-error"></span>
+                  </div>
 
-              <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" value="1" id="termsCheck" required>
-                <label class="form-check-label" for="termsCheck">I agree to the Terms and Privacy Policy</label>
-              </div>
+                  <div class="mb-3">
+                    <label for="login-password" class="form-label">Password</label>
+                    <div class="input-group">
+                      <span class="input-group-text">🔑</span>
+                      <input type="password" class="form-control" id="login-password" name="password" placeholder="Your password" required>
+                      <button class="btn btn-outline-secondary" type="button" id="toggle-login-password">Show</button>
+                    </div>
+                    <span class="assignment-error d-block" id="login-password-error"></span>
+                  </div>
 
-              <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary" id="register-submit-btn">Create Account</button>
+                  <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" value="1" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember me on this device</label>
+                  </div>
+
+                  <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary" id="login-submit-btn">Log In</button>
+                  </div>
+                </form>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>

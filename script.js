@@ -933,9 +933,9 @@ function getThemeFromUrl() {
 const savedThemeLS = localStorage.getItem('theme'); // 'night' | 'day'
 const savedThemeCookie = getCookie('theme');
 const savedThemeUrl = getThemeFromUrl();
-let isNightTheme = (savedThemeUrl || savedThemeLS || savedThemeCookie)
-    ? (savedThemeUrl || savedThemeLS || savedThemeCookie) === 'night'
-    : true;
+// Prefer localStorage first (site choice), then URL, then cookie, else default night
+const initialTheme = savedThemeLS || savedThemeUrl || savedThemeCookie;
+let isNightTheme = initialTheme ? (initialTheme === 'night') : true;
 
 function applyTheme() {
     const htmlEl = document.documentElement;
@@ -963,8 +963,8 @@ function applyTheme() {
         window.history.replaceState({}, '', url.toString());
     } catch (_) {}
 
-    // Propagate to navbar internal links
-    document.querySelectorAll('.navbar a.nav-link[href$=".html"]').forEach(a => {
+    // Propagate to ALL internal html links (so theme persists between pages)
+    document.querySelectorAll('a[href*=".html"]').forEach(a => {
         try {
             const linkUrl = new URL(a.getAttribute('href'), window.location.href);
             linkUrl.searchParams.set('theme', themeStr);
@@ -1122,6 +1122,220 @@ if (contactForm) {
         }, 2000);
     });
 }
+
+// LocalStorage Auth: Registration/Login + Validation for assignment-registration-form
+(function(){
+  const regForm = document.getElementById('assignment-registration-form');
+  if (!regForm) return;
+
+  const emailEl = document.getElementById('assignment-email');
+  const passEl = document.getElementById('assignment-password');
+  const pass2El = document.getElementById('assignment-confirm-password');
+  const nameEl = document.getElementById('assignment-name');
+  const phoneEl = document.getElementById('assignment-phone');
+  const emailErr = document.getElementById('assignment-email-error');
+  const passErr = document.getElementById('assignment-password-error');
+  const pass2Err = document.getElementById('assignment-confirm-password-error');
+  const nameErr = document.getElementById('assignment-name-error');
+  const phoneErr = document.getElementById('assignment-phone-error');
+  const strengthBar = document.getElementById('assignment-password-strength-bar');
+  const strengthText = document.getElementById('assignment-password-strength-text');
+  const togglePassBtn = document.getElementById('toggle-password');
+  const togglePass2Btn = document.getElementById('toggle-confirm-password');
+
+  function gmGet(key, def){
+    try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : def; } catch(e){ return def; }
+  }
+  function gmSet(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+
+  function validateEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  function validateName(v){ return !!v && v.trim().length >= 2; }
+  function normalizePhone(v){ return (v||'').replace(/[^0-9+]/g,''); }
+  function validatePhone(v){
+    const p = normalizePhone(v);
+    // Allow leading + and 8-15 digits roughly (E.164-like)
+    return /^\+?[1-9][0-9]{7,14}$/.test(p);
+  }
+  function passwordScore(p){
+    let s = 0;
+    if (!p) return 0;
+    if (p.length >= 6) s++;
+    if (p.length >= 10) s++;
+    if (/[A-Z]/.test(p)) s++;
+    if (/[a-z]/.test(p)) s++;
+    if (/[0-9]/.test(p)) s++;
+    if (/[^A-Za-z0-9]/.test(p)) s++;
+    return Math.min(5, s);
+  }
+  function renderStrength(p){
+    if (!strengthBar) return;
+    const s = passwordScore(p);
+    const pct = [0,20,40,60,80,100][s];
+    strengthBar.style.width = pct + '%';
+    let cls = 'bg-danger';
+    if (s>=4) cls = 'bg-success'; else if (s>=2) cls = 'bg-warning';
+    strengthBar.className = 'progress-bar ' + cls;
+    if (strengthText) strengthText.textContent = s>=4 ? 'Strong password' : (s>=2 ? 'Medium password' : 'Weak password');
+  }
+
+  function showError(el, msg){ if(el){ el.textContent = msg || ''; el.style.color = msg ? '#dc3545' : ''; } }
+
+  nameEl && nameEl.addEventListener('input', ()=>{
+    showError(nameErr, validateName(nameEl.value) ? '' : 'Enter your name (2+ chars)');
+  });
+  emailEl && emailEl.addEventListener('input', ()=>{
+    showError(emailErr, validateEmail(emailEl.value.trim()) ? '' : 'Enter a valid email');
+  });
+  passEl && passEl.addEventListener('input', ()=>{
+    renderStrength(passEl.value);
+    showError(passErr, (passEl.value && passEl.value.length>=6) ? '' : 'At least 6 characters');
+    if (pass2El) showError(pass2Err, pass2El.value && pass2El.value===passEl.value ? '' : 'Passwords must match');
+  });
+  pass2El && pass2El.addEventListener('input', ()=>{
+    showError(pass2Err, pass2El.value===passEl.value ? '' : 'Passwords must match');
+  });
+  phoneEl && phoneEl.addEventListener('input', ()=>{
+    showError(phoneErr, validatePhone(phoneEl.value) ? '' : 'Enter phone like +15551234567');
+  });
+
+  if (togglePassBtn && passEl){
+    togglePassBtn.addEventListener('click', ()=>{
+      const t = passEl.getAttribute('type')==='password' ? 'text' : 'password';
+      passEl.setAttribute('type', t);
+      togglePassBtn.textContent = t==='password' ? 'Show' : 'Hide';
+    });
+  }
+  if (togglePass2Btn && pass2El){
+    togglePass2Btn.addEventListener('click', ()=>{
+      const t = pass2El.getAttribute('type')==='password' ? 'text' : 'password';
+      pass2El.setAttribute('type', t);
+      togglePass2Btn.textContent = t==='password' ? 'Show' : 'Hide';
+    });
+  }
+
+  function renderProfile(email){
+    const card = regForm.closest('.auth-card');
+    if (!card) return;
+    const users = gmGet('gm.users', []);
+    const user = users.find(u=>u.email===email) || {email};
+    card.innerHTML = `
+      <div class="card-body p-4 p-md-5">
+        <h2 class="auth-title text-center mb-3">Welcome</h2>
+        ${user.name ? `<div class=\"mb-1\"><strong>Name:</strong> ${user.name}</div>` : ''}
+        <div class="mb-1"><strong>Email:</strong> ${user.email}</div>
+        ${user.phone ? `<div class=\"mb-3 text-muted\">Phone: ${user.phone}</div>` : '<div class=\"mb-3\"></div>'}
+        <div class="mb-4 text-muted">Your account is stored locally in this browser.</div>
+        <div class="d-grid gap-2">
+          <button id="gm-logout-btn" class="btn btn-outline-warning">Log out</button>
+          <a href="index.html" class="btn btn-primary">Go to Home</a>
+        </div>
+      </div>`;
+    const logout = document.getElementById('gm-logout-btn');
+    if (logout){ logout.addEventListener('click', ()=>{ localStorage.removeItem('gm.current_user'); window.location.reload(); }); }
+  }
+
+  regForm.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const name = (nameEl?.value||'').trim();
+    const email = (emailEl?.value||'').trim().toLowerCase();
+    const pw = (passEl?.value||'').trim();
+    const pw2 = (pass2El?.value||'').trim();
+    const phone = (phoneEl?.value||'').trim();
+    let ok = true;
+    if (!validateName(name)){ showError(nameErr,'Enter your name (2+ chars)'); ok=false; }
+    if (!validateEmail(email)){ showError(emailErr,'Enter a valid email'); ok=false; }
+    if (!pw || pw.length<6){ showError(passErr,'At least 6 characters'); ok=false; }
+    if (pw!==pw2){ showError(pass2Err,'Passwords must match'); ok=false; }
+    if (!validatePhone(phone)){ showError(phoneErr,'Enter phone like +15551234567'); ok=false; }
+    if (!ok) return;
+
+    const users = gmGet('gm.users', []);
+    const exists = users.find(u=>u.email===email);
+    if (exists){
+      // Treat as login flow
+      if (exists.password !== pw){ showError(passErr,'Wrong password for existing account'); return; }
+      gmSet('gm.current_user', { email });
+      renderProfile(email);
+      return;
+    }
+    users.push({ name, email, phone: normalizePhone(phone), password: pw, createdAt: new Date().toISOString() });
+    gmSet('gm.users', users);
+    gmSet('gm.current_user', { email });
+    renderProfile(email);
+  });
+
+  // Auto-render profile if already logged in
+  const cur = gmGet('gm.current_user', null);
+  if (cur && cur.email){ renderProfile(cur.email); }
+})();
+
+// LocalStorage Auth: Dedicated Login form handling (assignment-login-form)
+(function(){
+  const loginForm = document.getElementById('assignment-login-form');
+  if (!loginForm) return;
+
+  const emailEl = document.getElementById('login-email');
+  const passEl = document.getElementById('login-password');
+  const emailErr = document.getElementById('login-email-error');
+  const passErr = document.getElementById('login-password-error');
+  const rememberEl = document.getElementById('rememberMe');
+  const toggleBtn = document.getElementById('toggle-login-password');
+
+  function showError(el, msg){ if(el){ el.textContent = msg || ''; el.style.color = msg ? '#dc3545' : ''; } }
+  function validateEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  function gmGet(key, def){ try{ const v = localStorage.getItem(key); return v ? JSON.parse(v) : def; } catch(e){ return def; } }
+  function gmSet(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+
+  // Prefill email if remembered
+  const remembered = gmGet('gm.remember_email', '');
+  if (remembered && emailEl) emailEl.value = remembered;
+
+  if (toggleBtn && passEl){
+    toggleBtn.addEventListener('click', ()=>{
+      const t = passEl.getAttribute('type')==='password' ? 'text' : 'password';
+      passEl.setAttribute('type', t);
+      toggleBtn.textContent = t==='password' ? 'Show' : 'Hide';
+    });
+  }
+
+  loginForm.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const email = (emailEl?.value||'').trim();
+    const pw = passEl?.value||'';
+    let ok = true;
+    if (!validateEmail(email)){ showError(emailErr,'Enter a valid email'); ok=false; }
+    if (!pw){ showError(passErr,'Enter your password'); ok=false; }
+    if (!ok) return;
+
+    const users = gmGet('gm.users', []);
+    const user = users.find(u=>u.email===email);
+    if (!user){ showError(emailErr,'No account found for this email'); return; }
+    if (user.password !== pw){ showError(passErr,'Incorrect password'); return; }
+
+    if (rememberEl && rememberEl.checked){ localStorage.setItem('gm.remember_email', JSON.stringify(email)); }
+    else { localStorage.removeItem('gm.remember_email'); }
+
+    gmSet('gm.current_user', { email });
+    // Render profile in-place if card exists, else redirect
+    const card = loginForm.closest('.auth-card');
+    if (card){
+      card.innerHTML = `
+        <div class="card-body p-4 p-md-5">
+          <h2 class="auth-title text-center mb-3">Welcome</h2>
+          <div class="mb-3"><strong>Email:</strong> ${email}</div>
+          <div class="mb-4 text-muted">You are logged in on this device.</div>
+          <div class="d-grid gap-2">
+            <button id="gm-logout-btn" class="btn btn-outline-warning">Log out</button>
+            <a href="index.html" class="btn btn-primary">Go to Home</a>
+          </div>
+        </div>`;
+      const logout = document.getElementById('gm-logout-btn');
+      if (logout){ logout.addEventListener('click', ()=>{ localStorage.removeItem('gm.current_user'); window.location.reload(); }); }
+    } else {
+      window.location.href = 'index.html';
+    }
+  });
+})();
 
 // DOM Cleanup: removed multi-step form demo
 
